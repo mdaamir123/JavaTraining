@@ -62,6 +62,7 @@ public class OnlineShopping {
             e.printStackTrace();
         }
     }
+
     private static void handleProductManagement(Connection con, Scanner sc) {
         try {
             System.out.println("Please choose one option: ");
@@ -101,6 +102,7 @@ public class OnlineShopping {
                 con.close();
                 return;
             }
+
             rs.previous();
             while (rs.next()) {
                 System.out.println("ID: " + rs.getInt(1) + " CATEGORY: " + rs.getString(2));
@@ -112,16 +114,15 @@ public class OnlineShopping {
         }
     }
 
-
     private static void addCategory(Connection con, Scanner sc) {
         try {
-            System.out.println("Please enter category you want to add.");
+            System.out.println("Please enter category you want to add: ");
             String query = "insert into category (category_name) values (?)";
             String category = sc.nextLine();
             PreparedStatement stmt = con.prepareStatement(query);
             stmt.setString(1, category);
             stmt.executeUpdate();
-            System.out.println("Successfully inserted.");
+            System.out.println("Successfully inserted !!!");
             con.close();
         }
         catch (Exception e) {
@@ -139,11 +140,12 @@ public class OnlineShopping {
                 con.close();
                 return;
             }
+
             rs.previous();
             while (rs.next()) {
                 System.out.println("ID: " + rs.getInt(1) + " CATEGORY: " + rs.getString(2));
             }
-            System.out.println("Enter id of category you want to update");
+            System.out.println("Enter id of category you want to update: ");
             int y = sc.nextInt();
             sc.nextLine();
             String query2 = "select id from category where id = ?";
@@ -154,13 +156,13 @@ public class OnlineShopping {
             if (!rss.next()) {
                 System.out.println("ID not found.");
             } else {
-                System.out.println("Enter updated category name");
+                System.out.println("Enter updated category name: ");
                 String newCategory = sc.nextLine();
-                String query3 = "UPDATE category set category_name = ? where id =" + y;
+                String query3 = "update category set category_name = ? where id =" + y;
                 PreparedStatement stmt3 = con.prepareStatement(query3);
                 stmt3.setString(1, newCategory);
                 stmt3.executeUpdate();
-                System.out.println("Successfully updated...");
+                System.out.println("Successfully updated !!!");
             }
             con.close();
         }
@@ -179,9 +181,10 @@ public class OnlineShopping {
                 con.close();
                 return;
             }
+
             rs.previous();
             while (rs.next()) {
-                System.out.println("ID: " + rs.getInt(1) + " PRODUCT_TITLE: " + rs.getString(2) + " DESCRIPTIPON " + rs.getString(3) + " PRICE " + rs.getInt(4) + " CATEGORY_ID " + rs.getInt(5));
+                System.out.println("ID: " + rs.getInt(1) + " PRODUCT_TITLE: " + rs.getString(2) + " DESCRIPTIPON: " + rs.getString(3) + " PRICE: " + rs.getInt(4) + " CATEGORY_ID: " + rs.getInt(5));
             }
             con.close();
         }
@@ -197,23 +200,23 @@ public class OnlineShopping {
             ResultSet rs = stmt.executeQuery();
 
             if (!rs.next()) {
-                System.out.println("No categories are present. Kindly add one before");
+                System.out.println("No categories are present. Kindly add one before.");
                 con.close();
                 return;
             }
 
             String query = "insert into product (product_title, description, price, category_id) values (?,?,?,?)";
-            System.out.println("Enter product title");
+            System.out.println("Enter product title: ");
             String product_title = sc.nextLine();
-            System.out.println("Enter description");
+            System.out.println("Enter description: ");
             String description = sc.nextLine();
-            System.out.println("Enter price");
+            System.out.println("Enter price: ");
             float price = sc.nextFloat();
             sc.nextLine();
-            System.out.println("Enter category_id from below");
+            System.out.println("Enter category_id from below: ");
             rs.previous();
             while (rs.next()) {
-                System.out.println("ID " + rs.getInt(1) + " CATEGORY " + rs.getString(2));
+                System.out.println("ID: " + rs.getInt(1) + " CATEGORY: " + rs.getString(2));
             }
             int category = sc.nextInt();
             sc.nextLine();
@@ -224,7 +227,7 @@ public class OnlineShopping {
             stmt2.setFloat(3, price);
             stmt2.setInt(4, category);
             stmt2.executeUpdate();
-            System.out.println("Successfully inserted.");
+            System.out.println("Successfully inserted !!!");
             con.close();
         }
         catch (Exception e) {
@@ -243,11 +246,12 @@ public class OnlineShopping {
                 con.close();
                 return;
             }
+
             rs.previous();
             while (rs.next()) {
-                System.out.println("ID: " + rs.getInt(1) + " PRODUCT_TITLE: " + rs.getString(2) + " DESCRIPTIPON " + rs.getString(3) + " PRICE " + rs.getInt(4) + " CATEGORY_ID " + rs.getInt(5));
+                System.out.println("ID: " + rs.getInt(1) + " PRODUCT_TITLE: " + rs.getString(2) + " DESCRIPTIPON: " + rs.getString(3) + " PRICE: " + rs.getInt(4) + " CATEGORY_ID: " + rs.getInt(5));
             }
-            System.out.println("Enter id of product whose price you want to update");
+            System.out.println("Enter id of product whose price you want to update: ");
             int y = sc.nextInt();
             sc.nextLine();
             String query2 = "select id from product where id = ?";
@@ -258,13 +262,13 @@ public class OnlineShopping {
             if (!rss.next()) {
                 System.out.println("ID not found.");
             } else {
-                System.out.println("Enter updated product price");
+                System.out.println("Enter updated product price: ");
                 float newPrice = sc.nextFloat();
-                String query3 = "UPDATE product set price = ? where id =" + y;
+                String query3 = "update product set price = ? where id =" + y;
                 PreparedStatement stmt3 = con.prepareStatement(query3);
                 stmt3.setFloat(1, newPrice);
                 stmt3.executeUpdate();
-                System.out.println("Successfully updated...");
+                System.out.println("Successfully updated !!!");
             }
             con.close();
         }
