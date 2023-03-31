@@ -26,7 +26,7 @@ public class CategoryManagement {
 
             switch (x) {
                 case 1:
-                    ShowCategories obj1 = new ShowCategories(con);
+                    ShowCategories obj1 = new ShowCategories(con, sc);
                     obj1.viewCategories();
                     break;
                 case 2:
