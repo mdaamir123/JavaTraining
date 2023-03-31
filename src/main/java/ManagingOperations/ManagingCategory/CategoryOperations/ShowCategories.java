@@ -1,6 +1,8 @@
 package ManagingOperations.ManagingCategory.CategoryOperations;
 
 import ManagingOperations.ManagingCategory.CategoryOperations.ViewCategoriesInOrder.*;
+import ManagingOperations.ManagingCategory.CategoryOperations.ViewCategoriesInOrder.ShowCategories.PrintCategories;
+import ManagingOperations.ManagingCategory.CategoryOperations.ViewCategoriesInOrder.ShowCategories.PrintDuplicateCategories;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

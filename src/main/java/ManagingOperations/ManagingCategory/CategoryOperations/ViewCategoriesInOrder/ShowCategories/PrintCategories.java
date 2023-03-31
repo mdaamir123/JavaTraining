@@ -1,4 +1,4 @@
-package ManagingOperations.ManagingCategory.CategoryOperations.ViewCategoriesInOrder;
+package ManagingOperations.ManagingCategory.CategoryOperations.ViewCategoriesInOrder.ShowCategories;
 
 import java.util.List;
 
