@@ -1,5 +1,7 @@
 package ManagingOperations.ManagingCategory.CategoryOperations;
 
+import Login.UserCredential;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -40,11 +42,14 @@ public class UpdateCategory {
             if (!rss.next()) {
                 System.out.println("ID not found.");
             } else {
+                UserCredential userCredential = new UserCredential();
                 System.out.println("Enter updated category name: ");
                 String newCategory = sc.nextLine();
-                String query3 = "update category set category_name = ? where id =" + y;
+                String username = userCredential.getUsername();
+                String query3 = "update category set category_name = ?, updated_at = default, updated_by = ? where id =" + y;
                 PreparedStatement stmt3 = con.prepareStatement(query3);
                 stmt3.setString(1, newCategory);
+                stmt3.setString(2, username);
                 stmt3.executeUpdate();
                 System.out.println("Successfully updated !!!");
             }

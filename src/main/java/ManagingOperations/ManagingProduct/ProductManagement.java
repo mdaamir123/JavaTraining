@@ -27,7 +27,7 @@ public class ProductManagement {
 
             switch (x) {
                 case 1:
-                    ShowProducts obj1 = new ShowProducts(con);
+                    ShowProducts obj1 = new ShowProducts(con, sc);
                     obj1.viewProducts();
                     break;
                 case 2:

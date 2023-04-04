@@ -1,5 +1,7 @@
 package ManagingOperations.ManagingProduct.ProductOperations;
 
+import ManagingOperations.ManagingProduct.ProductOperations.UpdateProducts.*;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,16 +23,18 @@ public class UpdateProduct {
             ResultSet rs = stmt.executeQuery();
 
             if (!rs.next()) {
-                System.out.println("No record is present.");
+                System.out.println("No product is present.");
                 con.close();
                 return;
             }
 
             rs.previous();
             while (rs.next()) {
-                System.out.println("ID: " + rs.getInt(1) + " PRODUCT_TITLE: " + rs.getString(2) + " DESCRIPTIPON: " + rs.getString(3) + " PRICE: " + rs.getInt(4) + " CATEGORY_ID: " + rs.getInt(5));
+                System.out.println("PROUDCT_ID: " + rs.getInt(1) + " PRODUCT_TITLE: " + rs.getString(2) + " PRICE: " + rs.getFloat(4) + " CATEGORY_ID: " + rs.getInt(5)
+                        + " DISCOUNT: " + rs.getString(6) + " BRAND: " + rs.getString(7));
             }
-            System.out.println("Enter id of product whose price you want to update: ");
+
+            System.out.println("Enter id of product you want to update: ");
             int y = sc.nextInt();
             sc.nextLine();
             String query2 = "select id from product where id = ?";
@@ -41,13 +45,52 @@ public class UpdateProduct {
             if (!rss.next()) {
                 System.out.println("ID not found.");
             } else {
-                System.out.println("Enter updated product price: ");
-                float newPrice = sc.nextFloat();
-                String query3 = "update product set price = ? where id =" + y;
-                PreparedStatement stmt3 = con.prepareStatement(query3);
-                stmt3.setFloat(1, newPrice);
-                stmt3.executeUpdate();
-                System.out.println("Successfully updated !!!");
+                System.out.println("Enter choice of attribute you want to update: ");
+                System.out.println("1. Product Title.");
+                System.out.println("2. Description.");
+                System.out.println("3. Price.");
+                System.out.println("4. Category.");
+                System.out.println("5. Discount.");
+                System.out.println("6. Brand.");
+                System.out.println("7. Specifications.");
+
+                int choice = sc.nextInt();
+                sc.nextLine();
+
+                switch (choice) {
+                    case 1:
+                        UpdateProductTitle updateProductTitle = new UpdateProductTitle(con, sc, y);
+                        updateProductTitle.updateProductTitle();
+                        break;
+                    case 2:
+                        UpdateProductDescription updateProductDescription = new UpdateProductDescription(con, sc, y);
+                        updateProductDescription.updateProductDescription();
+                        break;
+                    case 3:
+                        UpdateProductPrice updateProductPrice = new UpdateProductPrice(con, sc, y);
+                        updateProductPrice.updateProductPrice();
+                        break;
+                    case 4:
+                        UpdateProductCategory updateProductCategory = new UpdateProductCategory(con, sc, y);
+                        updateProductCategory.updateProductCategory();
+                        break;
+                    case 5:
+                        UpdateProductDiscount updateProductDiscount = new UpdateProductDiscount(con, sc, y);
+                        updateProductDiscount.updateProductDiscount();
+                        break;
+                    case 6:
+                        UpdateProductBrand updateProductBrand = new UpdateProductBrand(con, sc, y);
+                        updateProductBrand.updateProductBrand();
+                        break;
+                    case 7:
+                        UpdateProductSpecifications updateProductSpecifications = new UpdateProductSpecifications(con, sc, y);
+                        updateProductSpecifications.updateProductSpecifications();
+                        break;
+                    default:
+                        System.out.println("Please enter valid input.");
+                        break;
+                }
+
             }
             con.close();
         }

@@ -1,5 +1,6 @@
 package ManagingOperations;
 
+import Login.Authenticate;
 import ManagingOperations.ManagingCategory.CategoryManagement;
 import ManagingOperations.ManagingProduct.ProductManagement;
 
@@ -18,6 +19,19 @@ public class OnlineShoppping {
 
             try {
                 Connection con = DriverManager.getConnection(HOST, USERNAME, PASSWORD);
+
+                System.out.println("Enter username: ");
+                String username = sc.nextLine();
+                System.out.println("Enter password: ");
+                String password = sc.nextLine();
+
+                Authenticate authenticate = new Authenticate(username, password);
+                boolean isUserValid = authenticate.isValidUser();
+                if (!isUserValid) {
+                    System.out.println("Please enter valid username and password.");
+                    return;
+                }
+                System.out.println("Login successfull !!!");
 
                 System.out.println("Please choose one option: ");
                 System.out.println("1: Category Management");

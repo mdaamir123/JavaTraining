@@ -1,5 +1,7 @@
 package ManagingOperations.ManagingCategory.CategoryOperations;
 
+import Login.UserCredential;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.Scanner;
@@ -15,11 +17,15 @@ public class AddCategory {
 
     public void addCategory() {
         try {
+            UserCredential userCredential = new UserCredential();
             System.out.println("Please enter category you want to add: ");
-            String query = "insert into category (category_name) values (?)";
+            String query = "insert into category (category_name, created_by, updated_by) values (?, ?, ?)";
             String category = sc.nextLine();
+            String username = userCredential.getUsername();
             PreparedStatement stmt = con.prepareStatement(query);
             stmt.setString(1, category);
+            stmt.setString(2, username);
+            stmt.setString(3, username);
             stmt.executeUpdate();
             System.out.println("Successfully inserted !!!");
             con.close();
