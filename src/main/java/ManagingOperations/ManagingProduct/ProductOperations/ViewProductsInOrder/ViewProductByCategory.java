@@ -34,7 +34,7 @@ public class ViewProductByCategory {
 
            rs.previous();
            while (rs.next()) {
-               System.out.println("Category ID: " + rs.getInt(1) + "Category Name: " + rs.getString(2));
+               System.out.println("Category ID: " + rs.getInt(1) + " Category Name: " + rs.getString(2));
            }
 
            con.close();

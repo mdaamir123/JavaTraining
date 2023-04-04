@@ -36,8 +36,7 @@ public class PrintProductById {
                     exists = false;
                 }
 
-                System.out.println("             Attribute Name: " + spec.get(2));
-                System.out.println("             Attribute Value: " + spec.get(3));
+                System.out.println("              " + spec.get(2) + " : " + spec.get(3));
             }
         }
     }
