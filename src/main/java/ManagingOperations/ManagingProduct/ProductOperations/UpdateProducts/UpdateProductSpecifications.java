@@ -20,7 +20,7 @@ public class UpdateProductSpecifications {
 
     public void showProductSpecifications() {
         try {
-            String query = "select * from specifications";
+            String query = "select * from specifications where product_id = " + id;
             PreparedStatement stmt = con.prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = stmt.executeQuery();
             if (!rs.next()) {
