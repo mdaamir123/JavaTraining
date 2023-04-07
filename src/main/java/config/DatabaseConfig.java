@@ -10,18 +10,16 @@ public class DatabaseConfig {
     private static final String USERNAME = "root";
     private static final String PASSWORD = "";
 
-    private static Connection con;
+    private Connection con;
 
-    static {
-
+    public Connection getConnection() {
         try {
             con = DriverManager.getConnection(HOST, USERNAME, PASSWORD);
-        } catch (SQLException e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public static Connection getConnection() {
         return con;
     }
+
 }

@@ -3,13 +3,8 @@ package ManagingOperations.ManagingCategory.CategoryOperations.ViewCategoriesInO
 import java.util.List;
 
 public class PrintDuplicateCategories {
-    List<String> duplicateCategoriesList;
 
-    public PrintDuplicateCategories(List<String> duplicateCategoriesList) {
-        this.duplicateCategoriesList = duplicateCategoriesList;
-    }
-
-    public void printDuplicateCategories() {
+    public static void printDuplicateCategories(List<String> duplicateCategoriesList) {
         if (duplicateCategoriesList.isEmpty()) {
             System.out.println("There are no duplicate categories. ");
             return;

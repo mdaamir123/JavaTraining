@@ -15,11 +15,12 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ShowProducts {
-    private Connection con = DatabaseConfig.getConnection();
+    DatabaseConfig config = new DatabaseConfig();
     Scanner sc = new Scanner(System.in);
 
     public void viewProducts() {
         try {
+            Connection con = config.getConnection();
             String query = "select * from product";
             PreparedStatement stmt = con.prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = stmt.executeQuery();

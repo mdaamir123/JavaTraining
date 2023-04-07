@@ -25,7 +25,8 @@ public class OnlineShoppping {
             return;
         }
 
-        System.out.println("Login successfull !!! Your role is " + ((validUser.getRole() == 1) ? "Admin." : "End User."));
+        System.out.println("Login successful !!!");
+        System.out.println("Welcome " + validUser.getUserName() + ". Your role is " + ((validUser.getRole() == 1) ? "Admin." : "end user."));
         CurrentUser.setCurrentUser(validUser.getUserName());
         //TODO : Move this to separate method.
         System.out.println("Please choose one option: ");

@@ -9,11 +9,13 @@ import java.sql.ResultSet;
 import java.util.Scanner;
 
 public class AddProduct {
-    private Connection con = DatabaseConfig.getConnection();
+
     Scanner sc = new Scanner(System.in);
+    DatabaseConfig config = new DatabaseConfig();
 
     public void addProduct() {
         try {
+            Connection con = config.getConnection();
             String catQuery = "select * from category";
             PreparedStatement stmt = con.prepareStatement(catQuery, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = stmt.executeQuery();
@@ -64,14 +66,14 @@ public class AddProduct {
             sc.nextLine();
             stmt2.executeUpdate();
 
-            if(spec == 1) {
+            if (spec == 1) {
 
                 String getId = "select id from product order by id desc limit 1";
                 PreparedStatement ps = con.prepareStatement(getId);
                 ResultSet idSet = ps.executeQuery();
                 int product_id = 0;
-                while(idSet.next()) {
-                     product_id = idSet.getInt(1);
+                while (idSet.next()) {
+                    product_id = idSet.getInt(1);
                 }
 
                 do {
@@ -95,15 +97,13 @@ public class AddProduct {
                         spec = 0;
                     }
                 } while (spec == 1);
-            }
-            else if(spec != 1 ) {
+            } else if (spec != 1) {
                 System.out.println("No attributes added to product.");
             }
 
             System.out.println("Product successfully inserted !!!");
             con.close();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
