@@ -17,7 +17,6 @@ public class OnlineShoppping {
     public static void main(String[] args) {
 
         User userLogin = initiateLogin();
-
         User validUser = Authenticate.isValidUser(userLogin);
 
         if (validUser == null) {
@@ -27,14 +26,10 @@ public class OnlineShoppping {
 
         System.out.println("Login successful !!!");
         System.out.println("Welcome " + validUser.getUserName() + ". Your role is " + ((validUser.getRole() == 1) ? "Admin." : "end user."));
+
         CurrentUser.setCurrentUser(validUser.getUserName());
-        //TODO : Move this to separate method.
-        System.out.println("Please choose one option: ");
-        System.out.println("1: Category Management");
-        System.out.println("2: Product Management");
-        Scanner sc = new Scanner(System.in);
-        int selectedMenuID = sc.nextInt();
-        sc.nextLine();
+
+        int selectedMenuID = getMenuId();
 
         switch (selectedMenuID) {
             case 1:
@@ -60,6 +55,15 @@ public class OnlineShoppping {
         System.out.println("Enter password: ");
         userLogin.setPassword(sc.nextLine());
         return userLogin;
+    }
+
+    public static int getMenuId() {
+        System.out.println("Please choose one option: ");
+        System.out.println("1: Category Management");
+        System.out.println("2: Product Management");
+
+        Scanner sc = new Scanner(System.in);
+        return sc.nextInt();
     }
 }
 

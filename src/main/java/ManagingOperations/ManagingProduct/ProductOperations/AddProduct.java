@@ -1,7 +1,7 @@
 package ManagingOperations.ManagingProduct.ProductOperations;
 
-import login.UserCredential;
 import config.DatabaseConfig;
+import session.CurrentUser;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -46,8 +46,7 @@ public class AddProduct {
             sc.nextLine();
             System.out.println("Enter brand: ");
             String brand = sc.nextLine();
-            UserCredential userCredential = new UserCredential();
-            String username = userCredential.getUsername();
+            String username = CurrentUser.getCurrentUser();
 
             PreparedStatement stmt2 = con.prepareStatement(query);
             stmt2.setString(1, product_title);

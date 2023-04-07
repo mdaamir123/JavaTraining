@@ -1,6 +1,6 @@
 package ManagingOperations.ManagingProduct.ProductOperations.UpdateProducts;
 
-import login.UserCredential;
+import session.CurrentUser;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -65,11 +65,10 @@ public class UpdateProductSpecifications {
         String newAttName = sc.nextLine();
         if (newAttName.trim().length() != 0) {
             try {
-                UserCredential userCredential = new UserCredential();
                 String query = "update specifications set attribute_name = ?, updated_at = default, updated_by = ? where id = ?";
                 PreparedStatement preparedStatement = con.prepareStatement(query);
                 preparedStatement.setString(1, newAttName);
-                preparedStatement.setString(2, userCredential.getUsername());
+                preparedStatement.setString(2, CurrentUser.getCurrentUser());
                 preparedStatement.setInt(3, specId);
                 preparedStatement.executeUpdate();
                 System.out.println("Successfully updated !!!");
@@ -82,11 +81,10 @@ public class UpdateProductSpecifications {
             String newAttValue = sc.nextLine();
             if (newAttValue.trim().length() != 0) {
                 try {
-                    UserCredential userCredential = new UserCredential();
                     String query = "update specifications set attribute_value = ?, updated_at = default, updated_by = ? where id = ?";
                     PreparedStatement preparedStatement = con.prepareStatement(query);
                     preparedStatement.setString(1, newAttValue);
-                    preparedStatement.setString(2, userCredential.getUsername());
+                    preparedStatement.setString(2, CurrentUser.getCurrentUser());
                     preparedStatement.setInt(3, specId);
                     preparedStatement.executeUpdate();
                     System.out.println("Successfully updated !!!");

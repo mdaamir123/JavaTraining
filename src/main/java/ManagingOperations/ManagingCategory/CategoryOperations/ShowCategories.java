@@ -3,12 +3,7 @@ package ManagingOperations.ManagingCategory.CategoryOperations;
 import ManagingOperations.ManagingCategory.CategoryOperations.ViewCategoriesInOrder.*;
 import ManagingOperations.ManagingCategory.CategoryOperations.ViewCategoriesInOrder.ShowCategories.PrintCategories;
 import ManagingOperations.ManagingCategory.CategoryOperations.ViewCategoriesInOrder.ShowCategories.PrintDuplicateCategories;
-import config.DatabaseConfig;
 import dao.CategoryDao;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;

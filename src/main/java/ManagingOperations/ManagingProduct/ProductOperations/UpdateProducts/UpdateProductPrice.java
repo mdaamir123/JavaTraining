@@ -1,6 +1,6 @@
 package ManagingOperations.ManagingProduct.ProductOperations.UpdateProducts;
 
-import login.UserCredential;
+import session.CurrentUser;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,11 +27,10 @@ public class UpdateProductPrice {
         }
 
         try {
-            UserCredential userCredential = new UserCredential();
             String query = "update product set price = ?, updated_at = default, updated_by = ?  where id = ?";
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setFloat(1, newPrice);
-            preparedStatement.setString(2, userCredential.getUsername());
+            preparedStatement.setString(2, CurrentUser.getCurrentUser());
             preparedStatement.setInt(3, id);
             preparedStatement.executeUpdate();
             System.out.println("Successfully updated !!!");

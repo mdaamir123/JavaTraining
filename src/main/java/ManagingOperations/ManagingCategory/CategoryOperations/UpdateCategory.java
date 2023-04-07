@@ -2,13 +2,6 @@ package ManagingOperations.ManagingCategory.CategoryOperations;
 
 import ManagingOperations.ManagingCategory.CategoryOperations.ViewCategoriesInOrder.ShowCategories.PrintCategories;
 import dao.CategoryDao;
-import login.UserCredential;
-import config.DatabaseConfig;
-import session.CurrentUser;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.Scanner;
 
 public class UpdateCategory {
