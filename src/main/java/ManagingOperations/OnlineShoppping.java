@@ -9,11 +9,7 @@ import session.CurrentUser;
 import java.util.Scanner;
 
 public class OnlineShoppping {
-
-    private static final String HOST = "jdbc:mysql://localhost:3306/onlineshopping";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "";
-
+    
     public static void main(String[] args) {
 
         User userLogin = initiateLogin();

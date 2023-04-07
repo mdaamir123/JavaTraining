@@ -15,10 +15,8 @@ public class ViewProductByCategory {
     Scanner sc;
     Connection con;
 
-    public ViewProductByCategory(List<List<String>> resultSet, Connection con, Scanner sc) {
+    public ViewProductByCategory(List<List<String>> resultSet) {
         this.resultSet = resultSet;
-        this.con = con;
-        this.sc = sc;
     }
 
     public void printCategories() {

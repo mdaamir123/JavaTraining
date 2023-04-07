@@ -2,6 +2,7 @@ package dao;
 
 import config.DatabaseConfig;
 import session.CurrentUser;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,10 +18,9 @@ public class CategoryDao {
         try {
             Connection con = config.getConnection();
             String query = "select * from category";
-            PreparedStatement stmt = con.prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            PreparedStatement stmt = con.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
             if (!rs.next()) {
-                System.out.println("No categories found.");
                 con.close();
                 return false;
             }
@@ -73,32 +73,40 @@ public class CategoryDao {
         }
     }
 
-    public static void updateCategory() {
+    public static boolean checkIfCategoryExists(int id) {
         try {
             Connection con = config.getConnection();
-            int y = sc.nextInt();
-            sc.nextLine();
-            String query2 = "select id from category where id = ?";
-            PreparedStatement stmt2 = con.prepareStatement(query2);
-            stmt2.setInt(1, y);
+            String query = "select id from category where id = ?";
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, id);
+            ResultSet rss = stmt.executeQuery();
 
-            ResultSet rss = stmt2.executeQuery();
             if (!rss.next()) {
-                System.out.println("ID not found.");
-            } else {
-                System.out.println("Enter updated category name: ");
-                String newCategory = sc.nextLine();
-                String query3 = "update category set category_name = ?, updated_at = default, updated_by = ? where id =" + y;
-                PreparedStatement stmt3 = con.prepareStatement(query3);
-                stmt3.setString(1, newCategory);
-                stmt3.setString(2, CurrentUser.getCurrentUser());
-                stmt3.executeUpdate();
-                System.out.println("Successfully updated !!!");
+                con.close();
+                return false;
             }
+
+            con.close();
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static void updateCategory(int id, String newCategory) {
+        try {
+            Connection con = config.getConnection();
+            String query3 = "update category set category_name = ?, updated_at = default, updated_by = ? where id =" + id;
+            PreparedStatement stmt3 = con.prepareStatement(query3);
+            stmt3.setString(1, newCategory);
+            stmt3.setString(2, CurrentUser.getCurrentUser());
+            stmt3.executeUpdate();
+            System.out.println("Successfully updated !!!");
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 }

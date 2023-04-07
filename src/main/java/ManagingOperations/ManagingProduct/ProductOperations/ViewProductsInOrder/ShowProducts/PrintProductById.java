@@ -4,7 +4,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class PrintProductById {
-    public void printProductById(List<List<String>> resultSet, List<List<String>> attributeSet, Scanner sc) {
+    public static void printProductById(List<List<String>> resultSet, List<List<String>> attributeSet) {
+        Scanner sc = new Scanner(System.in);
         System.out.println("Enter id of product.");
         int id = sc.nextInt();
         sc.nextLine();
