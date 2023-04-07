@@ -1,4 +1,4 @@
-package Login;
+package login;
 
 public class UserCredential {
     public String getUsername() {

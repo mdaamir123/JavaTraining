@@ -3,6 +3,7 @@ package ManagingOperations.ManagingCategory.CategoryOperations;
 import ManagingOperations.ManagingCategory.CategoryOperations.ViewCategoriesInOrder.*;
 import ManagingOperations.ManagingCategory.CategoryOperations.ViewCategoriesInOrder.ShowCategories.PrintCategories;
 import ManagingOperations.ManagingCategory.CategoryOperations.ViewCategoriesInOrder.ShowCategories.PrintDuplicateCategories;
+import config.DatabaseConfig;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,12 +13,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ShowCategories {
-    private Connection con;
-    private Scanner sc;
-    public ShowCategories(Connection con, Scanner sc) {
-        this.con = con;
-        this.sc = sc;
-    }
+    private Connection con = DatabaseConfig.getConnection();
+    Scanner sc = new Scanner(System.in);
 
     public void viewCategories() {
         try {

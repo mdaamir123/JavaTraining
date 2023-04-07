@@ -4,17 +4,11 @@ import ManagingOperations.ManagingCategory.CategoryOperations.AddCategory;
 import ManagingOperations.ManagingCategory.CategoryOperations.ShowCategories;
 import ManagingOperations.ManagingCategory.CategoryOperations.UpdateCategory;
 
-import java.sql.Connection;
 import java.util.Scanner;
 
 public class CategoryManagement {
-    private Connection con;
-    private Scanner sc;
 
-    public CategoryManagement(Connection con, Scanner sc) {
-        this.con = con;
-        this.sc = sc;
-    }
+    Scanner sc = new Scanner(System.in);
     public void handleCategoryManagement() {
         try {
             System.out.println("Please choose one option: ");
@@ -26,15 +20,15 @@ public class CategoryManagement {
 
             switch (x) {
                 case 1:
-                    ShowCategories obj1 = new ShowCategories(con, sc);
+                    ShowCategories obj1 = new ShowCategories();
                     obj1.viewCategories();
                     break;
                 case 2:
-                    AddCategory obj2 = new AddCategory(con, sc);
+                    AddCategory obj2 = new AddCategory();
                     obj2.addCategory();
                     break;
                 case 3:
-                    UpdateCategory obj3 = new UpdateCategory(con, sc);
+                    UpdateCategory obj3 = new UpdateCategory();
                     obj3.updateCategory();
                     break;
                 default:

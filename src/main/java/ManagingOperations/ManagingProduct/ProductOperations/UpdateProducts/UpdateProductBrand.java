@@ -1,10 +1,9 @@
 package ManagingOperations.ManagingProduct.ProductOperations.UpdateProducts;
 
-import Login.UserCredential;
+import login.UserCredential;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.Scanner;
 
 public class UpdateProductBrand {

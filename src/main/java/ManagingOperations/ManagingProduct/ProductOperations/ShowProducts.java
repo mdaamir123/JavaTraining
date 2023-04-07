@@ -5,6 +5,7 @@ import ManagingOperations.ManagingProduct.ProductOperations.ViewProductsInOrder.
 import ManagingOperations.ManagingProduct.ProductOperations.ViewProductsInOrder.ViewProductByCategory;
 import ManagingOperations.ManagingProduct.ProductOperations.ViewProductsInOrder.SortByPrice;
 import ManagingOperations.ManagingProduct.ProductOperations.ViewProductsInOrder.SortByPriceAsc;
+import config.DatabaseConfig;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,13 +15,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ShowProducts {
-    private Connection con;
-    private Scanner sc;
-
-    public ShowProducts(Connection con, Scanner sc) {
-        this.con = con;
-        this.sc = sc;
-    }
+    private Connection con = DatabaseConfig.getConnection();
+    Scanner sc = new Scanner(System.in);
 
     public void viewProducts() {
         try {

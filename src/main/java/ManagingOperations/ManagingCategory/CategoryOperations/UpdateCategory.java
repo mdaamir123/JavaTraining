@@ -1,6 +1,8 @@
 package ManagingOperations.ManagingCategory.CategoryOperations;
 
-import Login.UserCredential;
+import login.UserCredential;
+import config.DatabaseConfig;
+import session.CurrentUser;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,13 +10,8 @@ import java.sql.ResultSet;
 import java.util.Scanner;
 
 public class UpdateCategory {
-    private Connection con;
-    private Scanner sc;
-
-    public UpdateCategory(Connection con, Scanner sc) {
-        this.con = con;
-        this.sc = sc;
-    }
+    private Connection con = DatabaseConfig.getConnection();
+    Scanner sc = new Scanner(System.in);
 
     public void updateCategory() {
         try {
@@ -42,14 +39,12 @@ public class UpdateCategory {
             if (!rss.next()) {
                 System.out.println("ID not found.");
             } else {
-                UserCredential userCredential = new UserCredential();
                 System.out.println("Enter updated category name: ");
                 String newCategory = sc.nextLine();
-                String username = userCredential.getUsername();
                 String query3 = "update category set category_name = ?, updated_at = default, updated_by = ? where id =" + y;
                 PreparedStatement stmt3 = con.prepareStatement(query3);
                 stmt3.setString(1, newCategory);
-                stmt3.setString(2, username);
+                stmt3.setString(2, CurrentUser.getCurrentUser());
                 stmt3.executeUpdate();
                 System.out.println("Successfully updated !!!");
             }

@@ -1,6 +1,7 @@
 package ManagingOperations.ManagingProduct.ProductOperations;
 
-import Login.UserCredential;
+import login.UserCredential;
+import config.DatabaseConfig;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,13 +9,8 @@ import java.sql.ResultSet;
 import java.util.Scanner;
 
 public class AddProduct {
-    private Connection con;
-    private Scanner sc;
-
-    public AddProduct(Connection con, Scanner sc) {
-        this.con = con;
-        this.sc = sc;
-    }
+    private Connection con = DatabaseConfig.getConnection();
+    Scanner sc = new Scanner(System.in);
 
     public void addProduct() {
         try {

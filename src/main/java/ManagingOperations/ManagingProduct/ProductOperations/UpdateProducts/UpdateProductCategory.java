@@ -1,7 +1,6 @@
 package ManagingOperations.ManagingProduct.ProductOperations.UpdateProducts;
 
-import Login.UserCredential;
-import ManagingOperations.ManagingProduct.ProductOperations.ViewProductsInOrder.ViewProductByCategory;
+import login.UserCredential;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

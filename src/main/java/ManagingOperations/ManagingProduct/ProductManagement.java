@@ -4,18 +4,11 @@ import ManagingOperations.ManagingProduct.ProductOperations.AddProduct;
 import ManagingOperations.ManagingProduct.ProductOperations.ShowProducts;
 import ManagingOperations.ManagingProduct.ProductOperations.UpdateProduct;
 
-import java.sql.Connection;
 import java.util.Scanner;
 
 public class ProductManagement {
-    private Connection con;
-    private Scanner sc;
 
-    public ProductManagement(Connection con, Scanner sc) {
-        this.con = con;
-        this.sc = sc;
-    }
-
+    Scanner sc = new Scanner(System.in);
     public void handleProductManagement() {
         try {
             System.out.println("Please choose one option: ");
@@ -27,15 +20,15 @@ public class ProductManagement {
 
             switch (x) {
                 case 1:
-                    ShowProducts obj1 = new ShowProducts(con, sc);
+                    ShowProducts obj1 = new ShowProducts();
                     obj1.viewProducts();
                     break;
                 case 2:
-                    AddProduct obj2 = new AddProduct(con, sc);
+                    AddProduct obj2 = new AddProduct();
                     obj2.addProduct();
                     break;
                 case 3:
-                    UpdateProduct obj3 = new UpdateProduct(con, sc);
+                    UpdateProduct obj3 = new UpdateProduct();
                     obj3.updateProduct();
                     break;
                 default:
