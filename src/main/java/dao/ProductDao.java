@@ -143,6 +143,33 @@ public class ProductDao {
         return null;
     }
 
+    public static List<List<String>> getProductsByCategory(int id) {
+        try {
+            Connection con = config.getConnection();
+            String query = "select * from product where category_id = " + id;
+            PreparedStatement stmt = con.prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ResultSet rs = stmt.executeQuery();
+
+            List<List<String>> resultSet = new ArrayList<>();
+            while (rs.next()) {
+                List<String> list = new ArrayList<>();
+                list.add(String.valueOf(rs.getInt(1)));
+                list.add(rs.getString(2));
+                list.add(rs.getString(3));
+                list.add(String.valueOf(rs.getFloat(4)));
+                list.add(String.valueOf(rs.getInt(5)));
+                list.add(String.valueOf(rs.getFloat(6)));
+                list.add(rs.getString(7));
+                resultSet.add(list);
+            }
+            con.close();
+            return resultSet;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static List<List<String>> getAllSpecifications() {
         try {
             Connection con = config.getConnection();

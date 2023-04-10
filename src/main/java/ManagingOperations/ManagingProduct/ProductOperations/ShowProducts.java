@@ -49,7 +49,7 @@ public class ShowProducts {
                 PrintProducts.printProducts(sortByPriceAsc.sortByPriceAsc());
                 break;
             case 4:
-                ViewProductByCategory viewProductByCategory = new ViewProductByCategory(resultSet);
+                ViewProductByCategory viewProductByCategory = new ViewProductByCategory();
                 PrintProducts.printProducts(viewProductByCategory.viewProductByCategory());
                 break;
             case 5:
