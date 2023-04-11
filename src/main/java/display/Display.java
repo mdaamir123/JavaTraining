@@ -77,4 +77,11 @@ public class Display {
             }
         }
     }
+
+    public static void printProductSpecifications(List<Specification> specifications) {
+        for(var specification : specifications) {
+            System.out.println("ID: " + specification.getSpecId() + " PRODUCT_ID: " + specification.getSpecProductId()
+            + " ATTRIBUTE_NAME: " + specification.getSpecAttributeName() + " ATTRIBUTE_VALUE: " + specification.getSpecAttributeValue());
+        }
+    }
 }

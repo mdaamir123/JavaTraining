@@ -332,20 +332,32 @@ public class ProductDao {
         return false;
     }
 
-    public static void getAllProductSpecifications(int id) {
+    public static List<Specification> getAllProductSpecifications(int id) {
         try {
             Connection con = DatabaseConfig.getInstance().getConnection();
             String query = "select * from specifications where product_id = " + id;
             PreparedStatement stmt = con.prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                System.out.println("ID: " + rs.getInt(1) + " Product ID: " + rs.getInt(2) +
-                        " Attribute Name: " + rs.getString(3) + " Attribute Value: " + rs.getString(4));
+            List<Specification> specifications = new ArrayList<>();
+
+            while(rs.next()) {
+                Specification specification = new Specification();
+                specification.setSpecId(rs.getInt(1));
+                specification.setSpecProductId(rs.getInt(2));
+                specification.setSpecAttributeName(rs.getString(3));
+                specification.setSpecAttributeValue(rs.getString(4));
+                specification.setCreatedOn(rs.getTimestamp(5).toLocalDateTime());
+                specification.setUpdatedOn(rs.getTimestamp(6).toLocalDateTime());
+                specification.setCreatedBy(rs.getString(7));
+                specification.setUpdatedBy(rs.getString(8));
+                specifications.add(specification);
             }
+           return specifications;
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     public static boolean checkIfProductSpecificationExists(int specId) {
