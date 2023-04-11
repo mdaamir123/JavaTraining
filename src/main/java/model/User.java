@@ -6,6 +6,14 @@ public class User {
     private String password;
     private int role;
 
+    public User() {}
+
+    public User(String userName, String password, int role) {
+        this.userName = userName;
+        this.password = password;
+        this.role = role;
+    }
+
     public String getUserName() {
         return userName;
     }

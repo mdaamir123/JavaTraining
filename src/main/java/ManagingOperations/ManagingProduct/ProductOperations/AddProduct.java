@@ -1,8 +1,9 @@
 package ManagingOperations.ManagingProduct.ProductOperations;
 
-import config.DatabaseConfig;
 import dao.CategoryDao;
 import dao.ProductDao;
+import model.Specification;
+
 import java.util.Scanner;
 
 public class AddProduct {
@@ -13,8 +14,27 @@ public class AddProduct {
             System.out.println("Kindly add one before.");
             return;
         }
-
-        ProductDao.addProduct();
+        System.out.println("Enter product title: ");
+        String product_title = sc.nextLine();
+        System.out.println("Enter description: ");
+        String description = sc.nextLine();
+        System.out.println("Enter price: ");
+        float price = sc.nextFloat();
+        sc.nextLine();
+        System.out.println("Enter category_id from below: ");
+        CategoryDao.getAllCategories();
+        int category = sc.nextInt();
+        sc.nextLine();
+        if(!CategoryDao.checkIfCategoryExists(category)) {
+            System.out.println("Category id does not exist.");
+            return;
+        }
+        System.out.println("Enter discount: ");
+        float discount = sc.nextFloat();
+        sc.nextLine();
+        System.out.println("Enter brand: ");
+        String brand = sc.nextLine();
+        ProductDao.addProduct(product_title, description, price, category, discount, brand);
         System.out.println("Do you want to add specifications ?");
         System.out.println("1. Yes");
         System.out.println("2. No");
@@ -24,7 +44,12 @@ public class AddProduct {
         if (spec == 1) {
 
             do {
-                ProductDao.addSpecification();
+                Specification specification = new Specification();
+                System.out.println("Add attribute name: ");
+                specification.setSpecAttributeName(sc.nextLine());
+                System.out.println("Add attribute value: ");
+                specification.setSpecAttributeValue(sc.nextLine());
+                ProductDao.addSpecification(specification);
                 System.out.println("Press q to quit: ");
                 char pressed = sc.next().charAt(0);
                 sc.nextLine();

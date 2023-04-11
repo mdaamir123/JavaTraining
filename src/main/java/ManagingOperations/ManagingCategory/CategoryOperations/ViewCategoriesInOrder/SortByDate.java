@@ -1,23 +1,22 @@
 package ManagingOperations.ManagingCategory.CategoryOperations.ViewCategoriesInOrder;
 
+import comparators.SortCategoryByDate;
+import model.Category;
+
 import java.util.Collections;
 import java.util.List;
 
 public class SortByDate {
-    List<List<String>> list;
+    List<Category> categories;
 
-    public SortByDate(List<List<String>> list) {
-        this.list = list;
+    //TODO : Will take List<Category>
+    public SortByDate(List<Category> categories) {
+        this.categories = categories;
     }
 
-    public  List<List<String>>  sortByDate() {
-        for(int i = 0; i < list.size(); i++) {
-            for(int j = 0; j < list.size()-i-1; j++) {
-                if(list.get(j).get(1).compareTo(list.get(j+1).get(2)) > 0) {
-                    Collections.swap(list, j, j+1);
-                }
-            }
-        }
-        return list;
+    //TODO : Use comparator.
+    public  List<Category>  sortByDate() {
+        Collections.sort(categories, new SortCategoryByDate());
+        return categories;
     }
 }

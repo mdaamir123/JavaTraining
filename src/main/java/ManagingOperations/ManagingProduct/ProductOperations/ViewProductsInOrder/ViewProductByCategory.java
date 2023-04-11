@@ -2,17 +2,18 @@ package ManagingOperations.ManagingProduct.ProductOperations.ViewProductsInOrder
 
 import dao.CategoryDao;
 import dao.ProductDao;
+import model.Product;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class ViewProductByCategory {
-    List<List<String>> resultSet;
-    List<List<String>> products = new ArrayList<>();
+    List<Product> resultSet;
+    List<Product> products = new ArrayList<>();
     Scanner sc = new Scanner(System.in);
 
-    public List<List<String>> viewProductByCategory() {
+    public List<Product> viewProductByCategory() {
         if(!CategoryDao.checkIfCategoriesExists()) {
             System.out.println("No categories available.");
             System.exit(0);
@@ -37,7 +38,7 @@ public class ViewProductByCategory {
         }
 
         for (var product : resultSet) {
-            if(Integer.parseInt(product.get(4)) == id) {
+            if(product.getProductCategoryId() == id) {
                 products.add(product);
             }
         }

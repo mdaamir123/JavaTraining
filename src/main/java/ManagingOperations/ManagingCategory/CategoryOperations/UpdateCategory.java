@@ -1,6 +1,6 @@
 package ManagingOperations.ManagingCategory.CategoryOperations;
 
-import ManagingOperations.ManagingCategory.CategoryOperations.ViewCategoriesInOrder.ShowCategories.PrintCategories;
+import display.Display;
 import dao.CategoryDao;
 import java.util.Scanner;
 
@@ -14,7 +14,8 @@ public class UpdateCategory {
             return;
         }
 
-        PrintCategories.printCategories(CategoryDao.getAllCategories());
+        // TODO : Change class name to Display. It will have logic of displaying anything to console.
+        Display.printCategories(CategoryDao.getAllCategories());
 
         System.out.println("Enter id of category you want to update: ");
         int id = sc.nextInt();
@@ -24,9 +25,10 @@ public class UpdateCategory {
             return;
         }
         
-        System.out.println("Enter updated category name: ");
+        System.out.println("Enter new category name: ");
         String newCategory = sc.nextLine();
         CategoryDao.updateCategory(id, newCategory);
+        System.out.println("Successfully updated.");
 
     }
 }

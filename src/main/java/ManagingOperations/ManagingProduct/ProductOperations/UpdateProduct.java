@@ -1,21 +1,21 @@
 package ManagingOperations.ManagingProduct.ProductOperations;
 
 import ManagingOperations.ManagingProduct.ProductOperations.UpdateProducts.*;
-import ManagingOperations.ManagingProduct.ProductOperations.ViewProductsInOrder.ShowProducts.PrintProducts;
-import config.DatabaseConfig;
 import dao.ProductDao;
+import display.Display;
+
 import java.util.Scanner;
 
 public class UpdateProduct {
-    DatabaseConfig config = new DatabaseConfig();
     Scanner sc = new Scanner(System.in);
 
     public void updateProduct() {
         if (!ProductDao.checkIfProductsExists()) {
+            System.out.println("No products are present.");
             return;
         }
 
-        PrintProducts.printProducts(ProductDao.getALlProducts());
+        Display.printProducts(ProductDao.getALlProducts());
         System.out.println("Enter id of product you want to update: ");
         int id = sc.nextInt();
         sc.nextLine();

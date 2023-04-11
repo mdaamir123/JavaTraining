@@ -15,6 +15,6 @@ public class UpdateProductPrice {
         }
 
         ProductDao.updateProductPrice(id, newPrice);
-
+        System.out.println("Successfully updated.");
     }
 }

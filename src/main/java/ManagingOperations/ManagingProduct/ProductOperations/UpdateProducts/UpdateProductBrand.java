@@ -15,5 +15,6 @@ public class UpdateProductBrand {
         }
 
         ProductDao.updateProductBrand(id, newBrand);
+        System.out.println("Successfully updated.");
     }
 }

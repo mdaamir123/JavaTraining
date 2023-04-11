@@ -21,7 +21,7 @@ public class CategoryManagement {
             switch (x) {
                 case 1:
                     ShowCategories obj1 = new ShowCategories();
-                    obj1.viewCategories();
+                    obj1.displayMenu();
                     break;
                 case 2:
                     AddCategory obj2 = new AddCategory();

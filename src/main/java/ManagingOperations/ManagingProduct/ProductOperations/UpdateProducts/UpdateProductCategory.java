@@ -2,16 +2,12 @@ package ManagingOperations.ManagingProduct.ProductOperations.UpdateProducts;
 
 import dao.CategoryDao;
 import dao.ProductDao;
-import session.CurrentUser;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.Scanner;
 
 public class UpdateProductCategory {
-
     Scanner sc = new Scanner(System.in);
+
     public  void updateProductCategory(int id) {
         if(!CategoryDao.checkIfCategoriesExists()) {
             return;
@@ -32,7 +28,7 @@ public class UpdateProductCategory {
         }
 
         ProductDao.updateProductCategory(id, newId);
-
+        System.out.println("Successfully updated.");
 
     }
 }

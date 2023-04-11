@@ -1,31 +1,27 @@
 package ManagingOperations.ManagingProduct.ProductOperations;
 
-import ManagingOperations.ManagingProduct.ProductOperations.ViewProductsInOrder.ShowProducts.PrintProductById;
-import ManagingOperations.ManagingProduct.ProductOperations.ViewProductsInOrder.ShowProducts.PrintProducts;
 import ManagingOperations.ManagingProduct.ProductOperations.ViewProductsInOrder.ViewProductByCategory;
 import ManagingOperations.ManagingProduct.ProductOperations.ViewProductsInOrder.SortByPrice;
 import ManagingOperations.ManagingProduct.ProductOperations.ViewProductsInOrder.SortByPriceAsc;
-import config.DatabaseConfig;
 import dao.ProductDao;
+import display.Display;
+import model.Product;
+import model.Specification;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class ShowProducts {
-    DatabaseConfig config = new DatabaseConfig();
     Scanner sc = new Scanner(System.in);
 
     public void viewProducts() {
         if (!ProductDao.checkIfProductsExists()) {
+            System.out.println("No products are present.");
             return;
         }
 
-        List<List<String>> resultSet = ProductDao.getALlProducts();
-        List<List<String>> attributeSet = ProductDao.getAllSpecifications();
+        List<Product> resultSet = ProductDao.getALlProducts();
+        List<Specification> attributeSet = ProductDao.getAllSpecifications();
 
         System.out.println("Select the way of viewing products: ");
         System.out.println("1. View all products.");
@@ -38,22 +34,22 @@ public class ShowProducts {
 
         switch (choice) {
             case 1:
-                PrintProducts.printProducts(resultSet);
+                Display.printProducts(resultSet);
                 break;
             case 2:
                 SortByPrice sortByPrice = new SortByPrice(resultSet);
-                PrintProducts.printProducts(sortByPrice.sortByPrice());
+                Display.printProducts(sortByPrice.sortByPrice());
                 break;
             case 3:
                 SortByPriceAsc sortByPriceAsc = new SortByPriceAsc(resultSet);
-                PrintProducts.printProducts(sortByPriceAsc.sortByPriceAsc());
+                Display.printProducts(sortByPriceAsc.sortByPriceAsc());
                 break;
             case 4:
                 ViewProductByCategory viewProductByCategory = new ViewProductByCategory();
-                PrintProducts.printProducts(viewProductByCategory.viewProductByCategory());
+                Display.printProducts(viewProductByCategory.viewProductByCategory());
                 break;
             case 5:
-                PrintProductById.printProductById(resultSet, attributeSet);
+                Display.printProductById(resultSet, attributeSet);
                 break;
             default:
                 break;

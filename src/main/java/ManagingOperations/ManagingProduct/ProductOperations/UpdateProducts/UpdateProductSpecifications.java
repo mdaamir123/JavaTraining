@@ -1,10 +1,7 @@
 package ManagingOperations.ManagingProduct.ProductOperations.UpdateProducts;
 
 import dao.ProductDao;
-import session.CurrentUser;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.Scanner;
 
 public class UpdateProductSpecifications {
@@ -39,6 +36,7 @@ public class UpdateProductSpecifications {
         if (newAttValue.trim().length() != 0) {
             ProductDao.updateProductSpecificationAttributeValue(specId, newAttValue);
         }
+        System.out.println("Successfully updated.");
     }
 }
 

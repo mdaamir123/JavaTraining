@@ -1,21 +1,24 @@
 package ManagingOperations.ManagingCategory.CategoryOperations.ViewCategoriesInOrder;
 
+import model.Category;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class ViewDuplicateCategories {
-    List<List<String>> list;
+    List<Category> categories;
     List<String> duplicateList = new ArrayList<>();
     List<String> editedList = new ArrayList<>();
 
-    public ViewDuplicateCategories(List<List<String>> list) {
-        this.list = list;
+    //TODO : Will take List<Category>
+    public ViewDuplicateCategories(List<Category> categories) {
+        this.categories = categories;
     }
 
     public List<String> getDuplicates() {
-        for (int i = 0; i < list.size(); i++) {
-            var item = list.get(i).get(1);
+        for (int i = 0; i < categories.size(); i++) {
+            var item = categories.get(i).getCategoryName();
             String[] str = item.split(" ");
             if(str.length > 1) {
                 item = "";

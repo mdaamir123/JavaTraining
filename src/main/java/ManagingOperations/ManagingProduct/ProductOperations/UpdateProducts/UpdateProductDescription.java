@@ -15,5 +15,6 @@ public class UpdateProductDescription {
         }
 
         ProductDao.updateProductDescription(id, newDescription);
+        System.out.println("Successfully updated.");
     }
 }
