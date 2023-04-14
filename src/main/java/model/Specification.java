@@ -7,8 +7,8 @@ public class Specification {
     private int specProductId;
     private String specAttributeName;
     private String specAttributeValue;
-    private String createdBy;
-    private String updatedBy;
+    private int createdBy;
+    private int updatedBy;
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
 
@@ -44,19 +44,19 @@ public class Specification {
         this.specAttributeValue = specAttributeValue;
     }
 
-    public String getCreatedBy() {
+    public int getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(int createdBy) {
         this.createdBy = createdBy;
     }
 
-    public String getUpdatedBy() {
+    public int getUpdatedBy() {
         return updatedBy;
     }
 
-    public void setUpdatedBy(String updatedBy) {
+    public void setUpdatedBy(int updatedBy) {
         this.updatedBy = updatedBy;
     }
 

@@ -5,8 +5,8 @@ import java.time.LocalDateTime;
 public class UserRole {
     private int userRoleId;
     private String userRoleName;
-    private String createdBy;
-    private String updatedBy;
+    private int createdBy;
+    private int updatedBy;
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
 
@@ -26,19 +26,19 @@ public class UserRole {
         this.userRoleName = userRoleName;
     }
 
-    public String getCreatedBy() {
+    public int getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(int createdBy) {
         this.createdBy = createdBy;
     }
 
-    public String getUpdatedBy() {
+    public int getUpdatedBy() {
         return updatedBy;
     }
 
-    public void setUpdatedBy(String updatedBy) {
+    public void setUpdatedBy(int updatedBy) {
         this.updatedBy = updatedBy;
     }
 

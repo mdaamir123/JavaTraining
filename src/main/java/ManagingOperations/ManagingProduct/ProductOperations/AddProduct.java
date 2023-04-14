@@ -2,6 +2,7 @@ package ManagingOperations.ManagingProduct.ProductOperations;
 
 import dao.CategoryDao;
 import dao.ProductDao;
+import display.Display;
 import model.Specification;
 
 import java.util.Scanner;
@@ -22,7 +23,7 @@ public class AddProduct {
         float price = sc.nextFloat();
         sc.nextLine();
         System.out.println("Enter category_id from below: ");
-        CategoryDao.getAllCategories();
+        Display.printCategories(CategoryDao.getAllCategories());
         int category = sc.nextInt();
         sc.nextLine();
         if(!CategoryDao.checkIfCategoryExists(category)) {

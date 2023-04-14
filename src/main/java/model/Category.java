@@ -6,8 +6,8 @@ public class Category implements Comparable<Category>{
 
     private int categoryId;
     private String categoryName;
-    private String createdBy;
-    private String updatedBy;
+    private int createdBy;
+    private int updatedBy;
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
 
@@ -27,19 +27,19 @@ public class Category implements Comparable<Category>{
         this.categoryName = categoryName;
     }
 
-    public String getCreatedBy() {
+    public int getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(int createdBy) {
         this.createdBy = createdBy;
     }
 
-    public String getUpdatedBy() {
+    public int getUpdatedBy() {
         return updatedBy;
     }
 
-    public void setUpdatedBy(String updatedBy) {
+    public void setUpdatedBy(int updatedBy) {
         this.updatedBy = updatedBy;
     }
 

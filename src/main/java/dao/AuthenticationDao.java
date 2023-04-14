@@ -55,8 +55,8 @@ public class AuthenticationDao {
                 user.setUserVerified(resultSet.getBoolean(8));
                 user.setCreatedOn(resultSet.getTimestamp(9).toLocalDateTime());
                 user.setUpdatedOn(resultSet.getTimestamp(10).toLocalDateTime());
-                user.setCreatedBy(resultSet.getString(11));
-                user.setUpdatedBy(resultSet.getString(12));
+                user.setCreatedBy(resultSet.getInt(11));
+                user.setUpdatedBy(resultSet.getInt(12));
             }
 
             String query2 = "select role from user_roles where id = ?";

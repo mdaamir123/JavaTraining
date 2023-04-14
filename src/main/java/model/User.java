@@ -14,8 +14,8 @@ public class User {
     private boolean isUserVerified;
     private int userRoleId;
     private UserRole userRole;
-    private String createdBy;
-    private String updatedBy;
+    private int createdBy;
+    private int updatedBy;
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
 
@@ -111,19 +111,19 @@ public class User {
         this.userRole = userRole;
     }
 
-    public String getCreatedBy() {
+    public int getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(int createdBy) {
         this.createdBy = createdBy;
     }
 
-    public String getUpdatedBy() {
+    public int getUpdatedBy() {
         return updatedBy;
     }
 
-    public void setUpdatedBy(String updatedBy) {
+    public void setUpdatedBy(int updatedBy) {
         this.updatedBy = updatedBy;
     }
 
