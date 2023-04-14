@@ -1,25 +1,71 @@
 package model;
 
+import encrypt.EncryptPassword;
+
+import java.time.LocalDateTime;
+
 public class User {
-
-    private String userName;
+    private int userId;
+    private String firstName;
+    private String lastName;
+    private String email;
     private String password;
-    private int role;
+    private int verificationPin;
+    private boolean isUserVerified;
+    private int userRoleId;
+    private UserRole userRole;
+    private String createdBy;
+    private String updatedBy;
+    private LocalDateTime createdOn;
+    private LocalDateTime updatedOn;
 
-    public User() {}
-
-    public User(String userName, String password, int role) {
-        this.userName = userName;
-        this.password = password;
-        this.role = role;
+    public User() {
     }
 
-    public String getUserName() {
-        return userName;
+    public User(String email, String password) {
+        this.email = email;
+        this.password = EncryptPassword.getEncryptedPassword(password);
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        if(firstName.trim().length() == 0) {
+            throw new IllegalStateException("First Name cannot be null");
+        }
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        if(lastName.trim().length() == 0) {
+            throw new IllegalStateException("Last Name cannot be null");
+        }
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        if(email.trim().length() == 0) {
+            throw new IllegalStateException("Email cannot be null");
+        }
+        this.email = email;
     }
 
     public String getPassword() {
@@ -27,15 +73,74 @@ public class User {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        if(password.trim().length() == 0) {
+            throw new IllegalStateException("Password cannot be null");
+        }
+        this.password = EncryptPassword.getEncryptedPassword(password);
     }
 
-    public int getRole() {
-        return role;
+    public int getVerificationPin() {
+        return verificationPin;
     }
 
-    public void setRole(int role) {
-        this.role = role;
+    public void setVerificationPin(int verificationPin) {
+        this.verificationPin = verificationPin;
+    }
+
+    public boolean isUserVerified() {
+        return isUserVerified;
+    }
+
+    public void setUserVerified(boolean userVerified) {
+        isUserVerified = userVerified;
+    }
+
+    public int getUserRoleId() {
+        return userRoleId;
+    }
+
+    public void setUserRoleId(int userRoleId) {
+        this.userRoleId = userRoleId;
+    }
+
+    public UserRole getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public LocalDateTime getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(LocalDateTime createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public LocalDateTime getUpdatedOn() {
+        return updatedOn;
+    }
+
+    public void setUpdatedOn(LocalDateTime updatedOn) {
+        this.updatedOn = updatedOn;
     }
 
 }

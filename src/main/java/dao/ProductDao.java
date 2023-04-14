@@ -19,7 +19,7 @@ public class ProductDao {
             Connection con = DatabaseConfig.getInstance().getConnection();
             String query = "insert into product (product_title, description, price, category_id, discount, brand, created_by, updated_by) values (?,?,?,?,?,?,?,?)";
 
-            String username = LoggedInUser.getCurrentUser().getUserName();
+            String username = LoggedInUser.getCurrentUser().getFirstName();
 
             PreparedStatement stmt2 = con.prepareStatement(query);
             stmt2.setString(1, product_title);
@@ -50,8 +50,8 @@ public class ProductDao {
             stmt.setInt(1, getLastInsertedProductId());
             stmt.setString(2, specification.getSpecAttributeName());
             stmt.setString(3, specification.getSpecAttributeValue());
-            stmt.setString(4, LoggedInUser.getCurrentUser().getUserName());
-            stmt.setString(5, LoggedInUser.getCurrentUser().getUserName());
+            stmt.setString(4, LoggedInUser.getCurrentUser().getFirstName());
+            stmt.setString(5, LoggedInUser.getCurrentUser().getFirstName());
             stmt.executeUpdate();
 
         } catch (Exception e) {
@@ -193,7 +193,7 @@ public class ProductDao {
             String query = "update product set brand = ?, updated_at = default, updated_by = ? where id = ?";
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setString(1, newBrand);
-            preparedStatement.setString(2, LoggedInUser.getCurrentUser().getUserName());
+            preparedStatement.setString(2, LoggedInUser.getCurrentUser().getFirstName());
             preparedStatement.setInt(3, id);
             preparedStatement.executeUpdate();
 
@@ -210,7 +210,7 @@ public class ProductDao {
             String query = "update product set discount = ?, updated_at = default, updated_by = ?  where id = ?";
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setFloat(1, newDiscount);
-            preparedStatement.setString(2, LoggedInUser.getCurrentUser().getUserName());
+            preparedStatement.setString(2, LoggedInUser.getCurrentUser().getFirstName());
             preparedStatement.setInt(3, id);
             preparedStatement.executeUpdate();
 
@@ -228,7 +228,7 @@ public class ProductDao {
             String query = "update product set product_title = ?, updated_at = default, updated_by = ?  where id = ?";
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setString(1, newTitle);
-            preparedStatement.setString(2, LoggedInUser.getCurrentUser().getUserName());
+            preparedStatement.setString(2, LoggedInUser.getCurrentUser().getFirstName());
             preparedStatement.setInt(3, id);
             preparedStatement.executeUpdate();
 
@@ -246,7 +246,7 @@ public class ProductDao {
             String query = "update product set description = ?, updated_at = default, updated_by = ? where id = ?";
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setString(1, newDescription);
-            preparedStatement.setString(2, LoggedInUser.getCurrentUser().getUserName());
+            preparedStatement.setString(2, LoggedInUser.getCurrentUser().getFirstName());
             preparedStatement.setInt(3, id);
             preparedStatement.executeUpdate();
 
@@ -264,7 +264,7 @@ public class ProductDao {
             String query = "update product set price = ?, updated_at = default, updated_by = ?  where id = ?";
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setFloat(1, newPrice);
-            preparedStatement.setString(2, LoggedInUser.getCurrentUser().getUserName());
+            preparedStatement.setString(2, LoggedInUser.getCurrentUser().getFirstName());
             preparedStatement.setInt(3, id);
             preparedStatement.executeUpdate();
 
@@ -301,7 +301,7 @@ public class ProductDao {
             String query = "update product set category_id = ?, updated_at = default, updated_by = ? where id = ?";
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setInt(1, newId);
-            preparedStatement.setString(2, LoggedInUser.getCurrentUser().getUserName());
+            preparedStatement.setString(2, LoggedInUser.getCurrentUser().getFirstName());
             preparedStatement.setInt(3, id);
             preparedStatement.executeUpdate();
 
@@ -387,7 +387,7 @@ public class ProductDao {
             String query = "update specifications set attribute_name = ?, updated_at = default, updated_by = ? where id = ?";
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setString(1, newAttName);
-            preparedStatement.setString(2, LoggedInUser.getCurrentUser().getUserName());
+            preparedStatement.setString(2, LoggedInUser.getCurrentUser().getFirstName());
             preparedStatement.setInt(3, specId);
             preparedStatement.executeUpdate();
 
@@ -404,7 +404,7 @@ public class ProductDao {
             String query = "update specifications set attribute_value = ?, updated_at = default, updated_by = ? where id = ?";
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setString(1, newAttValue);
-            preparedStatement.setString(2, LoggedInUser.getCurrentUser().getUserName());
+            preparedStatement.setString(2, LoggedInUser.getCurrentUser().getFirstName());
             preparedStatement.setInt(3, specId);
             preparedStatement.executeUpdate();
 

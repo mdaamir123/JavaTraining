@@ -2,6 +2,7 @@ package ManagingOperations.ManagingProduct.ProductOperations.ViewProductsInOrder
 
 import dao.CategoryDao;
 import dao.ProductDao;
+import display.Display;
 import model.Product;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class ViewProductByCategory {
             System.exit(0);
         }
 
-        CategoryDao.getAllCategories();
+        Display.printCategories(CategoryDao.getAllCategories());
 
         System.out.println("Enter id of the category: ");
         int id = sc.nextInt();

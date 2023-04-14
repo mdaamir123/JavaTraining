@@ -2,15 +2,13 @@ package config;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 
 public class DatabaseConfig {
 
     public static DatabaseConfig config = null;
-
-    private static  String HOST;
-    private static  String USERNAME;
-    private static  String PASSWORD;
+    private static  String HOST = "jdbc:mysql://localhost:3306/" + System.getenv("db.name");
+    private static  String USERNAME = System.getenv("db.username");
+    private static  String PASSWORD = System.getenv("db.password");
     private static Connection con;
 
     private DatabaseConfig() {
@@ -43,10 +41,10 @@ public class DatabaseConfig {
         return config;
     }
 
-    public static void checkDatabaseConnection(String database, String mysqlUsername, String mysqlPassword) throws SQLException {
-        HOST = "jdbc:mysql://localhost:3306/" + database;
-        USERNAME = mysqlUsername;
-        PASSWORD = mysqlPassword;
-        con = DriverManager.getConnection(HOST, USERNAME, PASSWORD);
-    }
+//    public static void checkDatabaseConnection(String database, String mysqlUsername, String mysqlPassword) throws SQLException {
+//        HOST = "jdbc:mysql://localhost:3306/" + database;
+//        USERNAME = mysqlUsername;
+//        PASSWORD = mysqlPassword;
+//        con = DriverManager.getConnection(HOST, USERNAME, PASSWORD);
+//    }
 }

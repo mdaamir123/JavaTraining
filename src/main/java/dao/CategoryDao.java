@@ -63,7 +63,7 @@ public class CategoryDao {
         try {
             Connection con = DatabaseConfig.getInstance().getConnection();
             String query = "insert into category (category_name, created_by, updated_by) values (?, ?, ?)";
-            String username = LoggedInUser.currentUser.getUserName();
+            String username = LoggedInUser.currentUser.getFirstName();
             PreparedStatement stmt = con.prepareStatement(query);
             stmt.setString(1, newCategory);
             stmt.setString(2, username);
@@ -103,7 +103,7 @@ public class CategoryDao {
             String query3 = "update category set category_name = ?, updated_at = default, updated_by = ? where id =" + id;
             PreparedStatement stmt3 = con.prepareStatement(query3);
             stmt3.setString(1, newCategory);
-            stmt3.setString(2, LoggedInUser.currentUser.getUserName());
+            stmt3.setString(2, LoggedInUser.currentUser.getFirstName());
             stmt3.executeUpdate();
 
         } catch (Exception e) {
