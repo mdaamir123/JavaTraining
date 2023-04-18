@@ -5,11 +5,11 @@ import model.Product;
 import model.Specification;
 
 import java.util.List;
-import java.util.Scanner;
 
 public class Display {
     //TODO :
     public static void printCategories(List<Category> categories) {
+
         for (int i = 0; i < categories.size(); i++) {
             System.out.println("ID: " + categories.get(i).getCategoryId() +
                     " CATEGORY_NAME: " + categories.get(i).getCategoryName() +
@@ -29,25 +29,22 @@ public class Display {
     }
 
     public static void printProducts(List<Product> products) {
-        if(products.size() == 0) {
+        if (products.size() == 0) {
             System.out.println("There are no products available.");
+            return;
         }
 
-        for (var product : products) {
+        for (Product product : products) {
             System.out.println("Product ID: " + product.getProductId() + " Product Title: " + product.getProductTitle()
                     + " Price: " + product.getProductPrice() + " Discount: " + product.getProductDiscount() + "% Category ID: " + product.getProductCategoryId()
                     + " Brand: " + product.getProductBrand());
         }
     }
 
-    public static void printProductById(List<Product> products, List<Specification> specifications) {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter id of product.");
-        int id = sc.nextInt();
-        sc.nextLine();
+    public static void printProductById(List<Product> products, List<Specification> specifications, int id) {
         boolean exists = false;
 
-        for (var product : products) {
+        for (Product product : products) {
             if (product.getProductId() == id) {
                 exists = true;
                 System.out.println("ID          :" + product.getProductId());
@@ -66,7 +63,7 @@ public class Display {
             return;
         }
 
-        for (var spec : specifications) {
+        for (Specification spec : specifications) {
             if (spec.getSpecProductId() == id) {
                 if (exists) {
                     System.out.println("Specifications:");
@@ -79,9 +76,9 @@ public class Display {
     }
 
     public static void printProductSpecifications(List<Specification> specifications) {
-        for(var specification : specifications) {
+        for (Specification specification : specifications) {
             System.out.println("ID: " + specification.getSpecId() + " PRODUCT_ID: " + specification.getSpecProductId()
-            + " ATTRIBUTE_NAME: " + specification.getSpecAttributeName() + " ATTRIBUTE_VALUE: " + specification.getSpecAttributeValue());
+                    + " ATTRIBUTE_NAME: " + specification.getSpecAttributeName() + " ATTRIBUTE_VALUE: " + specification.getSpecAttributeValue());
         }
     }
 }

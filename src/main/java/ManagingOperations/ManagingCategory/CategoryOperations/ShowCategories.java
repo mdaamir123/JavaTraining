@@ -17,6 +17,7 @@ public class ShowCategories {
 
         boolean isCategoryTableEmpty = CategoryDao.checkIfCategoriesExists();
         if (!isCategoryTableEmpty) {
+            System.out.println("No categories available !!!");
             return;
         }
 

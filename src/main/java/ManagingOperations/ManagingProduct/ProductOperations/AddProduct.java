@@ -3,6 +3,7 @@ package ManagingOperations.ManagingProduct.ProductOperations;
 import dao.CategoryDao;
 import dao.ProductDao;
 import display.Display;
+import model.Product;
 import model.Specification;
 
 import java.util.Scanner;
@@ -12,34 +13,39 @@ public class AddProduct {
 
     public void addProduct() {
         if (!CategoryDao.checkIfCategoriesExists()) {
-            System.out.println("Kindly add one before.");
+            System.out.println("No categories present. Kindly add one before.");
             return;
         }
+        Product product = new Product();
         System.out.println("Enter product title: ");
-        String product_title = sc.nextLine();
+        product.setProductTitle(sc.nextLine());
         System.out.println("Enter description: ");
-        String description = sc.nextLine();
+        product.setProductDescription(sc.nextLine());
         System.out.println("Enter price: ");
-        float price = sc.nextFloat();
+        product.setProductPrice(sc.nextFloat());
         sc.nextLine();
         System.out.println("Enter category_id from below: ");
         Display.printCategories(CategoryDao.getAllCategories());
-        int category = sc.nextInt();
+        int category_id = sc.nextInt();
         sc.nextLine();
-        if(!CategoryDao.checkIfCategoryExists(category)) {
-            System.out.println("Category id does not exist.");
+        product.setProductCategoryId(category_id);
+
+        if(!CategoryDao.checkIfCategoryExists(category_id)) {
+            System.out.println("Category id does not exists.");
             return;
         }
+
         System.out.println("Enter discount: ");
-        float discount = sc.nextFloat();
+        product.setProductDiscount(sc.nextFloat());
         sc.nextLine();
         System.out.println("Enter brand: ");
-        String brand = sc.nextLine();
-        ProductDao.addProduct(product_title, description, price, category, discount, brand);
+        product.setProductBrand(sc.nextLine());
+        int productId = ProductDao.addProduct(product);
         System.out.println("Do you want to add specifications ?");
         System.out.println("1. Yes");
         System.out.println("2. No");
         int spec = sc.nextInt();
+
         sc.nextLine();
 
         if (spec == 1) {
@@ -50,6 +56,7 @@ public class AddProduct {
                 specification.setSpecAttributeName(sc.nextLine());
                 System.out.println("Add attribute value: ");
                 specification.setSpecAttributeValue(sc.nextLine());
+                specification.setSpecProductId(productId);
                 ProductDao.addSpecification(specification);
                 System.out.println("Press q to quit: ");
                 char pressed = sc.next().charAt(0);

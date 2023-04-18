@@ -10,6 +10,9 @@ public class SortProductsByPrice implements Comparator<Product> {
         if(o1.getProductPrice() > o2.getProductPrice()) {
             return -1;
         }
+        else if(o1.getProductPrice() == o2.getProductPrice()) {
+            return 0;
+        }
         return 1;
     }
 }

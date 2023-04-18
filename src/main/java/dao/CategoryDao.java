@@ -19,14 +19,15 @@ public class CategoryDao {
         try {
             Connection con = DatabaseConfig.getInstance().getConnection();
             //TODO : Use count query
-            String query = "select COUNT(*) from category";
-            PreparedStatement stmt = con.prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            String countQuery = "select COUNT(*) from category";
+            PreparedStatement stmt = con.prepareStatement(countQuery, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = stmt.executeQuery();
             int count = 0;
             if (rs.next()) {
                 count = rs.getInt(1);
             }
-
+            stmt.close();
+            rs.close();
             return count > 0;
         } catch (Exception e) {
             e.printStackTrace();
@@ -37,8 +38,8 @@ public class CategoryDao {
     public static List<Category> getAllCategories() {
         try {
             Connection con = DatabaseConfig.getInstance().getConnection();
-            String query = "select * from category";
-            PreparedStatement stmt = con.prepareStatement(query);
+            String selectQuery = "select * from category";
+            PreparedStatement stmt = con.prepareStatement(selectQuery);
             ResultSet rs = stmt.executeQuery();
 
             List<Category> categories = new ArrayList<>();
@@ -52,6 +53,9 @@ public class CategoryDao {
                 category.setUpdatedBy(rs.getInt(6));
                 categories.add(category);
             }
+
+            stmt.close();
+            rs.close();
             return categories;
         } catch (Exception e) {
             e.printStackTrace();
@@ -62,15 +66,16 @@ public class CategoryDao {
     public static void addCategory(String newCategory) {
         try {
             Connection con = DatabaseConfig.getInstance().getConnection();
-            String query = "insert into category (category_name, created_by, updated_by) values (?, ?, ?)";
-            PreparedStatement stmt = con.prepareStatement(query);
+            String insertQuery = "insert into category (category_name, created_by, updated_by) values (?, ?, ?)";
+            PreparedStatement stmt = con.prepareStatement(insertQuery);
             stmt.setString(1, newCategory);
             stmt.setInt(2, LoggedInUser.currentUser.getUserId());
             stmt.setInt(3, LoggedInUser.currentUser.getUserId());
             stmt.executeUpdate();
+            stmt.close();
+
         } catch (Exception e) {
             e.printStackTrace();
-            System.exit(0);
         }
     }
 
@@ -79,8 +84,8 @@ public class CategoryDao {
 
             Connection con = DatabaseConfig.getInstance().getConnection();
             //TODO : Use count query
-            String query = "select COUNT(id) from category where id = ?";
-            PreparedStatement stmt = con.prepareStatement(query);
+            String countQuery = "select COUNT(id) from category where id = ?";
+            PreparedStatement stmt = con.prepareStatement(countQuery);
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
 
@@ -88,7 +93,8 @@ public class CategoryDao {
             if (rs.next()) {
                 count = rs.getInt(1);
             }
-
+            stmt.close();
+            rs.close();
             return count > 0;
         } catch (Exception e) {
             e.printStackTrace();
@@ -99,15 +105,15 @@ public class CategoryDao {
     public static void updateCategory(int id, String newCategory) {
         try {
             Connection con = DatabaseConfig.getInstance().getConnection();
-            String query3 = "update category set category_name = ?, updated_at = default, updated_by = ? where id =" + id;
-            PreparedStatement stmt3 = con.prepareStatement(query3);
-            stmt3.setString(1, newCategory);
-            stmt3.setInt(2, LoggedInUser.currentUser.getUserId());
-            stmt3.executeUpdate();
+            String updateQuery = "update category set category_name = ?, updated_at = default, updated_by = ? where id =" + id;
+            PreparedStatement stmt = con.prepareStatement(updateQuery);
+            stmt.setString(1, newCategory);
+            stmt.setInt(2, LoggedInUser.currentUser.getUserId());
+            stmt.executeUpdate();
+            stmt.close();
 
         } catch (Exception e) {
             e.printStackTrace();
-            System.exit(0);
         }
     }
 }

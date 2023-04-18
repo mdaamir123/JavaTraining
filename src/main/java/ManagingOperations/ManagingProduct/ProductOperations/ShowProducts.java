@@ -3,6 +3,7 @@ package ManagingOperations.ManagingProduct.ProductOperations;
 import ManagingOperations.ManagingProduct.ProductOperations.ViewProductsInOrder.ViewProductByCategory;
 import ManagingOperations.ManagingProduct.ProductOperations.ViewProductsInOrder.SortByPrice;
 import ManagingOperations.ManagingProduct.ProductOperations.ViewProductsInOrder.SortByPriceAsc;
+import ManagingOperations.ManagingProduct.ProductOperations.ViewProductsInOrder.ViewProductById;
 import dao.ProductDao;
 import display.Display;
 import model.Product;
@@ -49,7 +50,7 @@ public class ShowProducts {
                 Display.printProducts(viewProductByCategory.viewProductByCategory());
                 break;
             case 5:
-                Display.printProductById(resultSet, attributeSet);
+                ViewProductById.getProductById(resultSet, attributeSet);
                 break;
             default:
                 break;

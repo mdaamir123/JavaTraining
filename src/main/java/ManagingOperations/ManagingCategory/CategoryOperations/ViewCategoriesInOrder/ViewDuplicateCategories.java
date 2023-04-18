@@ -18,7 +18,7 @@ public class ViewDuplicateCategories {
 
     public List<String> getDuplicates() {
         for (int i = 0; i < categories.size(); i++) {
-            var item = categories.get(i).getCategoryName();
+            String item = categories.get(i).getCategoryName();
             String[] str = item.split(" ");
             if(str.length > 1) {
                 item = "";

@@ -3,6 +3,7 @@ package ManagingOperations.ManagingProduct;
 import ManagingOperations.ManagingProduct.ProductOperations.AddProduct;
 import ManagingOperations.ManagingProduct.ProductOperations.ShowProducts;
 import ManagingOperations.ManagingProduct.ProductOperations.UpdateProduct;
+import enums.UserRoles;
 import session.LoggedInUser;
 
 import java.util.Scanner;
@@ -11,7 +12,7 @@ public class ProductManagement {
 
     Scanner sc = new Scanner(System.in);
     public void handleProductManagement() {
-        if (LoggedInUser.currentUser.getUserRole().getUserRoleId() == 1) {
+        if (LoggedInUser.currentUser.getUserRole().getUserRoleId() == UserRoles.ADMIN.getValue()) {
             try {
                 System.out.println("Please choose one option: ");
                 System.out.println("1. View");

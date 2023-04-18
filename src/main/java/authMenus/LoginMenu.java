@@ -40,14 +40,12 @@ public class LoginMenu {
                 }
                 else {
                     System.out.println("Incorrect verification pin !!!");
-                    System.exit(0);
                 }
             }
 
         }
         else {
             System.out.println("Login unsuccessful !!!");
-            System.exit(0);
         }
     }
 }

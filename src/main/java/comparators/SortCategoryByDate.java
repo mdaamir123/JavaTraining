@@ -9,6 +9,9 @@ public class SortCategoryByDate implements Comparator<Category> {
         if(o1.getCreatedOn().compareTo(o2.getCreatedOn()) > 0) {
             return -1;
         }
+        else if(o1.getCreatedOn().compareTo(o2.getCreatedOn()) == 0) {
+            return 0;
+        }
         return 1;
     }
 }

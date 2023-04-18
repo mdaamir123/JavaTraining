@@ -17,7 +17,6 @@ public class ViewProductByCategory {
     public List<Product> viewProductByCategory() {
         if(!CategoryDao.checkIfCategoriesExists()) {
             System.out.println("No categories available.");
-            System.exit(0);
         }
 
         Display.printCategories(CategoryDao.getAllCategories());
@@ -28,17 +27,15 @@ public class ViewProductByCategory {
 
         if(!CategoryDao.checkIfCategoryExists(id)) {
             System.out.println("Please enter valid id.");
-            System.exit(0);
         }
 
         resultSet = ProductDao.getProductsByCategory(id);
 
         if(resultSet.size() == 0) {
             System.out.println("No products available for given category.");
-            System.exit(0);
         }
 
-        for (var product : resultSet) {
+        for (Product product : resultSet) {
             if(product.getProductCategoryId() == id) {
                 products.add(product);
             }

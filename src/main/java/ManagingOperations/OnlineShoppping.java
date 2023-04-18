@@ -4,12 +4,13 @@ import ManagingOperations.ManagingCategory.CategoryManagement;
 import ManagingOperations.ManagingProduct.ProductManagement;
 import authMenus.LoginMenu;
 import authMenus.SignupMenu;
+import enums.UserRoles;
 import session.LoggedInUser;
 
 import java.util.Scanner;
 
 public class OnlineShoppping {
-    
+
     public static void main(String[] args) {
         int choice = displayMenuAndSelect();
 
@@ -25,7 +26,7 @@ public class OnlineShoppping {
                 break;
         }
 
-        if(LoggedInUser.currentUser.getUserRole().getUserRoleId() == 1) {
+        if (LoggedInUser.currentUser.getUserRole().getUserRoleId() == UserRoles.ADMIN.getValue()) {
             int selectedMenuID = displayMainMenuAndSelect();
             switch (selectedMenuID) {
                 case 1:
@@ -40,8 +41,7 @@ public class OnlineShoppping {
                     System.out.println("Enter valid input.");
                     break;
             }
-        }
-        else {
+        } else {
             ProductManagement obj2 = new ProductManagement();
             obj2.handleProductManagement();
         }
