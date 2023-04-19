@@ -2,6 +2,7 @@ package authMenus;
 
 import authenticate.Authenticate;
 import dao.AuthenticationDao;
+import exceptions.DAOLayerException;
 import model.User;
 import session.LoggedInUser;
 
@@ -33,7 +34,12 @@ public class LoginMenu {
 
                 if(verificationPin == user.getVerificationPin()) {
                     System.out.println("Verification successful !!!");
-                    AuthenticationDao.updateVerifiedUser(user);
+                    try {
+                        AuthenticationDao.updateVerifiedUser(user);
+                    } catch (DAOLayerException e) {
+
+                        e.printStackTrace();
+                    }
                     user.setUserVerified(true);
                     System.out.println("Welcome " + user.getFirstName() + " " + user.getLastName() + ". Your role is " + user.getUserRole().getUserRoleName() + ".");
                     LoggedInUser.setCurrentUser(user);
@@ -42,7 +48,6 @@ public class LoginMenu {
                     System.out.println("Incorrect verification pin !!!");
                 }
             }
-
         }
         else {
             System.out.println("Login unsuccessful !!!");

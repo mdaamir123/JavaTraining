@@ -2,6 +2,7 @@ package dao;
 
 import authMenus.SignupMenu;
 import config.DatabaseConfig;
+import exceptions.DAOLayerException;
 import model.User;
 import model.UserRole;
 
@@ -12,7 +13,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 
 public class AuthenticationDao {
 
-    public static void signupUser(User user) {
+    public static void signupUser(User user) throws DAOLayerException {
         try {
             Connection con = DatabaseConfig.getInstance().getConnection();
             String insertQuery = "insert into user(first_name, last_name, email, password, verification_pin) values (?,?,?,?,?)";
@@ -31,11 +32,11 @@ public class AuthenticationDao {
             SignupMenu.displaySignupMenu();
         }
         catch (Exception e) {
-            e.printStackTrace();
+            throw new DAOLayerException("Exception occurred while registering user.", e);
         }
     }
 
-    public static  User isValidUser(User user) {
+    public static  User isValidUser(User user) throws DAOLayerException{
         try {
             Connection con = DatabaseConfig.getInstance().getConnection();
             String selectQuery = "select u.id, u.first_name, u.last_name, u.email, u.user_role, u.verification_pin,u.is_verified, u.created_at, u.updated_at, u.created_by, u.updated_by, ur.role from user u join user_roles ur where u.email = ? and u.password = ? and u.user_role = ur.id";
@@ -72,13 +73,12 @@ public class AuthenticationDao {
         }
 
         catch (Exception e) {
-            e.printStackTrace();
+            throw new DAOLayerException("Exception occurred while validating user.", e);
         }
-        return null;
     }
 
 
-    public static void updateVerifiedUser(User user) {
+    public static void updateVerifiedUser(User user) throws DAOLayerException{
         try {
             Connection con = DatabaseConfig.getInstance().getConnection();
             String updateQuery = "update user set is_verified = true, verification_pin = null, updated_at = default where id = ?";
@@ -88,7 +88,7 @@ public class AuthenticationDao {
             stmt.close();
         }
         catch (Exception e) {
-            e.printStackTrace();
+            throw new DAOLayerException("Error occurred while verifying the user.", e);
         }
     }
 }

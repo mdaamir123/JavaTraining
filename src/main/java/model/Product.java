@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class Product {
     private int productId;
@@ -10,10 +11,12 @@ public class Product {
     private int productCategoryId;
     private float productDiscount;
     private String productBrand;
+    private List<Specification> specificationList;
     private int createdBy;
     private int updatedBy;
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
+
 
     public int getProductId() {
         return productId;
@@ -71,6 +74,14 @@ public class Product {
         this.productBrand = productBrand;
     }
 
+    public List<Specification> getSpecificationList() {
+        return specificationList;
+    }
+
+    public void setSpecificationList(List<Specification> specificationList) {
+        this.specificationList = specificationList;
+    }
+
     public int getCreatedBy() {
         return createdBy;
     }
@@ -102,4 +113,6 @@ public class Product {
     public void setUpdatedOn(LocalDateTime updatedOn) {
         this.updatedOn = updatedOn;
     }
+
+
 }

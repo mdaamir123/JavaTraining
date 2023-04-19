@@ -1,24 +1,25 @@
 package dao;
 
 import config.DatabaseConfig;
+import exceptions.DAOLayerException;
 import model.Product;
 import model.Specification;
 import session.LoggedInUser;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class ProductDao {
-    private static Scanner sc = new Scanner(System.in);
 
-    public static int addProduct(Product product) {
+    public static void addProduct(Product product) throws DAOLayerException {
+        Connection con = null;
         try {
-            Connection con = DatabaseConfig.getInstance().getConnection();
-            String insertQuery = "insert into product (product_title, description, price, category_id, discount, brand, created_by, updated_by) values (?,?,?,?,?,?,?,?)";
+            con = DatabaseConfig.getInstance().getConnection();
+            con.setAutoCommit(false);
+
+            String insertQuery = "insert into product (product_title, description, price, category_id, " +
+                    "discount, brand, created_by, updated_by) " +
+                    "values (?,?,?,?,?,?,?,?)";
 
             PreparedStatement stmt = con.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, product.getProductTitle());
@@ -35,20 +36,40 @@ public class ProductDao {
             int productId = -1;
             if (generatedKeys.next()) {
                 productId = generatedKeys.getInt(1);
+                for (Specification specification : product.getSpecificationList()) {
+                    specification.setSpecProductId(productId);
+                    addSpecification(specification);
+                }
             }
             stmt.close();
-            return productId;
 
         } catch (Exception e) {
-            e.printStackTrace();
+            if (con != null) {
+                try {
+                    con.rollback();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            throw new DAOLayerException("Exception occurred while adding product.", e);
+        } finally {
+            if (con != null) {
+                try {
+                    con.commit();
+                    con.setAutoCommit(true);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-        return 0;
     }
 
     public static void addSpecification(Specification specification) {
         try {
             Connection con = DatabaseConfig.getInstance().getConnection();
-            String insertQuery = "insert into specifications (product_id, attribute_name, attribute_value, created_by, updated_by) values (?,?,?,?,?)";
+            String insertQuery = "insert into specifications (product_id, attribute_name, " +
+                    "attribute_value, created_by, updated_by) " +
+                    "values (?,?,?,?,?)";
             PreparedStatement stmt = con.prepareStatement(insertQuery);
 
             stmt.setInt(1, specification.getSpecProductId());
@@ -83,7 +104,7 @@ public class ProductDao {
 //        return 0;
 //    }
 
-    public static boolean checkIfProductsExists() {
+    public static boolean checkIfProductsExists() throws DAOLayerException {
         try {
             Connection con = DatabaseConfig.getInstance().getConnection();
             String countQuery = "select COUNT(*) from product";
@@ -99,17 +120,17 @@ public class ProductDao {
             rs.close();
             return count > 0;
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new DAOLayerException("Exception occurred while checking products.", e);
         }
 
-        return false;
     }
 
-    public static List<Product> getALlProducts() {
+    public static List<Product> getALlProducts() throws DAOLayerException {
         try {
             Connection con = DatabaseConfig.getInstance().getConnection();
             String selectQuery = "select * from product";
-            PreparedStatement stmt = con.prepareStatement(selectQuery, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            PreparedStatement stmt = con.prepareStatement(selectQuery,
+                    ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = stmt.executeQuery();
 
             List<Product> resultSet = new ArrayList<>();
@@ -133,16 +154,16 @@ public class ProductDao {
             rs.close();
             return resultSet;
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new DAOLayerException("Exception occurred while getting products.", e);
         }
-        return null;
     }
 
-    public static List<Product> getProductsByCategory(int id) {
+    public static List<Product> getProductsByCategory(int id) throws DAOLayerException {
         try {
             Connection con = DatabaseConfig.getInstance().getConnection();
             String selectQuery = "select * from product where category_id = " + id;
-            PreparedStatement stmt = con.prepareStatement(selectQuery, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            PreparedStatement stmt = con.prepareStatement(selectQuery,
+                    ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = stmt.executeQuery();
 
             List<Product> resultSet = new ArrayList<>();
@@ -166,12 +187,11 @@ public class ProductDao {
             rs.close();
             return resultSet;
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new DAOLayerException("Exception occurred while getting products.", e);
         }
-        return null;
     }
 
-    public static List<Specification> getAllSpecifications() {
+    public static List<Specification> getAllSpecifications() throws DAOLayerException {
         try {
             Connection con = DatabaseConfig.getInstance().getConnection();
             String selectQuery = "select * from specifications";
@@ -196,12 +216,11 @@ public class ProductDao {
             rs.close();
             return attributeSet;
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new DAOLayerException("Exception occurred while fetching product specifications.", e);
         }
-        return null;
     }
 
-    public static void updateProductBrand(int id, String newBrand) {
+    public static void updateProductBrand(int id, String newBrand) throws DAOLayerException {
 
         try {
             Connection con = DatabaseConfig.getInstance().getConnection();
@@ -213,11 +232,11 @@ public class ProductDao {
             preparedStatement.executeUpdate();
             preparedStatement.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new DAOLayerException("Exception occurred while updating product.", e);
         }
     }
 
-    public static void updateProductDiscount(int id, float newDiscount) {
+    public static void updateProductDiscount(int id, float newDiscount) throws DAOLayerException {
 
         try {
             Connection con = DatabaseConfig.getInstance().getConnection();
@@ -230,11 +249,11 @@ public class ProductDao {
             preparedStatement.close();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new DAOLayerException("Exception occurred while updating product.", e);
         }
     }
 
-    public static void updateProductTitle(int id, String newTitle) {
+    public static void updateProductTitle(int id, String newTitle) throws DAOLayerException {
 
         try {
             Connection con = DatabaseConfig.getInstance().getConnection();
@@ -247,11 +266,11 @@ public class ProductDao {
             preparedStatement.close();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new DAOLayerException("Exception occurred while updating product.", e);
         }
     }
 
-    public static void updateProductDescription(int id, String newDescription) {
+    public static void updateProductDescription(int id, String newDescription) throws DAOLayerException {
 
         try {
             Connection con = DatabaseConfig.getInstance().getConnection();
@@ -264,11 +283,11 @@ public class ProductDao {
             preparedStatement.close();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new DAOLayerException("Exception occurred while updating product.", e);
         }
     }
 
-    public static void updateProductPrice(int id, float newPrice) {
+    public static void updateProductPrice(int id, float newPrice) throws DAOLayerException {
 
         try {
             Connection con = DatabaseConfig.getInstance().getConnection();
@@ -281,11 +300,11 @@ public class ProductDao {
             preparedStatement.close();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new DAOLayerException("Exception occurred while updating product.", e);
         }
     }
 
-    public static boolean checkIfProductExists(int id) {
+    public static boolean checkIfProductExists(int id) throws DAOLayerException {
         try {
             Connection con = DatabaseConfig.getInstance().getConnection();
             String selectQuery = "select COUNT(id) from product where id = ?";
@@ -303,12 +322,11 @@ public class ProductDao {
             rs.close();
             return count > 0;
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new DAOLayerException("Exception occurred while checking product's existence.", e);
         }
-        return false;
     }
 
-    public static void updateProductCategory(int id, int newId) {
+    public static void updateProductCategory(int id, int newId) throws DAOLayerException {
         try {
             Connection con = DatabaseConfig.getInstance().getConnection();
             String updateQuery = "update product set category_id = ?, updated_at = default, updated_by = ? where id = ?";
@@ -320,15 +338,16 @@ public class ProductDao {
             preparedStatement.close();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new DAOLayerException("Exception occurred while updating product.", e);
         }
     }
 
-    public static boolean checkIfProductSpecificationsExistsForGivenProduct(int id) {
+    public static boolean checkIfProductSpecificationsExistsForGivenProduct(int id) throws DAOLayerException {
         try {
             Connection con = DatabaseConfig.getInstance().getConnection();
             String selectQuery = "select COUNT(*) from specifications where product_id = " + id;
-            PreparedStatement stmt = con.prepareStatement(selectQuery, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            PreparedStatement stmt = con.prepareStatement(selectQuery,
+                    ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = stmt.executeQuery();
 
             int count = 0;
@@ -341,16 +360,16 @@ public class ProductDao {
             return count > 0;
 
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new DAOLayerException("Exception occurred while fetching product specifications.", e);
         }
-        return false;
     }
 
-    public static List<Specification> getAllProductSpecifications(int id) {
+    public static List<Specification> getAllProductSpecifications(int id) throws DAOLayerException {
         try {
             Connection con = DatabaseConfig.getInstance().getConnection();
             String selectQuery = "select * from specifications where product_id = " + id;
-            PreparedStatement stmt = con.prepareStatement(selectQuery, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            PreparedStatement stmt = con.prepareStatement(selectQuery, ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = stmt.executeQuery();
             List<Specification> specifications = new ArrayList<>();
 
@@ -372,12 +391,11 @@ public class ProductDao {
             return specifications;
 
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new DAOLayerException("Exception occurred while fetching product specifications.", e);
         }
-        return null;
     }
 
-    public static boolean checkIfProductSpecificationExists(int specId) {
+    public static boolean checkIfProductSpecificationExists(int specId) throws DAOLayerException {
         try {
             Connection con = DatabaseConfig.getInstance().getConnection();
             String selectQuery = "select COUNT(*) from specifications where id = ?";
@@ -395,12 +413,11 @@ public class ProductDao {
             return count > 0;
 
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new DAOLayerException("Exception occurred while checking product specifications.", e);
         }
-        return false;
     }
 
-    public static void updateProductSpecificationAttributeName(int specId, String newAttName) {
+    public static void updateProductSpecificationAttributeName(int specId, String newAttName) throws DAOLayerException {
         try {
             Connection con = DatabaseConfig.getInstance().getConnection();
             String updateQuery = "update specifications set attribute_name = ?, updated_at = default, updated_by = ? where id = ?";
@@ -412,11 +429,11 @@ public class ProductDao {
             preparedStatement.close();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new DAOLayerException("Exception occurred while updating product.", e);
         }
     }
 
-    public static void updateProductSpecificationAttributeValue(int specId, String newAttValue) {
+    public static void updateProductSpecificationAttributeValue(int specId, String newAttValue) throws DAOLayerException {
         try {
             Connection con = DatabaseConfig.getInstance().getConnection();
             String updateQuery = "update specifications set attribute_value = ?, updated_at = default, updated_by = ? where id = ?";
@@ -428,7 +445,7 @@ public class ProductDao {
             preparedStatement.close();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new DAOLayerException("Exception occurred while updating product.", e);
         }
     }
 }

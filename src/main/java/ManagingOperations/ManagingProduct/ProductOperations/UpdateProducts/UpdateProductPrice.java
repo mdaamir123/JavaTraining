@@ -1,5 +1,6 @@
 package ManagingOperations.ManagingProduct.ProductOperations.UpdateProducts;
 
+import exceptions.DAOLayerException;
 import dao.ProductDao;
 
 import java.util.Scanner;
@@ -10,11 +11,16 @@ public class UpdateProductPrice {
         System.out.println("Enter new product price. Leave blank if don't want to modify.");
         float newPrice = sc.nextFloat();
         sc.nextLine();
-        if(String.valueOf(newPrice).trim().length() == 0) {
+        if (String.valueOf(newPrice).trim().length() == 0) {
             return;
         }
 
-        ProductDao.updateProductPrice(id, newPrice);
+        try {
+            ProductDao.updateProductPrice(id, newPrice);
+        } catch (DAOLayerException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
         System.out.println("Successfully updated.");
     }
 }

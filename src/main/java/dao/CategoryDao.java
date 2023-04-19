@@ -1,6 +1,7 @@
 package dao;
 
 import config.DatabaseConfig;
+import exceptions.DAOLayerException;
 import model.Category;
 import session.LoggedInUser;
 import java.sql.Connection;
@@ -8,19 +9,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class CategoryDao {
 
-    private static Scanner sc = new Scanner(System.in);
-
     //TODO : Give proper method name
-    public static boolean checkIfCategoriesExists() {
+    public static boolean checkIfCategoriesExists() throws DAOLayerException {
         try {
             Connection con = DatabaseConfig.getInstance().getConnection();
             //TODO : Use count query
             String countQuery = "select COUNT(*) from category";
-            PreparedStatement stmt = con.prepareStatement(countQuery, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            PreparedStatement stmt = con.prepareStatement(countQuery, ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = stmt.executeQuery();
             int count = 0;
             if (rs.next()) {
@@ -30,12 +29,11 @@ public class CategoryDao {
             rs.close();
             return count > 0;
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new DAOLayerException("Exception occurred while fetching categories.", e);
         }
-        return false;
     }
 
-    public static List<Category> getAllCategories() {
+    public static List<Category> getAllCategories() throws DAOLayerException {
         try {
             Connection con = DatabaseConfig.getInstance().getConnection();
             String selectQuery = "select * from category";
@@ -58,12 +56,11 @@ public class CategoryDao {
             rs.close();
             return categories;
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new DAOLayerException("Exception occurred while fetching categories.", e);
         }
-        return null;
     }
 
-    public static void addCategory(String newCategory) {
+    public static void addCategory(String newCategory) throws DAOLayerException {
         try {
             Connection con = DatabaseConfig.getInstance().getConnection();
             String insertQuery = "insert into category (category_name, created_by, updated_by) values (?, ?, ?)";
@@ -75,11 +72,11 @@ public class CategoryDao {
             stmt.close();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new DAOLayerException("Exception occurred while adding category.", e);
         }
     }
 
-    public static boolean checkIfCategoryExists(int id) {
+    public static boolean checkIfCategoryExists(int id) throws DAOLayerException {
         try {
 
             Connection con = DatabaseConfig.getInstance().getConnection();
@@ -97,15 +94,15 @@ public class CategoryDao {
             rs.close();
             return count > 0;
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new DAOLayerException("Exception occurred while checking category.", e);
         }
-        return false;
     }
 
-    public static void updateCategory(int id, String newCategory) {
+    public static void updateCategory(int id, String newCategory) throws DAOLayerException {
         try {
             Connection con = DatabaseConfig.getInstance().getConnection();
-            String updateQuery = "update category set category_name = ?, updated_at = default, updated_by = ? where id =" + id;
+            String updateQuery = "update category set category_name = ?, updated_at = default, " +
+                                "updated_by = ? where id =" + id;
             PreparedStatement stmt = con.prepareStatement(updateQuery);
             stmt.setString(1, newCategory);
             stmt.setInt(2, LoggedInUser.currentUser.getUserId());
@@ -113,7 +110,7 @@ public class CategoryDao {
             stmt.close();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new DAOLayerException("Exception occurred while updating category.", e);
         }
     }
 }

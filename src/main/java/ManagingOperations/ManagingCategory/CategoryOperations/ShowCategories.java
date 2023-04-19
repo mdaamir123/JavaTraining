@@ -1,10 +1,10 @@
 package ManagingOperations.ManagingCategory.CategoryOperations;
 
 import ManagingOperations.ManagingCategory.CategoryOperations.ViewCategoriesInOrder.*;
+import exceptions.DAOLayerException;
 import display.Display;
 import dao.CategoryDao;
 import model.Category;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -15,7 +15,13 @@ public class ShowCategories {
 
     public void viewCategories(int choice) {
 
-        boolean isCategoryTableEmpty = CategoryDao.checkIfCategoriesExists();
+        boolean isCategoryTableEmpty = false;
+        try {
+            isCategoryTableEmpty = CategoryDao.checkIfCategoriesExists();
+        } catch (DAOLayerException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
         if (!isCategoryTableEmpty) {
             System.out.println("No categories available !!!");
             return;
@@ -24,7 +30,13 @@ public class ShowCategories {
         List<Category> finalList = new ArrayList<>();
         List<String> duplicateCategoriesList = new ArrayList<>();
 
-        List<Category> resultSet = CategoryDao.getAllCategories();
+        List<Category> resultSet = null;
+        try {
+            resultSet = CategoryDao.getAllCategories();
+        } catch (DAOLayerException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
         switch (choice) {
             case 1:
                 SortByDate obj1 = new SortByDate(resultSet);

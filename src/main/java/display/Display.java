@@ -77,8 +77,10 @@ public class Display {
 
     public static void printProductSpecifications(List<Specification> specifications) {
         for (Specification specification : specifications) {
-            System.out.println("ID: " + specification.getSpecId() + " PRODUCT_ID: " + specification.getSpecProductId()
-                    + " ATTRIBUTE_NAME: " + specification.getSpecAttributeName() + " ATTRIBUTE_VALUE: " + specification.getSpecAttributeValue());
+            System.out.println("ID: " + specification.getSpecId() +
+                    " PRODUCT_ID: " + specification.getSpecProductId() +
+                    " ATTRIBUTE_NAME: " + specification.getSpecAttributeName() +
+                    " ATTRIBUTE_VALUE: " + specification.getSpecAttributeValue());
         }
     }
 }

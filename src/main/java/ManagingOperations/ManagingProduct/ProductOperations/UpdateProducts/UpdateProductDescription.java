@@ -1,5 +1,6 @@
 package ManagingOperations.ManagingProduct.ProductOperations.UpdateProducts;
 
+import exceptions.DAOLayerException;
 import dao.ProductDao;
 
 import java.util.Scanner;
@@ -14,7 +15,12 @@ public class UpdateProductDescription {
             return;
         }
 
-        ProductDao.updateProductDescription(id, newDescription);
+        try {
+            ProductDao.updateProductDescription(id, newDescription);
+        } catch (DAOLayerException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
         System.out.println("Successfully updated.");
     }
 }

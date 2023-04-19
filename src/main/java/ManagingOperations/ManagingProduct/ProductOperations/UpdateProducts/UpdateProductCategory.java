@@ -1,6 +1,7 @@
 package ManagingOperations.ManagingProduct.ProductOperations.UpdateProducts;
 
 import dao.CategoryDao;
+import exceptions.DAOLayerException;
 import dao.ProductDao;
 
 import java.util.Scanner;
@@ -8,13 +9,23 @@ import java.util.Scanner;
 public class UpdateProductCategory {
     Scanner sc = new Scanner(System.in);
 
-    public  void updateProductCategory(int id) {
-        if(!CategoryDao.checkIfCategoriesExists()) {
-            return;
+    public void updateProductCategory(int id) {
+        try {
+            if (!CategoryDao.checkIfCategoriesExists()) {
+                return;
+            }
+        } catch (DAOLayerException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
 
         System.out.println("Enter new category id from the below choices: ");
-        CategoryDao.getAllCategories();
+        try {
+            CategoryDao.getAllCategories();
+        } catch (DAOLayerException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
 
         int newId = sc.nextInt();
         sc.nextLine();
@@ -23,11 +34,21 @@ public class UpdateProductCategory {
             return;
         }
 
-        if(!CategoryDao.checkIfCategoryExists(newId)) {
-            return;
+        try {
+            if (!CategoryDao.checkIfCategoryExists(newId)) {
+                return;
+            }
+        } catch (DAOLayerException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
 
-        ProductDao.updateProductCategory(id, newId);
+        try {
+            ProductDao.updateProductCategory(id, newId);
+        } catch (DAOLayerException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
         System.out.println("Successfully updated.");
 
     }

@@ -1,6 +1,7 @@
 package ManagingOperations.ManagingCategory.CategoryOperations;
 
 import dao.CategoryDao;
+import exceptions.DAOLayerException;
 
 import java.util.Scanner;
 
@@ -11,8 +12,13 @@ public class AddCategory {
         Scanner sc = new Scanner(System.in);
         String newCategory = sc.nextLine();
         //TODO : Take input here. Not in DAO. and pass data to dao method
-        CategoryDao.addCategory(newCategory);
-            System.out.println("Successfully added.");
+        try {
+            CategoryDao.addCategory(newCategory);
+        } catch (DAOLayerException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+        System.out.println("Successfully added.");
     }
 
 }

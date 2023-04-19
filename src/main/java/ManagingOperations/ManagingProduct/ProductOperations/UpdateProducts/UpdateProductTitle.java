@@ -1,5 +1,6 @@
 package ManagingOperations.ManagingProduct.ProductOperations.UpdateProducts;
 
+import exceptions.DAOLayerException;
 import dao.ProductDao;
 
 import java.util.Scanner;
@@ -10,11 +11,16 @@ public class UpdateProductTitle {
         System.out.println("Enter new product title. Leave blank if don't want to modify.");
         String newTitle = sc.nextLine();
 
-        if(newTitle.trim().length() == 0) {
+        if (newTitle.trim().length() == 0) {
             return;
         }
 
-        ProductDao.updateProductTitle(id, newTitle);
+        try {
+            ProductDao.updateProductTitle(id, newTitle);
+        } catch (DAOLayerException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
         System.out.println("Successfully updated.");
     }
 }

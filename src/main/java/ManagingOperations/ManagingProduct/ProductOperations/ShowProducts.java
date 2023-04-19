@@ -4,6 +4,7 @@ import ManagingOperations.ManagingProduct.ProductOperations.ViewProductsInOrder.
 import ManagingOperations.ManagingProduct.ProductOperations.ViewProductsInOrder.SortByPrice;
 import ManagingOperations.ManagingProduct.ProductOperations.ViewProductsInOrder.SortByPriceAsc;
 import ManagingOperations.ManagingProduct.ProductOperations.ViewProductsInOrder.ViewProductById;
+import exceptions.DAOLayerException;
 import dao.ProductDao;
 import display.Display;
 import model.Product;
@@ -16,13 +17,33 @@ public class ShowProducts {
     Scanner sc = new Scanner(System.in);
 
     public void viewProducts() {
-        if (!ProductDao.checkIfProductsExists()) {
-            System.out.println("No products are present.");
-            return;
+        try {
+            if (!ProductDao.checkIfProductsExists()) {
+                System.out.println("No products are present.");
+                return;
+            }
+        } catch (DAOLayerException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
 
-        List<Product> resultSet = ProductDao.getALlProducts();
-        List<Specification> attributeSet = ProductDao.getAllSpecifications();
+        List<Product> resultSet = null;
+        List<Specification> attributeSet = null;
+        try {
+             resultSet = ProductDao.getALlProducts();
+        }
+        catch (DAOLayerException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+
+        try {
+            attributeSet = ProductDao.getAllSpecifications();
+        }
+        catch (DAOLayerException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
 
         System.out.println("Select the way of viewing products: ");
         System.out.println("1. View all products.");

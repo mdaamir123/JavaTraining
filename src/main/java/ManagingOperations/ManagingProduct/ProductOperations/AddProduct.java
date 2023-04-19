@@ -1,20 +1,27 @@
 package ManagingOperations.ManagingProduct.ProductOperations;
 
 import dao.CategoryDao;
+import exceptions.DAOLayerException;
 import dao.ProductDao;
 import display.Display;
 import model.Product;
 import model.Specification;
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class AddProduct {
     Scanner sc = new Scanner(System.in);
 
     public void addProduct() {
-        if (!CategoryDao.checkIfCategoriesExists()) {
-            System.out.println("No categories present. Kindly add one before.");
-            return;
+        try {
+            if (!CategoryDao.checkIfCategoriesExists()) {
+                System.out.println("No categories present. Kindly add one before.");
+                return;
+            }
+        } catch (DAOLayerException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         Product product = new Product();
         System.out.println("Enter product title: ");
@@ -25,14 +32,24 @@ public class AddProduct {
         product.setProductPrice(sc.nextFloat());
         sc.nextLine();
         System.out.println("Enter category_id from below: ");
-        Display.printCategories(CategoryDao.getAllCategories());
+        try {
+            Display.printCategories(CategoryDao.getAllCategories());
+        } catch (DAOLayerException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
         int category_id = sc.nextInt();
         sc.nextLine();
         product.setProductCategoryId(category_id);
 
-        if(!CategoryDao.checkIfCategoryExists(category_id)) {
-            System.out.println("Category id does not exists.");
-            return;
+        try {
+            if (!CategoryDao.checkIfCategoryExists(category_id)) {
+                System.out.println("Category id does not exists.");
+                return;
+            }
+        } catch (DAOLayerException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
 
         System.out.println("Enter discount: ");
@@ -40,24 +57,21 @@ public class AddProduct {
         sc.nextLine();
         System.out.println("Enter brand: ");
         product.setProductBrand(sc.nextLine());
-        int productId = ProductDao.addProduct(product);
         System.out.println("Do you want to add specifications ?");
         System.out.println("1. Yes");
         System.out.println("2. No");
         int spec = sc.nextInt();
 
         sc.nextLine();
-
+        List<Specification> specificationList = new ArrayList<>();
         if (spec == 1) {
-
             do {
                 Specification specification = new Specification();
                 System.out.println("Add attribute name: ");
                 specification.setSpecAttributeName(sc.nextLine());
                 System.out.println("Add attribute value: ");
                 specification.setSpecAttributeValue(sc.nextLine());
-                specification.setSpecProductId(productId);
-                ProductDao.addSpecification(specification);
+                specificationList.add(specification);
                 System.out.println("Press q to quit: ");
                 char pressed = sc.next().charAt(0);
                 sc.nextLine();
@@ -68,8 +82,13 @@ public class AddProduct {
         } else if (spec != 1) {
             System.out.println("No attributes added to product.");
         }
-
-        System.out.println("Product successfully inserted !!!");
-
+        try {
+            product.setSpecificationList(specificationList);
+            ProductDao.addProduct(product);
+            System.out.println("Product successfully inserted !!!");
+        } catch (DAOLayerException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
     }
 }

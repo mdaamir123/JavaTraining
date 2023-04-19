@@ -1,6 +1,7 @@
 package ManagingOperations.ManagingProduct.ProductOperations;
 
 import ManagingOperations.ManagingProduct.ProductOperations.UpdateProducts.*;
+import exceptions.DAOLayerException;
 import dao.ProductDao;
 import display.Display;
 
@@ -10,18 +11,34 @@ public class UpdateProduct {
     Scanner sc = new Scanner(System.in);
 
     public void updateProduct() {
-        if (!ProductDao.checkIfProductsExists()) {
-            System.out.println("No products are present.");
-            return;
+        try {
+            if (!ProductDao.checkIfProductsExists()) {
+                System.out.println("No products are present.");
+                return;
+            }
+        } catch (DAOLayerException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
 
-        Display.printProducts(ProductDao.getALlProducts());
+        try {
+            Display.printProducts(ProductDao.getALlProducts());
+        } catch (DAOLayerException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+
         System.out.println("Enter id of product you want to update: ");
         int id = sc.nextInt();
         sc.nextLine();
-        if (!ProductDao.checkIfProductExists(id)) {
-            System.out.println("ID not found.");
-            return;
+        try {
+            if (!ProductDao.checkIfProductExists(id)) {
+                System.out.println("ID not found.");
+                return;
+            }
+        } catch (DAOLayerException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
 
         System.out.println("Enter choice of attribute you want to update: ");
