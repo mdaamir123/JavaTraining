@@ -1,19 +1,28 @@
 package ManagingOperations.ManagingProduct.ProductOperations.ViewProductsInOrder;
 
+import dao.ProductDao;
 import display.Display;
-import model.Product;
-import model.Specification;
+import exception.DAOLayerException;
 
-import java.util.List;
 import java.util.Scanner;
 
 public class ViewProductById {
-    public static void getProductById(List<Product> products, List<Specification> specifications) {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter id of product.");
-        int id = sc.nextInt();
-        sc.nextLine();
+    public static void getProductById() {
+        try {
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Enter id of product.");
+            int productId = sc.nextInt();
+            sc.nextLine();
+            if (!ProductDao.checkIfProductExists(productId)) {
+                System.out.println("No such product exists !!!");
+                return;
+            }
 
-        Display.printProductById(products, specifications, id);
+            Display.printProductById(ProductDao.getProductById(productId));
+        } catch (DAOLayerException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

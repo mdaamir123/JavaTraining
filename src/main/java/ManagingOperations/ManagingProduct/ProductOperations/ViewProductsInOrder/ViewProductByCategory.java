@@ -1,7 +1,7 @@
 package ManagingOperations.ManagingProduct.ProductOperations.ViewProductsInOrder;
 
 import dao.CategoryDao;
-import exceptions.DAOLayerException;
+import exception.DAOLayerException;
 import dao.ProductDao;
 import display.Display;
 import model.Product;
@@ -19,49 +19,38 @@ public class ViewProductByCategory {
         try {
             if (!CategoryDao.checkIfCategoriesExists()) {
                 System.out.println("No categories available.");
+                return null;
             }
-        } catch (DAOLayerException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
 
-        try {
             Display.printCategories(CategoryDao.getAllCategories());
-        } catch (DAOLayerException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
 
-        System.out.println("Enter id of the category: ");
-        int id = sc.nextInt();
-        sc.nextLine();
+            System.out.println("Enter id of the category: ");
+            int id = sc.nextInt();
+            sc.nextLine();
 
-        try {
+
             if (!CategoryDao.checkIfCategoryExists(id)) {
                 System.out.println("Please enter valid id.");
+                return null;
             }
-        } catch (DAOLayerException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
 
-        try {
             resultSet = ProductDao.getProductsByCategory(id);
-        } catch (DAOLayerException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
 
-        if (resultSet.size() == 0) {
-            System.out.println("No products available for given category.");
-        }
-
-        for (Product product : resultSet) {
-            if (product.getProductCategoryId() == id) {
-                products.add(product);
+            if (resultSet.size() == 0) {
+                return products;
             }
+
+            for (Product product : resultSet) {
+                if (product.getProductCategoryId() == id) {
+                    products.add(product);
+                }
+            }
+            return products;
+        } catch (DAOLayerException ex) {
+            ex.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         return products;
     }
-
 }

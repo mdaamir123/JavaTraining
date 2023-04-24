@@ -7,8 +7,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.*;
 
-import static ManagingOperations.OnlineShoppping.main;
-
+import static ManagingOperations.OnlineShopping.main;
 
 public class SendMail {
 
@@ -36,7 +35,7 @@ public class SendMail {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(username));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(user.getEmail()));
-            message.setSubject("Welcome to OnlineShopping");
+            message.setSubject("Welcome to ManagingOperations.OnlineShopping");
             message.setText("Dear " + user.getFirstName() + " " + user.getLastName() + ",\n\nHere, is your verification code: " + user.getVerificationPin());
             Transport.send(message);
 

@@ -1,6 +1,6 @@
 package ManagingOperations.ManagingCategory.CategoryOperations.ViewCategoriesInOrder;
 
-import comparators.SortCategoryByDate;
+import comparator.SortCategoryByDate;
 import model.Category;
 
 import java.util.Collections;

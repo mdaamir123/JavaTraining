@@ -1,38 +1,46 @@
-package authMenus;
+package authMenu;
 
 import authenticate.Authenticate;
 import dao.AuthenticationDao;
-import exceptions.DAOLayerException;
+import exception.DAOLayerException;
 import model.User;
 import session.LoggedInUser;
-
+import java.io.*;
 import java.util.Scanner;
 
 public class LoginMenu {
-    public static void displayLoginMenu() {
+    public static void displayLoginMenu(){
         Scanner sc = new Scanner(System.in);
         User user = new User();
 
         System.out.println("Please enter your email: ");
         user.setEmail(sc.nextLine());
-        System.out.println("Please enter your password: ");
-        user.setPassword(sc.nextLine());
 
+        System.out.println("Please enter your password: ");
+        //String password = sc.nextLine();
+        Console console = System.console();
+        if (console == null) {
+            System.out.println("Console is not available. Try again.");
+            displayLoginMenu();
+        }
+
+        char[] passwordArray = console.readPassword("", "Please Enter your password: ");
+        String password = new String(passwordArray);
+        user.setPassword(password);
 
         user = Authenticate.isValidUser(user);
 
-        if(user != null) {
-            if(user.isUserVerified() == true) {
+        if (user != null) {
+            if (user.isUserVerified() == true) {
                 System.out.println("Login successful !!!");
                 System.out.println("Welcome " + user.getFirstName() + " " + user.getLastName() + ". Your role is " + user.getUserRole().getUserRoleName() + ".");
                 LoggedInUser.setCurrentUser(user);
-            }
-            else {
+            } else {
                 System.out.println("Please enter verification pin to verify your account: ");
                 int verificationPin = sc.nextInt();
                 sc.nextLine();
 
-                if(verificationPin == user.getVerificationPin()) {
+                if (verificationPin == user.getVerificationPin()) {
                     System.out.println("Verification successful !!!");
                     try {
                         AuthenticationDao.updateVerifiedUser(user);
@@ -43,14 +51,14 @@ public class LoginMenu {
                     user.setUserVerified(true);
                     System.out.println("Welcome " + user.getFirstName() + " " + user.getLastName() + ". Your role is " + user.getUserRole().getUserRoleName() + ".");
                     LoggedInUser.setCurrentUser(user);
-                }
-                else {
-                    System.out.println("Incorrect verification pin !!!");
+                } else {
+                    System.out.println("Incorrect verification pin !!! Login again !!!");
+                    displayLoginMenu();
                 }
             }
-        }
-        else {
-            System.out.println("Login unsuccessful !!!");
+        } else {
+            System.out.println("Login unsuccessful !!! Try again !!!");
+            displayLoginMenu();
         }
     }
 }

@@ -8,7 +8,7 @@ public class DatabaseConfig {
     public static DatabaseConfig config = null;
     private static  String HOST = "jdbc:mysql://localhost:3306/" + System.getenv("db.name")+"?useSSL=false";
     private static  String USERNAME = System.getenv("db.username");
-    private static  String PASSWORD = System.getenv("db.password");
+    private static  String PASSWORD = System.getenv("db.password").trim();
     private static Connection con;
 
     private DatabaseConfig() {

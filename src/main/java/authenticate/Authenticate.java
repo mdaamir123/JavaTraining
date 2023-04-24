@@ -1,8 +1,8 @@
 package authenticate;
 
-import authMenus.LoginMenu;
+import authMenu.LoginMenu;
 import dao.AuthenticationDao;
-import exceptions.DAOLayerException;
+import exception.DAOLayerException;
 import model.User;
 
 public class Authenticate {
@@ -14,6 +14,7 @@ public class Authenticate {
         } catch (DAOLayerException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
+            LoginMenu.displayLoginMenu();
         }
         if(user == null) {
             System.out.println("Invalid credentials !!! Kindly login again !!!");

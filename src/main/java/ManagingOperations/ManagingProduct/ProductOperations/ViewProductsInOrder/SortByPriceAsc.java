@@ -1,7 +1,8 @@
 package ManagingOperations.ManagingProduct.ProductOperations.ViewProductsInOrder;
 
-import comparators.SortProductsByPriceAsc;
+import comparator.SortProductsByPrice;
 import model.Product;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -13,7 +14,7 @@ public class SortByPriceAsc {
     }
 
     public List<Product> sortByPriceAsc() {
-        Collections.sort(products, new SortProductsByPriceAsc());
+        Collections.sort(products, new SortProductsByPrice());
         return products;
     }
 }
