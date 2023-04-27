@@ -1,5 +1,6 @@
 package display;
 
+import ManagingOperations.ManagingProduct.ProductOperations.ViewProductsInOrder.ViewProductByCategory;
 import model.Category;
 import model.Product;
 import model.Specification;
@@ -9,11 +10,11 @@ import java.util.List;
 public class Display {
     //TODO :
     public static void printCategories(List<Category> categories) {
-        System.out.println("ID \t CATEGORY_NAME \t DATE_ADDED");
+        System.out.println("ID \t DATE_ADDED\t\t \t\t CATEGORY_NAME ");
         for (int i = 0; i < categories.size(); i++) {
-            System.out.println(categories.get(i).getCategoryId() +"\t"+
-                    categories.get(i).getCategoryName() +"\t"+
-                    categories.get(i).getCreatedOn());
+            System.out.println(categories.get(i).getCategoryId() + " |\t" +
+                    categories.get(i).getCreatedOn() + "\t\t |\t" +
+                    categories.get(i).getCategoryName());
         }
     }
 
@@ -31,17 +32,19 @@ public class Display {
 
     public static void printProducts(List<Product> products) {
         if (products == null) {
-            return;
-        }
-        if (products.size() == 0) {
+            ViewProductByCategory viewProductByCategory = new ViewProductByCategory();
+            Display.printProducts(viewProductByCategory.viewProductByCategory());
+        } else if (products.size() == 0) {
             System.out.println("There are no products available.");
-            return;
-        }
-        System.out.println("Product ID \t Product Title \t Price \t Discount \t Category ID \t Brand");
-        for (Product product : products) {
-            System.out.println(product.getProductId() + "\t\t "+ product.getProductTitle()
-                    +"\t\t" + product.getProductPrice() +"\t\t"+ product.getProductDiscount() + "% \t\t" + product.getProductCategoryId()
-                    + "\t\t" + product.getProductBrand());
+            ViewProductByCategory viewProductByCategory = new ViewProductByCategory();
+            Display.printProducts(viewProductByCategory.viewProductByCategory());
+        } else {
+            System.out.println("Product ID \t Product Title \t\t Price \t\t Discount \t Category ID \t Brand");
+            for (Product product : products) {
+                System.out.println(product.getProductId() + "\t\t " + product.getProductTitle()
+                        + "\t\t" + product.getProductPrice() + "\t\t" + product.getProductDiscount() + "% \t\t" + product.getProductCategoryId()
+                        + "\t\t" + product.getProductBrand());
+            }
         }
     }
 

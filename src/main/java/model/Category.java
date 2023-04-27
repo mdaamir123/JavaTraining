@@ -6,6 +6,7 @@ public class Category implements Comparable<Category>{
 
     private int categoryId;
     private String categoryName;
+    private boolean isDelete;
     private int createdBy;
     private int updatedBy;
     private LocalDateTime createdOn;
@@ -25,6 +26,14 @@ public class Category implements Comparable<Category>{
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
+    }
+
+    public boolean isDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(boolean delete) {
+        isDelete = delete;
     }
 
     public int getCreatedBy() {

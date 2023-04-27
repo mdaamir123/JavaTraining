@@ -5,11 +5,15 @@ import ManagingOperations.ManagingProduct.ProductOperations.ViewProductsInOrder.
 import ManagingOperations.ManagingProduct.ProductOperations.ViewProductsInOrder.SortByPrice;
 import ManagingOperations.ManagingProduct.ProductOperations.ViewProductsInOrder.SortByPriceAsc;
 import ManagingOperations.ManagingProduct.ProductOperations.ViewProductsInOrder.ViewProductById;
+import enums.UserRoles;
 import exception.DAOLayerException;
 import dao.ProductDao;
 import display.Display;
 
 import java.util.Scanner;
+
+import static ManagingOperations.OnlineShopping.main;
+import static session.LoggedInUser.*;
 
 
 public class ShowProducts {
@@ -28,7 +32,11 @@ public class ShowProducts {
             System.out.println("3. View all by lowest price.");
             System.out.println("4. View products by category.");
             System.out.println("5. View Product by id.");
-            System.out.println("6. Back");
+            if (currentUser.getUserRoleId() == UserRoles.ADMIN.getValue()) {
+                System.out.println("6. Back");
+            } else {
+                System.out.println("6. Logout");
+            }
 
             int choice = sc.nextInt();
 
@@ -38,7 +46,6 @@ public class ShowProducts {
             final int VIEW_BY_CATEGORY = 4;
             final int VIEW_BY_ID = 5;
             final int BACK = 6;
-            final int LOGOUT = 7;
             switch (choice) {
                 case VIEW_ALL_PRODUCTS:
                     Display.printProducts(ProductDao.getALlProducts());
@@ -59,7 +66,11 @@ public class ShowProducts {
                     ViewProductById.getProductById();
                     break;
                 case BACK:
-                    ProductManagement.handleProductManagement();
+                    if (currentUser.getUserRoleId() == UserRoles.CUSTOMER.getValue()) {
+                        main(null);
+                    } else {
+                        ProductManagement.handleProductManagement();
+                    }
                     break;
                 default:
                     viewProducts();

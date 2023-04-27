@@ -59,12 +59,13 @@ public class ShowCategories {
                     break;
                 case BACK:
                     CategoryManagement.handleCategoryManagement();
+                    break;
                 default:
                     System.out.println("Please enter valid input.");
-                    viewCategories(choice);
+                    displayMenu();
                     break;
             }
-
+            displayMenu();
         } catch (DAOLayerException ex) {
             ex.printStackTrace();
         } catch (Exception ex) {
@@ -81,6 +82,7 @@ public class ShowCategories {
         System.out.println("5. Back");
 
         int choice = sc.nextInt();
+        sc.nextLine();
         viewCategories(choice);
     }
 

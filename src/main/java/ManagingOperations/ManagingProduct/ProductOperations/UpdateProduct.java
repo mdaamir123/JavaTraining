@@ -1,5 +1,7 @@
 package ManagingOperations.ManagingProduct.ProductOperations;
 
+import ManagingOperations.ManagingProduct.ProductOperations.UpdateProducts.AddSpecification;
+import ManagingOperations.ManagingProduct.ProductOperations.UpdateProducts.DeleteSpecification;
 import ManagingOperations.ManagingProduct.ProductOperations.UpdateProducts.UpdateProductSpecifications;
 import dao.CategoryDao;
 import exception.DAOLayerException;
@@ -12,6 +14,7 @@ import java.util.Scanner;
 public class UpdateProduct {
     Scanner sc = new Scanner(System.in);
     Product product = new Product();
+
     public void updateProduct() {
         try {
             if (!ProductDao.checkIfProductsExists()) {
@@ -34,27 +37,27 @@ public class UpdateProduct {
 
             System.out.println("Enter product_title if want to update else leave it blank.");
             String product_title = sc.nextLine();
-            if(product_title.trim().length() > 0) {
+            if (product_title.trim().length() > 0) {
                 product.setProductTitle(product_title);
             }
 
             System.out.println("Enter description if want to update else leave it blank.");
             String description = sc.nextLine();
-            if(description.trim().length() > 0) {
+            if (description.trim().length() > 0) {
                 product.setProductDescription(description);
             }
 
             System.out.println("Enter price if want to update else leave it blank.");
             String price = sc.nextLine();
-            if(String.valueOf(price).trim().length() > 0) {
+            if (String.valueOf(price).trim().length() > 0) {
                 product.setProductPrice(Float.parseFloat(price));
             }
 
             Display.printCategories(CategoryDao.getAllCategories());
             System.out.println("Enter category_id if want to update else leave it blank.");
             String category = sc.nextLine();
-            if(String.valueOf(category).trim().length() > 0) {
-                if(!CategoryDao.checkIfCategoryExists(Integer.parseInt(category))) {
+            if (String.valueOf(category).trim().length() > 0) {
+                if (!CategoryDao.checkIfCategoryExists(Integer.parseInt(category))) {
                     System.out.println("Category doesn't exist.");
                     return;
                 }
@@ -63,28 +66,28 @@ public class UpdateProduct {
 
             System.out.println("Enter discount if want to update else leave it blank.");
             String discount = sc.nextLine();
-            if(String.valueOf(discount).trim().length() > 0) {
+            if (String.valueOf(discount).trim().length() > 0) {
                 product.setProductDiscount(Float.parseFloat(discount));
             }
 
             System.out.println("Enter brand if want to update else leave it blank.");
-            String  brand = sc.nextLine();
-            if(brand.trim().length() > 0) {
+            String brand = sc.nextLine();
+            if (brand.trim().length() > 0) {
                 product.setProductBrand(brand);
             }
 
             if (ProductDao.checkIfProductSpecificationsExistsForGivenProduct(id)) {
                 boolean continueUpdate = true;
                 do {
-                    System.out.println("Do you want to update product specifications ?");
+                    System.out.println("Do you want to add/update/delete product specifications ?");
                     System.out.println("1. Yes");
-                    System.out.println("2. No");
+                    System.out.println("Other. No");
                     int choice = sc.nextInt();
                     sc.nextLine();
 
                     switch (choice) {
                         case 1:
-                            UpdateProductSpecifications.updateProductSpecifications(id);
+                            displayCrudOptions(id);
                             break;
                         case 2:
                             continueUpdate = false;
@@ -93,7 +96,7 @@ public class UpdateProduct {
                             continueUpdate = false;
                             break;
                     }
-                }while (continueUpdate) ;
+                } while (continueUpdate);
             }
             ProductDao.updateProduct(product);
             System.out.println("Successfully product updated.");
@@ -161,6 +164,36 @@ public class UpdateProduct {
             ex.printStackTrace();
         } catch (Exception ex) {
             ex.printStackTrace();
+        }
+    }
+
+    private void displayCrudOptions(int productId) {
+        final int ADD = 1;
+        final int UPDATE = 2;
+        final int DELETE = 3;
+
+        System.out.println("Please select one option: ");
+        System.out.println("1. Add specification");
+        System.out.println("2. Update specification");
+        System.out.println("3. Delete specification");
+
+        int choice = sc.nextInt();
+        sc.nextLine();
+
+        switch (choice) {
+            case ADD:
+                AddSpecification.addSpecification(productId);
+                break;
+            case UPDATE:
+                UpdateProductSpecifications.updateProductSpecifications(productId);
+                break;
+            case DELETE:
+                DeleteSpecification.deleteSpecification(productId);
+                break;
+            default:
+                System.out.println("Invalid choice selected.");
+                displayCrudOptions(productId);
+                break;
         }
     }
 }

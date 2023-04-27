@@ -23,7 +23,7 @@ public class CategoryDao {
         try {
             con = DatabaseConfig.getInstance().getConnection();
             //TODO : Use count query
-            String countQuery = "select COUNT(*) from category";
+            String countQuery = "select COUNT(*) from category where is_delete = false";
             stmt = con.prepareStatement(countQuery, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             resultSet = stmt.executeQuery();
@@ -50,7 +50,7 @@ public class CategoryDao {
         ResultSet resultSet = null;
         try {
             con = DatabaseConfig.getInstance().getConnection();
-            String selectQuery = "select * from category";
+            String selectQuery = "select * from category where is_delete = false";
             stmt = con.prepareStatement(selectQuery);
             resultSet = stmt.executeQuery();
 
@@ -59,10 +59,11 @@ public class CategoryDao {
                 Category category = new Category();
                 category.setCategoryId(resultSet.getInt(1));
                 category.setCategoryName(resultSet.getString(2));
-                category.setCreatedOn(resultSet.getTimestamp(3).toLocalDateTime());
-                category.setUpdatedOn(resultSet.getTimestamp(4).toLocalDateTime());
-                category.setCreatedBy(resultSet.getInt(5));
-                category.setUpdatedBy(resultSet.getInt(6));
+                category.setDelete(resultSet.getBoolean(3));
+                category.setCreatedOn(resultSet.getTimestamp(4).toLocalDateTime());
+                category.setUpdatedOn(resultSet.getTimestamp(5).toLocalDateTime());
+                category.setCreatedBy(resultSet.getInt(6));
+                category.setUpdatedBy(resultSet.getInt(7));
                 categories.add(category);
             }
             return categories;
@@ -109,7 +110,7 @@ public class CategoryDao {
         try {
             con = DatabaseConfig.getInstance().getConnection();
             //TODO : Use count query
-            String countQuery = "select COUNT(id) from category where id = ?";
+            String countQuery = "select COUNT(id) from category where id = ? and is_delete = false";
             stmt = con.prepareStatement(countQuery);
             stmt.setInt(1, id);
             resultSet = stmt.executeQuery();
@@ -145,6 +146,28 @@ public class CategoryDao {
 
         } catch (Exception e) {
             throw new DAOLayerException("Exception occurred while updating category.", e);
+        } finally {
+            try {
+                CloseDatabaseResources.closePreparedStatement(stmt);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void deleteCategory(int categoryId) throws DAOLayerException {
+        Connection con;
+        PreparedStatement stmt = null;
+        try {
+            con = DatabaseConfig.getInstance().getConnection();
+            String deleteQuery = "update category set is_delete = true, updated_by = ?, updated_at = default where id = ?";
+            stmt = con.prepareStatement(deleteQuery);
+            stmt.setInt(1, LoggedInUser.currentUser.getUserId());
+            stmt.setInt(2, categoryId);
+            stmt.executeUpdate();
+
+        } catch (Exception e) {
+            throw new DAOLayerException("Exception occurred while deleting category.", e);
         } finally {
             try {
                 CloseDatabaseResources.closePreparedStatement(stmt);

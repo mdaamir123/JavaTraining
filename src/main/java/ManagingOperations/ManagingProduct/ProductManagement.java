@@ -1,6 +1,7 @@
 package ManagingOperations.ManagingProduct;
 
 import ManagingOperations.ManagingProduct.ProductOperations.AddProduct;
+import ManagingOperations.ManagingProduct.ProductOperations.DeleteProduct;
 import ManagingOperations.ManagingProduct.ProductOperations.ShowProducts;
 import ManagingOperations.ManagingProduct.ProductOperations.UpdateProduct;
 import enums.UserRoles;
@@ -20,14 +21,16 @@ public class ProductManagement {
                 System.out.println("1. View");
                 System.out.println("2. Add");
                 System.out.println("3. Update");
-                System.out.println("4. Back");
+                System.out.println("4. Delete");
+                System.out.println("5. Back");
                 int choice = sc.nextInt();
                 sc.nextLine();
 
                 final int VIEW = 1;
                 final int ADD = 2;
                 final int UPDATE = 3;
-                final int BACK = 4;
+                final int DELETE = 4;
+                final int BACK = 5;
                 switch (choice) {
                     case VIEW:
                         ShowProducts obj1 = new ShowProducts();
@@ -40,6 +43,10 @@ public class ProductManagement {
                     case UPDATE:
                         UpdateProduct obj3 = new UpdateProduct();
                         obj3.updateProduct();
+                        break;
+                    case DELETE:
+                        DeleteProduct obj4 = new DeleteProduct();
+                        obj4.deleteProduct();
                         break;
                     case BACK:
                         displayMenuBasedOnAccess();

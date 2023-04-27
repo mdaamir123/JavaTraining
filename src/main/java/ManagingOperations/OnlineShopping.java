@@ -6,6 +6,7 @@ import authMenu.LoginMenu;
 import authMenu.SignupMenu;
 import enums.UserRoles;
 import session.LoggedInUser;
+
 import java.util.Scanner;
 
 public class OnlineShopping {
@@ -43,7 +44,7 @@ public class OnlineShopping {
         System.out.println("Please choose one option: ");
         System.out.println("1: Category Management");
         System.out.println("2: Product Management");
-        System.out.println("3. Logout");
+        System.out.println("3: Logout");
         Scanner sc = new Scanner(System.in);
         return sc.nextInt();
     }

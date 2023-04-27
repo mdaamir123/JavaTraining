@@ -14,7 +14,12 @@ public class LoginMenu {
         User user = new User();
 
         System.out.println("Please enter your email: ");
-        user.setEmail(sc.nextLine());
+        try {
+            user.setEmail(sc.nextLine());
+        } catch (IllegalStateException e) {
+            System.out.println(e.getMessage());
+            displayLoginMenu();
+        }
 
         System.out.println("Please enter your password: ");
         //String password = sc.nextLine();
@@ -24,8 +29,14 @@ public class LoginMenu {
             displayLoginMenu();
         }
 
-        char[] passwordArray = console.readPassword("", "Please Enter your password: ");
-        String password = new String(passwordArray);
+        String password = "";
+        try {
+            char[] passwordArray = console.readPassword("", "Please Enter your password: ");
+            password = new String(passwordArray);
+        } catch (IllegalStateException e) {
+            System.out.println(e.getMessage());
+            displayLoginMenu();
+        }
         user.setPassword(password);
 
         user = Authenticate.isValidUser(user);

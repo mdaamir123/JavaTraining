@@ -12,6 +12,7 @@ public class Product {
     private float productDiscount;
     private String productBrand;
     private List<Specification> specificationList;
+    private boolean isDelete;
     private int createdBy;
     private int updatedBy;
     private LocalDateTime createdOn;
@@ -80,6 +81,14 @@ public class Product {
 
     public void setSpecificationList(List<Specification> specificationList) {
         this.specificationList = specificationList;
+    }
+
+    public boolean isDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(boolean delete) {
+        isDelete = delete;
     }
 
     public int getCreatedBy() {

@@ -107,7 +107,7 @@ public class ProductDao {
 
         try {
             con = DatabaseConfig.getInstance().getConnection();
-            String countQuery = "select COUNT(*) from product";
+            String countQuery = "select COUNT(*) from product where is_delete = false";
             stmt = con.prepareStatement(countQuery);
             resultSet = stmt.executeQuery();
 
@@ -134,7 +134,7 @@ public class ProductDao {
         ResultSet resultSet = null;
         try {
             con = DatabaseConfig.getInstance().getConnection();
-            String selectQuery = "select * from product";
+            String selectQuery = "select * from product where is_delete = false and false = (select is_delete from category where id = category_id)";
             stmt = con.prepareStatement(selectQuery,
                     ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             resultSet = stmt.executeQuery();
@@ -149,10 +149,11 @@ public class ProductDao {
                 product.setProductCategoryId(resultSet.getInt(5));
                 product.setProductDiscount(resultSet.getFloat(6));
                 product.setProductBrand(resultSet.getString(7));
-                product.setCreatedOn(resultSet.getTimestamp(8).toLocalDateTime());
-                product.setUpdatedOn(resultSet.getTimestamp(9).toLocalDateTime());
-                product.setCreatedBy(resultSet.getInt(10));
-                product.setUpdatedBy(resultSet.getInt(11));
+                product.setDelete(resultSet.getBoolean(8));
+                product.setCreatedOn(resultSet.getTimestamp(9).toLocalDateTime());
+                product.setUpdatedOn(resultSet.getTimestamp(10).toLocalDateTime());
+                product.setCreatedBy(resultSet.getInt(11));
+                product.setUpdatedBy(resultSet.getInt(12));
                 productList.add(product);
             }
             return productList;
@@ -174,9 +175,10 @@ public class ProductDao {
         ResultSet resultSet = null;
         try {
             con = DatabaseConfig.getInstance().getConnection();
-            String selectQuery = "select * from product where category_id = " + id;
+            String selectQuery = "select * from product where category_id = ? and is_delete = false";
             stmt = con.prepareStatement(selectQuery,
                     ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            stmt.setInt(1, id);
             resultSet = stmt.executeQuery();
 
             List<Product> productList = new ArrayList<>();
@@ -189,10 +191,11 @@ public class ProductDao {
                 product.setProductCategoryId(resultSet.getInt(5));
                 product.setProductDiscount(resultSet.getFloat(6));
                 product.setProductBrand(resultSet.getString(7));
-                product.setCreatedOn(resultSet.getTimestamp(8).toLocalDateTime());
-                product.setUpdatedOn(resultSet.getTimestamp(9).toLocalDateTime());
-                product.setCreatedBy(resultSet.getInt(10));
-                product.setUpdatedBy(resultSet.getInt(11));
+                product.setDelete(resultSet.getBoolean(8));
+                product.setCreatedOn(resultSet.getTimestamp(9).toLocalDateTime());
+                product.setUpdatedOn(resultSet.getTimestamp(10).toLocalDateTime());
+                product.setCreatedBy(resultSet.getInt(11));
+                product.setUpdatedBy(resultSet.getInt(12));
                 productList.add(product);
             }
             return productList;
@@ -366,7 +369,7 @@ public class ProductDao {
         ResultSet resultSet = null;
         try {
             con = DatabaseConfig.getInstance().getConnection();
-            String selectQuery = "select COUNT(id) from product where id = ?";
+            String selectQuery = "select COUNT(id) from product where id = ? and is_delete = false and false = (select is_delete from category where id = category_id)";
             stmt = con.prepareStatement(selectQuery);
             stmt.setInt(1, id);
 
@@ -390,19 +393,19 @@ public class ProductDao {
         }
     }
 
-    public static Product getProductById(int productId) throws DAOLayerException{
+    public static Product getProductById(int productId) throws DAOLayerException {
         Connection con;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         Product product = new Product();
         try {
             con = DatabaseConfig.getInstance().getConnection();
-            String selectQuery = "select * from product where id = ?";
+            String selectQuery = "select * from product where id = ? and is_delete = false and false = (select is_delete from category where id = category_id)";
             preparedStatement = con.prepareStatement(selectQuery);
             preparedStatement.setInt(1, productId);
             resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 product.setProductId(resultSet.getInt(1));
                 product.setProductTitle(resultSet.getString(2));
                 product.setProductDescription(resultSet.getString(3));
@@ -410,16 +413,16 @@ public class ProductDao {
                 product.setProductCategoryId(resultSet.getInt(5));
                 product.setProductDiscount(resultSet.getFloat(6));
                 product.setProductBrand(resultSet.getString(7));
-                product.setCreatedOn(resultSet.getTimestamp(8).toLocalDateTime());
-                product.setUpdatedOn(resultSet.getTimestamp(9).toLocalDateTime());
-                product.setCreatedBy(resultSet.getInt(10));
-                product.setUpdatedBy(resultSet.getInt(11));
+                product.setDelete(resultSet.getBoolean(8));
+                product.setCreatedOn(resultSet.getTimestamp(9).toLocalDateTime());
+                product.setUpdatedOn(resultSet.getTimestamp(10).toLocalDateTime());
+                product.setCreatedBy(resultSet.getInt(11));
+                product.setUpdatedBy(resultSet.getInt(12));
             }
 
             product.setSpecificationList(getAllProductSpecifications(productId));
             return product;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new DAOLayerException("Exception occurred while updating product.", e);
         } finally {
             try {
@@ -515,6 +518,37 @@ public class ProductDao {
         } finally {
             try {
                 CloseDatabaseResources.closePreparedStatement(stmt);
+                CloseDatabaseResources.closeResultSet(resultSet);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static boolean checkIfSpecificationExists(int specId, int prdoductId) throws DAOLayerException {
+        Connection con;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            con = DatabaseConfig.getInstance().getConnection();
+            String selectQuery = "select COUNT(*) from specifications where id = ? and product_id = ?";
+            preparedStatement = con.prepareStatement(selectQuery,
+                    ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            preparedStatement.setInt(1, specId);
+            preparedStatement.setInt(2, prdoductId);
+            resultSet = preparedStatement.executeQuery();
+
+            int count = 0;
+            if (resultSet.next()) {
+                count = resultSet.getInt(1);
+            }
+            return count > 0;
+
+        } catch (Exception e) {
+            throw new DAOLayerException("Exception occurred while checking existence of specification.", e);
+        } finally {
+            try {
+                CloseDatabaseResources.closePreparedStatement(preparedStatement);
                 CloseDatabaseResources.closeResultSet(resultSet);
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -621,7 +655,7 @@ public class ProductDao {
         }
     }*/
 
-    public static void updateProduct(Product product) throws DAOLayerException{
+    public static void updateProduct(Product product) throws DAOLayerException {
         Connection con;
         PreparedStatement preparedStatement = null;
         try {
@@ -637,9 +671,76 @@ public class ProductDao {
             preparedStatement.setInt(7, LoggedInUser.getCurrentUser().getUserId());
             preparedStatement.setInt(8, product.getProductId());
             preparedStatement.executeUpdate();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new DAOLayerException("Exception occurred while updating product.", e);
+        } finally {
+            try {
+                CloseDatabaseResources.closePreparedStatement(preparedStatement);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void deleteProduct(int productId) throws DAOLayerException {
+        Connection con;
+        PreparedStatement preparedStatement = null;
+        try {
+            con = DatabaseConfig.getInstance().getConnection();
+            String deleteQuery = "update product set is_delete = true, updated_by = ?, updated_at = default where id = ?";
+            preparedStatement = con.prepareStatement(deleteQuery);
+            preparedStatement.setInt(1, LoggedInUser.currentUser.getUserId());
+            preparedStatement.setInt(2, productId);
+            preparedStatement.executeUpdate();
+
+        } catch (Exception e) {
+            throw new DAOLayerException("Exception occurred while deleting product.", e);
+        } finally {
+            try {
+                CloseDatabaseResources.closePreparedStatement(preparedStatement);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void addNewSpecification(Specification specification) throws DAOLayerException {
+        Connection con;
+        PreparedStatement preparedStatement = null;
+        try {
+            con = DatabaseConfig.getInstance().getConnection();
+            String insertQuery = "insert into specifications (product_id, attribute_name, attribute_value, created_by, updated_by) values (?,?,?,?,?)";
+            preparedStatement = con.prepareStatement(insertQuery);
+            preparedStatement.setInt(1, specification.getSpecProductId());
+            preparedStatement.setString(2, specification.getSpecAttributeName());
+            preparedStatement.setString(3, specification.getSpecAttributeValue());
+            preparedStatement.setInt(4, specification.getCreatedBy());
+            preparedStatement.setInt(5, specification.getUpdatedBy());
+            preparedStatement.executeUpdate();
+
+        } catch (Exception e) {
+            throw new DAOLayerException("Exception occurred while adding specification.", e);
+        } finally {
+            try {
+                CloseDatabaseResources.closePreparedStatement(preparedStatement);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void deleteProductSpecification(int specId) throws DAOLayerException {
+        Connection con;
+        PreparedStatement preparedStatement = null;
+        try {
+            con = DatabaseConfig.getInstance().getConnection();
+            String deleteQuery = "delete from specifications where id = ?";
+            preparedStatement = con.prepareStatement(deleteQuery);
+            preparedStatement.setInt(1, specId);
+            preparedStatement.executeUpdate();
+
+        } catch (Exception e) {
+            throw new DAOLayerException("Exception occurred while deleting specification.", e);
         } finally {
             try {
                 CloseDatabaseResources.closePreparedStatement(preparedStatement);

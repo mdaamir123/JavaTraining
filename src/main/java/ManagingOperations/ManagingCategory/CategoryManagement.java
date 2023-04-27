@@ -1,6 +1,7 @@
 package ManagingOperations.ManagingCategory;
 
 import ManagingOperations.ManagingCategory.CategoryOperations.AddCategory;
+import ManagingOperations.ManagingCategory.CategoryOperations.DeleteCategory;
 import ManagingOperations.ManagingCategory.CategoryOperations.ShowCategories;
 import ManagingOperations.ManagingCategory.CategoryOperations.UpdateCategory;
 import ManagingOperations.OnlineShopping;
@@ -16,14 +17,16 @@ public class CategoryManagement {
             System.out.println("1. View");
             System.out.println("2. Add");
             System.out.println("3. Update");
-            System.out.println("4. Back");
+            System.out.println("4. Delete");
+            System.out.println("5. Back");
             int choice = sc.nextInt();
             sc.nextLine();
 
             final int VIEW = 1;
             final int ADD = 2;
             final int UPDATE = 3;
-            final int BACK = 4;
+            final int DELETE = 4;
+            final int BACK = 5;
             switch (choice) {
                 case VIEW:
                     ShowCategories obj1 = new ShowCategories();
@@ -36,6 +39,10 @@ public class CategoryManagement {
                 case UPDATE:
                     UpdateCategory obj3 = new UpdateCategory();
                     obj3.updateCategory();
+                    break;
+                case DELETE:
+                    DeleteCategory obj4 = new DeleteCategory();
+                    obj4.deleteCategory();
                     break;
                 case BACK:
                     OnlineShopping.displayMenuBasedOnAccess();
