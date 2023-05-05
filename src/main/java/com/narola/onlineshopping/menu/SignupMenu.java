@@ -4,6 +4,7 @@ import com.narola.onlineshopping.dao.UserDao;
 import com.narola.onlineshopping.exception.DAOLayerException;
 import com.narola.onlineshopping.input.TakeInput;
 import com.narola.onlineshopping.model.User;
+import com.narola.onlineshopping.validation.EmailValidator;
 
 import java.util.Random;
 
@@ -24,6 +25,10 @@ public class SignupMenu {
         while (isEmailExists) {
             email = TakeInput.getStrInput();
             try {
+                if(!EmailValidator.validate(email)) {
+                    System.out.println("Please enter valid email.");
+                    continue;
+                }
                 isEmailExists = UserDao.doEmailExists(email);
                 if(isEmailExists) {
                     System.out.println("Email already exists. Please try with another email.");

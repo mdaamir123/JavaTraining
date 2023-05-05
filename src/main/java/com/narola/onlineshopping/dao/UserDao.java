@@ -23,8 +23,6 @@ public class UserDao {
             stmt.setString(4, user.getPassword());
             stmt.setInt(5, user.getVerificationPin());
             stmt.executeUpdate();
-        } catch (SQLIntegrityConstraintViolationException e) {
-            throw new DAOLayerException("Email already exists. Kindly try again with another email.", e);
         } catch (SQLException e) {
             throw new DAOLayerException("Exception occurred while registering user.", e);
         } catch (Exception e) {

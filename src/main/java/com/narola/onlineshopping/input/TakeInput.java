@@ -55,7 +55,6 @@ public class TakeInput {
     }
 
     public static String getPassword() {
-        System.out.println("Please enter password: ");
         String password;
         try {
             Console console = System.console();
