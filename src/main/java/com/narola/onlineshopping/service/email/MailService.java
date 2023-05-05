@@ -1,6 +1,5 @@
 package com.narola.onlineshopping.service.email;
 
-import com.narola.onlineshopping.OnlineShoppingApplication;
 import com.narola.onlineshopping.model.User;
 
 import javax.mail.*;
@@ -10,7 +9,7 @@ import java.util.*;
 
 public class MailService {
 
-    public static void sendMail(User user) {
+    public static void sendMail(User user) throws MessagingException{
 
         final String username = System.getenv("email.username");
         final String password = System.getenv("email.password");
@@ -40,9 +39,7 @@ public class MailService {
 
         }
         catch (MessagingException e) {
-            System.out.println("Error sending message: " + e.getMessage());
-            System.out.println("Kindly retry.");
-            OnlineShoppingApplication.main(null);
+            throw new MessagingException("Something went wrong. Please try again later.", e);
         }
 
     }

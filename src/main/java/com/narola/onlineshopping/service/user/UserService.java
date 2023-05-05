@@ -9,18 +9,24 @@ import com.narola.onlineshopping.service.email.MailService;
 import com.narola.onlineshopping.session.LoggedInUser;
 import com.narola.onlineshopping.validation.UserValidation;
 
+import javax.mail.MessagingException;
+
 import static com.narola.onlineshopping.menu.LoginMenu.displayLoginMenu;
 
 public class UserService {
     public static void signupUser(User user) {
         try {
+            MailService.sendMail(user);
             UserDao.addUser(user);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            SignupMenu.displaySignupMenu();
         } catch (DAOLayerException e) {
             e.printStackTrace();
             SignupMenu.displaySignupMenu();
         }
         System.out.println("Successfully registered. Please check your mail for verification code. You have to insert that code on your first login to verify your account.");
-        MailService.sendMail(user);
+
         System.out.println("You can now login !!!");
         displayLoginMenu();
     }
