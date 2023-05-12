@@ -10,7 +10,7 @@ import com.narola.onlineshopping.exception.DAOLayerException;
 import com.narola.onlineshopping.input.InputHandler;
 import com.narola.onlineshopping.model.Product;
 import com.narola.onlineshopping.system.ProgramTerminator;
-import com.narola.onlineshopping.validation.Validation;
+import com.narola.onlineshopping.validation.InputValidator;
 
 import static com.narola.onlineshopping.constant.AppConstant.*;
 
@@ -37,52 +37,58 @@ public class UpdateProduct {
 
             System.out.println("Enter product_title if want to update else leave it blank.");
             String product_title = InputHandler.getStrInput(true);
-            if (!Validation.isEmpty(product_title)) {
+            if (!InputValidator.isEmpty(product_title)) {
                 product.setProductTitle(product_title);
             }
 
             System.out.println("Enter description if want to update else leave it blank.");
             String description = InputHandler.getStrInput(true);
-            if (!Validation.isEmpty(description)) {
+            if (!InputValidator.isEmpty(description)) {
                 product.setProductDescription(description);
             }
 
             System.out.println("Enter price if want to update else leave it blank.");
             String price = InputHandler.getStrInput(true);
-            while (!Validation.isEmpty(String.valueOf(price))) {
-                if (Validation.isInputFloat(price)) {
+            while (!InputValidator.isEmpty(String.valueOf(price))) {
+                if (InputValidator.isInputFloat(price)) {
                     product.setProductPrice(Float.parseFloat(price));
                     break;
                 }
-                System.out.println("Please enter valid price.");
+                System.out.println("Please enter valid input.");
                 price = InputHandler.getStrInput(true);
             }
 
             Display.printCategories(CategoryDao.getAllCategories());
             System.out.println("Enter category_id if want to update else leave it blank.");
             String category = InputHandler.getStrInput(true);
-            if (!Validation.isEmpty(category)) {
-                if (!CategoryDao.doCategoryExists(Integer.parseInt(category))) {
-                    System.out.println("Category doesn't exist.");
-                    return;
+            while (!InputValidator.isEmpty(category)) {
+                if (InputValidator.isInputInteger(category)) {
+                    if (!CategoryDao.doCategoryExists(Integer.parseInt(category))) {
+                        System.out.println("Category doesn't exist. Please enter valid category id.");
+                        category = InputHandler.getStrInput(true);
+                        continue;
+                    }
+                    product.setProductCategoryId(Integer.parseInt(category));
+                    break;
                 }
-                product.setProductCategoryId(Integer.parseInt(category));
+                System.out.println("Please enter valid input.");
+                category = InputHandler.getStrInput(true);
             }
 
             System.out.println("Enter discount if want to update else leave it blank.");
             String discount = InputHandler.getStrInput(true);
-            while (!Validation.isEmpty(String.valueOf(discount))) {
-                if (Validation.isInputFloat(discount)) {
+            while (!InputValidator.isEmpty(String.valueOf(discount))) {
+                if (InputValidator.isInputFloat(discount)) {
                     product.setProductDiscount(Float.parseFloat(discount));
                     break;
                 }
-                System.out.println("Please enter valid discount.");
+                System.out.println("Please enter valid input.");
                 discount = InputHandler.getStrInput(true);
             }
 
             System.out.println("Enter brand if want to update else leave it blank.");
             String brand = InputHandler.getStrInput(true);
-            if (!Validation.isEmpty(brand)) {
+            if (!InputValidator.isEmpty(brand)) {
                 product.setProductBrand(brand);
             }
 

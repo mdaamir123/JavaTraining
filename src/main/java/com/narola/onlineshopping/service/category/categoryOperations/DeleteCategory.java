@@ -5,7 +5,7 @@ import com.narola.onlineshopping.service.category.CategoryManager;
 import com.narola.onlineshopping.dao.CategoryDao;
 import com.narola.onlineshopping.display.Display;
 import com.narola.onlineshopping.exception.DAOLayerException;
-import com.narola.onlineshopping.validation.Validation;
+import com.narola.onlineshopping.validation.InputValidator;
 
 public class DeleteCategory {
     public static void deleteCategory() {
@@ -42,7 +42,7 @@ public class DeleteCategory {
         try {
             categoryId = InputHandler.getIntInput();
 
-            if (Validation.isEmpty(String.valueOf(categoryId))) {
+            if (InputValidator.isEmpty(String.valueOf(categoryId))) {
                 System.out.println("Category id cannot be empty.");
                 categoryId = getCategoryId();
             }

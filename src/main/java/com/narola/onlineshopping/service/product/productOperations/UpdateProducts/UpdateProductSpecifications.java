@@ -4,7 +4,7 @@ import com.narola.onlineshopping.exception.DAOLayerException;
 import com.narola.onlineshopping.dao.ProductDao;
 import com.narola.onlineshopping.display.Display;
 import com.narola.onlineshopping.input.InputHandler;
-import com.narola.onlineshopping.validation.Validation;
+import com.narola.onlineshopping.validation.InputValidator;
 
 import java.util.Scanner;
 
@@ -22,13 +22,13 @@ public class UpdateProductSpecifications {
             } else {
                 System.out.println("Please enter new attribute name. Leave blank if don't want to modify it.");
                 String newAttName = sc.nextLine();
-                if (!Validation.isEmpty(newAttName)) {
+                if (!InputValidator.isEmpty(newAttName)) {
                     ProductDao.updateProductSpecificationAttributeName(specId, newAttName);
                 }
 
                 System.out.println("Please enter new attribute value. Leave blank if don't want to modify it.");
                 String newAttValue = sc.nextLine();
-                if (!Validation.isEmpty(newAttValue)) {
+                if (!InputValidator.isEmpty(newAttValue)) {
                     ProductDao.updateProductSpecificationAttributeValue(specId, newAttValue);
                 }
 

@@ -1,5 +1,6 @@
 package com.narola.onlineshopping.service.user;
 
+import com.narola.onlineshopping.OnlineShoppingApplication;
 import com.narola.onlineshopping.dao.LocationDao;
 import com.narola.onlineshopping.dao.UserDao;
 import com.narola.onlineshopping.display.Display;
@@ -34,7 +35,7 @@ public class UserService {
         System.out.println("Successfully registered. Please check your mail for verification code. You have to insert that code on your first login to verify your account.");
 
         System.out.println("You can now login !!!");
-        displayLoginMenu();
+        OnlineShoppingApplication.main(null);
     }
 
     public static void loginUser(User user) {

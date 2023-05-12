@@ -1,6 +1,6 @@
 package com.narola.onlineshopping.validation;
 
-public class Validation {
+public class InputValidator {
 
     public static boolean isEmpty(String attribute) {
         return attribute.isEmpty();

@@ -1,7 +1,7 @@
 package com.narola.onlineshopping.input;
 
 import com.narola.onlineshopping.menu.SignupMenu;
-import com.narola.onlineshopping.validation.Validation;
+import com.narola.onlineshopping.validation.InputValidator;
 
 import java.io.Console;
 import java.util.InputMismatchException;
@@ -35,7 +35,7 @@ public class InputHandler {
         String input;
         try {
             input = sc.nextLine();
-            if (!isOptional && Validation.isEmpty(input)) {
+            if (!isOptional && InputValidator.isEmpty(input)) {
                 System.out.println("Input cannot be empty.");
                 input = getStrInput(isOptional);
             }
@@ -73,7 +73,7 @@ public class InputHandler {
             char[] passwordArray = console.readPassword("", "Please Enter your password: ");
             password = new String(passwordArray);
 
-            if (Validation.isEmpty(password)) {
+            if (InputValidator.isEmpty(password)) {
                 System.out.println("Password cannot be empty.");
                 password = getPassword();
             }

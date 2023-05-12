@@ -9,7 +9,7 @@ import com.narola.onlineshopping.input.InputHandler;
 import com.narola.onlineshopping.model.Order;
 import com.narola.onlineshopping.model.PaymentCredential;
 import com.narola.onlineshopping.model.UserPaymentCredential;
-import com.narola.onlineshopping.validation.Validation;
+import com.narola.onlineshopping.validation.InputValidator;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -67,7 +67,7 @@ public class PaymentManager {
 
                 if (paymentCredential.getPaymentCredentialId() == PaymentCredentials.CREDIT_CARD_EXPIRATION_DATE.getValue() ||
                         paymentCredential.getPaymentCredentialId() == PaymentCredentials.DEBIT_CARD_EXPIRATION_DATE.getValue()) {
-                    while (!Validation.isValidDateFormat(credential)) {
+                    while (!InputValidator.isValidDateFormat(credential)) {
                         System.out.println("Please enter Expiration Date in (YYYY/MM) format.");
                         credential = InputHandler.getStrInput();
                     }
@@ -75,9 +75,25 @@ public class PaymentManager {
                         || paymentCredential.getPaymentCredentialId() == PaymentCredentials.CREDIT_CARD_NUMBER.getValue()
                         || paymentCredential.getPaymentCredentialId() == PaymentCredentials.CREDIT_CARD_CVV_CODE.getValue()
                         || paymentCredential.getPaymentCredentialId() == PaymentCredentials.DEBIT_CARD_CVV_CODE.getValue()) {
-                    while (!Validation.isInputInteger(credential)) {
+                    while (!InputValidator.isInputInteger(credential)) {
                         System.out.println("Please enter valid input.");
                         credential = InputHandler.getStrInput();
+                    }
+                } else if (paymentCredential.getPaymentCredentialId() == PaymentCredentials.CREDIT_CARD_TYPE.getValue()) {
+                    Display.printCreditCardTypes(PaymentDao.getCreditCardTypes());
+                    boolean isValid = false;
+                    while (!isValid) {
+                        if (!InputValidator.isInputInteger(credential)) {
+                            System.out.println("Please enter valid input.");
+                            credential = InputHandler.getStrInput();
+                            continue;
+                        }
+                        if (!PaymentDao.doCreditCardTypeExists(Integer.parseInt(credential))) {
+                            System.out.println("Please enter valid credit card type.");
+                            credential = InputHandler.getStrInput();
+                            continue;
+                        }
+                        break;
                     }
                 }
                 userPaymentCredential.setCredentialValue(credential);

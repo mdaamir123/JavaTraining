@@ -3,7 +3,7 @@ package com.narola.onlineshopping.service.product.productOperations.UpdateProduc
 import com.narola.onlineshopping.exception.DAOLayerException;
 import com.narola.onlineshopping.dao.ProductDao;
 import com.narola.onlineshopping.input.InputHandler;
-import com.narola.onlineshopping.validation.Validation;
+import com.narola.onlineshopping.validation.InputValidator;
 
 public class UpdateProductBrand {
     public void updateProductBrand(int id) {
@@ -11,7 +11,7 @@ public class UpdateProductBrand {
             System.out.println("Enter new product brand. Leave blank if don't want to modify.");
             String newBrand = InputHandler.getStrInput();
 
-            if (Validation.isEmpty(newBrand)) {
+            if (InputValidator.isEmpty(newBrand)) {
                 return;
             }
             ProductDao.updateProductBrand(id, newBrand);
