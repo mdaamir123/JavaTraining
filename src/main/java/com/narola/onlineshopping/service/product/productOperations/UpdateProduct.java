@@ -7,15 +7,18 @@ import com.narola.onlineshopping.dao.CategoryDao;
 import com.narola.onlineshopping.dao.ProductDao;
 import com.narola.onlineshopping.display.Display;
 import com.narola.onlineshopping.exception.DAOLayerException;
-import com.narola.onlineshopping.input.TakeInput;
+import com.narola.onlineshopping.input.InputHandler;
 import com.narola.onlineshopping.model.Product;
-import com.narola.onlineshopping.system.ExitSystem;
+import com.narola.onlineshopping.system.ProgramTerminator;
 import com.narola.onlineshopping.validation.Validation;
+
+import java.util.Scanner;
 
 import static com.narola.onlineshopping.constant.AppConstant.*;
 
 public class UpdateProduct {
     public static void updateProduct() {
+        Scanner sc = new Scanner(System.in);
         Product product;
         try {
             if (!ProductDao.doProductsExists()) {
@@ -26,7 +29,7 @@ public class UpdateProduct {
             Display.printProducts(ProductDao.getALlProducts());
 
             System.out.println("Enter id of product you want to update: ");
-            int id = TakeInput.getIntInput();
+            int id = InputHandler.getIntInput();
 
             if (!ProductDao.doProductExists(id)) {
                 System.out.println("ID not found.");
@@ -36,26 +39,26 @@ public class UpdateProduct {
             product.setProductId(id);
 
             System.out.println("Enter product_title if want to update else leave it blank.");
-            String product_title = TakeInput.getStrInput();
+            String product_title = sc.nextLine();
             if (!Validation.isEmpty(product_title)) {
                 product.setProductTitle(product_title);
             }
 
             System.out.println("Enter description if want to update else leave it blank.");
-            String description = TakeInput.getStrInput();
+            String description = sc.nextLine();
             if (!Validation.isEmpty(description)) {
                 product.setProductDescription(description);
             }
 
             System.out.println("Enter price if want to update else leave it blank.");
-            String price = TakeInput.getStrInput();
+            String price = sc.nextLine();
             if (!Validation.isEmpty(String.valueOf(price))) {
                 product.setProductPrice(Float.parseFloat(price));
             }
 
             Display.printCategories(CategoryDao.getAllCategories());
             System.out.println("Enter category_id if want to update else leave it blank.");
-            String category = TakeInput.getStrInput();
+            String category = sc.nextLine();
             if (!Validation.isEmpty(String.valueOf(category))) {
                 if (!CategoryDao.doCategoryExists(Integer.parseInt(category))) {
                     System.out.println("Category doesn't exist.");
@@ -65,13 +68,13 @@ public class UpdateProduct {
             }
 
             System.out.println("Enter discount if want to update else leave it blank.");
-            String discount = TakeInput.getStrInput();
+            String discount = sc.nextLine();
             if (!Validation.isEmpty(String.valueOf(discount))) {
                 product.setProductDiscount(Float.parseFloat(discount));
             }
 
             System.out.println("Enter brand if want to update else leave it blank.");
-            String brand = TakeInput.getStrInput();
+            String brand = sc.nextLine();
             if (!Validation.isEmpty(brand)) {
                 product.setProductBrand(brand);
             }
@@ -82,7 +85,7 @@ public class UpdateProduct {
                     System.out.println("Do you want to add/update/delete product specifications ?");
                     System.out.println("1. Yes");
                     System.out.println("Other. No");
-                    int choice = TakeInput.getIntInput();
+                    int choice = InputHandler.getIntInput();
 
                     switch (choice) {
                         case 1:
@@ -113,7 +116,7 @@ public class UpdateProduct {
         System.out.println(UPDATE_SPECIFICATION+". Update specification");
         System.out.println(DELETE_SPECIFICATION+". Delete specification");
         System.out.println(EXIT+". Exit");
-        int choice = TakeInput.getIntInput();
+        int choice = InputHandler.getIntInput();
 
         switch (choice) {
             case ADD_SPECIFICATION:
@@ -126,7 +129,7 @@ public class UpdateProduct {
                 DeleteSpecification.deleteSpecification(productId);
                 break;
             case EXIT:
-                ExitSystem.exit();
+                ProgramTerminator.exit();
             default:
                 System.out.println("Invalid choice selected.");
                 displayCrudOptions(productId);

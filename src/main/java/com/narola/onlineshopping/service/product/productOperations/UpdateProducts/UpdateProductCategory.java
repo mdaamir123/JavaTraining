@@ -4,7 +4,7 @@ import com.narola.onlineshopping.dao.CategoryDao;
 import com.narola.onlineshopping.dao.ProductDao;
 import com.narola.onlineshopping.display.Display;
 import com.narola.onlineshopping.exception.DAOLayerException;
-import com.narola.onlineshopping.input.TakeInput;
+import com.narola.onlineshopping.input.InputHandler;
 
 public class UpdateProductCategory {
     public void updateProductCategory(int id) {
@@ -14,7 +14,7 @@ public class UpdateProductCategory {
             }
             System.out.println("Enter new category id from the below choices: ");
             Display.printCategories(CategoryDao.getAllCategories());
-            int newId = TakeInput.getIntInput();
+            int newId = InputHandler.getIntInput();
             if (String.valueOf(newId).trim().length() == 0) {
                 return;
             }

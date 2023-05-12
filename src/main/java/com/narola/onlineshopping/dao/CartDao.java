@@ -3,7 +3,7 @@ package com.narola.onlineshopping.dao;
 import com.narola.onlineshopping.config.DatabaseHelperClass;
 import com.narola.onlineshopping.config.DatabaseConfig;
 import com.narola.onlineshopping.exception.DAOLayerException;
-import com.narola.onlineshopping.model.CartItems;
+import com.narola.onlineshopping.model.CartItem;
 import com.narola.onlineshopping.session.LoggedInUser;
 
 import java.sql.Connection;
@@ -19,7 +19,7 @@ public class CartDao {
         ResultSet resultSet = null;
         try {
             con = DatabaseConfig.getInstance().getConnection();
-            String selectQuery = "select count(*) from cart_items where user_id = ?";
+            String selectQuery = "select count(*) from cart_items where user_id = ? and is_ordered = false";
             stmt = con.prepareStatement(selectQuery);
             stmt.setInt(1, userId);
             resultSet = stmt.executeQuery();
@@ -35,22 +35,22 @@ public class CartDao {
         }
     }
 
-    public static List<CartItems> getCartItems() throws DAOLayerException {
+    public static List<CartItem> getCartItems() throws DAOLayerException {
         Connection con;
         PreparedStatement stmt = null;
         ResultSet resultSet = null;
-        List<CartItems> cartItemsList = new ArrayList<>();
+        List<CartItem> cartItemsList = new ArrayList<>();
         try {
             con = DatabaseConfig.getInstance().getConnection();
             String selectQuery = "select p.id, p.product_title, p.price, p.brand, c.quantity, c.created_at, c.updated_at," +
-                    "c.created_by, c.updated_by, c.id from product p join cart_items c on p.id = c.product_id where user_id = ? and quantity > 0";
+                    "c.created_by, c.updated_by, c.id, c.is_ordered from product p join cart_items c on p.id = c.product_id where user_id = ? and quantity > 0 and is_ordered = false";
 
             stmt = con.prepareStatement(selectQuery);
             stmt.setInt(1, LoggedInUser.getCurrentUser().getUserId());
             resultSet = stmt.executeQuery();
 
             while (resultSet.next()) {
-                CartItems cartItem = new CartItems();
+                CartItem cartItem = new CartItem();
                 cartItem.setProductId(resultSet.getInt(1));
                 cartItem.setProductTitle(resultSet.getString(2));
                 cartItem.setPrice(resultSet.getFloat(3));
@@ -61,6 +61,7 @@ public class CartDao {
                 cartItem.setCreatedBy(resultSet.getInt(8));
                 cartItem.setUpdatedBy(resultSet.getInt(9));
                 cartItem.setCartId(resultSet.getInt(10));
+                cartItem.setOrdered(resultSet.getBoolean(11));
                 cartItemsList.add(cartItem);
             }
             return cartItemsList;
@@ -76,17 +77,13 @@ public class CartDao {
         PreparedStatement stmt = null;
         try {
             con = DatabaseConfig.getInstance().getConnection();
-            if (doItemExists(userId, productId)) {
-                updateProductQuantity(userId, productId, 1);
-            } else {
-                String insertQuery = "insert into cart_items(user_id, product_id, created_by, updated_by) values (?,?,?,?)";
-                stmt = con.prepareStatement(insertQuery);
-                stmt.setInt(1, userId);
-                stmt.setInt(2, productId);
-                stmt.setInt(3, userId);
-                stmt.setInt(4, LoggedInUser.getCurrentUser().getUserId());
-                stmt.executeUpdate();
-            }
+            String insertQuery = "insert into cart_items(user_id, product_id, created_by, updated_by) values (?,?,?,?)";
+            stmt = con.prepareStatement(insertQuery);
+            stmt.setInt(1, userId);
+            stmt.setInt(2, productId);
+            stmt.setInt(3, userId);
+            stmt.setInt(4, LoggedInUser.getCurrentUser().getUserId());
+            stmt.executeUpdate();
         } catch (Exception e) {
             throw new DAOLayerException("Exception occurred while adding item to cart.", e);
         } finally {
@@ -99,16 +96,13 @@ public class CartDao {
         PreparedStatement stmt = null;
         try {
             con = DatabaseConfig.getInstance().getConnection();
-            String updateQuery = "update cart_items set quantity = quantity + ?, updated_at = default, updated_by = ? where user_id = ? and product_id = ?";
+            String updateQuery = "update cart_items set quantity = quantity + ?, updated_at = default, updated_by = ? where user_id = ? and product_id = ? and is_ordered = false";
             stmt = con.prepareStatement(updateQuery);
             stmt.setInt(1, quantity);
             stmt.setInt(2, LoggedInUser.getCurrentUser().getUserId());
             stmt.setInt(3, userId);
             stmt.setInt(4, productId);
             stmt.executeUpdate();
-            if (quantity < 0) {
-                deleteItemIfZeroQuantity(userId, productId);
-            }
         } catch (Exception e) {
             throw new DAOLayerException("Exception occurred while modifying cart item quantity.", e);
         } finally {
@@ -121,12 +115,11 @@ public class CartDao {
         PreparedStatement stmt = null;
         try {
             con = DatabaseConfig.getInstance().getConnection();
-            String deleteQuery = "delete from cart_items where user_id = ? and product_id = ? and quantity = 0";
+            String deleteQuery = "delete from cart_items where user_id = ? and product_id = ? and quantity = 0 and is_ordered = false";
             stmt = con.prepareStatement(deleteQuery);
             stmt.setInt(1, userId);
             stmt.setInt(2, productId);
             stmt.executeUpdate();
-
         } catch (Exception e) {
             throw new DAOLayerException("Exception occurred while modifying cart item quantity.", e);
         } finally {
@@ -140,12 +133,11 @@ public class CartDao {
         ResultSet resultSet = null;
         try {
             con = DatabaseConfig.getInstance().getConnection();
-            String countQuery = "select count(*) from cart_items where user_id = ? and product_id = ? and quantity > 0";
+            String countQuery = "select count(*) from cart_items where user_id = ? and product_id = ? and quantity > 0 and is_ordered = false";
             stmt = con.prepareStatement(countQuery);
             stmt.setInt(1, userId);
             stmt.setInt(2, productId);
             resultSet = stmt.executeQuery();
-
             int count = 0;
             if (resultSet.next()) {
                 count = resultSet.getInt(1);
@@ -163,18 +155,51 @@ public class CartDao {
         PreparedStatement stmt = null;
         try {
             con = DatabaseConfig.getInstance().getConnection();
-            if (!doItemExists(userId, productId)) {
-                System.out.println("No such item exists in your cart.");
-                return;
-            }
-            String deleteQuery = "delete from cart_items where user_id = ? and product_id = ?";
+            String deleteQuery = "delete from cart_items where user_id = ? and product_id = ? and is_ordered = false";
             stmt = con.prepareStatement(deleteQuery);
             stmt.setInt(1, userId);
             stmt.setInt(2, productId);
             stmt.executeUpdate();
-
         } catch (Exception e) {
             throw new DAOLayerException("Exception occurred while fetching cart items.", e);
+        } finally {
+            DatabaseHelperClass.closePreparedStatement(stmt);
+        }
+    }
+
+    public static float getCartTotal() throws DAOLayerException {
+        Connection con;
+        PreparedStatement stmt = null;
+        ResultSet resultSet = null;
+        try {
+            con = DatabaseConfig.getInstance().getConnection();
+            String selectQuery = "select sum(p.price) as total from cart_items c join product p on p.id = c.product_id where user_id = ? and is_ordered = false";
+            stmt = con.prepareStatement(selectQuery);
+            stmt.setInt(1, LoggedInUser.getCurrentUser().getUserId());
+            resultSet = stmt.executeQuery();
+            float cartTotal = 0;
+            if (resultSet.next()) {
+                cartTotal = resultSet.getFloat(1);
+            }
+            return cartTotal;
+        } catch (Exception e) {
+            throw new DAOLayerException("Exception occurred while fetching cart total.", e);
+        } finally {
+            DatabaseHelperClass.closePreparedStatement(resultSet, stmt);
+        }
+    }
+
+    public static void updateIsOrderedInCartItem() throws DAOLayerException {
+        Connection con;
+        PreparedStatement stmt = null;
+        try {
+            con = DatabaseConfig.getInstance().getConnection();
+            String updateQuery = "update cart_items set is_ordered = true where user_id = ? and is_ordered = false";
+            stmt = con.prepareStatement(updateQuery);
+            stmt.setInt(1, LoggedInUser.getCurrentUser().getUserId());
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            throw new DAOLayerException("Exception occurred while updating cart.", e);
         } finally {
             DatabaseHelperClass.closePreparedStatement(stmt);
         }

@@ -1,6 +1,6 @@
 package com.narola.onlineshopping.service.category.categoryOperations;
 
-import com.narola.onlineshopping.input.TakeInput;
+import com.narola.onlineshopping.input.InputHandler;
 import com.narola.onlineshopping.service.category.CategoryManager;
 import com.narola.onlineshopping.dao.CategoryDao;
 import com.narola.onlineshopping.display.Display;
@@ -40,7 +40,7 @@ public class DeleteCategory {
         System.out.println("Please enter the id of the category you want to delete: ");
         int categoryId;
         try {
-            categoryId = TakeInput.getIntInput();
+            categoryId = InputHandler.getIntInput();
 
             if (Validation.isEmpty(String.valueOf(categoryId))) {
                 System.out.println("Category id cannot be empty.");

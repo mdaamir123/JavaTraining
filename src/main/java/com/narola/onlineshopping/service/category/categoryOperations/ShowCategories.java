@@ -7,8 +7,8 @@ import com.narola.onlineshopping.service.category.categoryOperations.ViewCategor
 import com.narola.onlineshopping.dao.CategoryDao;
 import com.narola.onlineshopping.display.Display;
 import com.narola.onlineshopping.exception.DAOLayerException;
-import com.narola.onlineshopping.input.TakeInput;
-import com.narola.onlineshopping.system.ExitSystem;
+import com.narola.onlineshopping.input.InputHandler;
+import com.narola.onlineshopping.system.ProgramTerminator;
 
 import com.narola.onlineshopping.model.Category;
 
@@ -54,7 +54,7 @@ public class ShowCategories {
                     CategoryManager.handleCategoryManagement();
                     break;
                 case EXIT:
-                    ExitSystem.exit();
+                    ProgramTerminator.exit();
                 default:
                     System.out.println("Please enter valid input.");
                     displayMenu();
@@ -77,7 +77,7 @@ public class ShowCategories {
         System.out.println(BACK_TO_CATEGORY_MANAGEMENT+". Back");
         System.out.println(EXIT+". Exit");
 
-        viewCategories(TakeInput.getIntInput());
+        viewCategories(InputHandler.getIntInput());
     }
 
 }

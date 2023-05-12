@@ -1,10 +1,7 @@
 package com.narola.onlineshopping.display;
 
+import com.narola.onlineshopping.model.*;
 import com.narola.onlineshopping.service.product.productOperations.ViewProductsInOrder.ViewProductByCategory;
-import com.narola.onlineshopping.model.CartItems;
-import com.narola.onlineshopping.model.Product;
-import com.narola.onlineshopping.model.Specification;
-import com.narola.onlineshopping.model.Category;
 
 import java.util.List;
 
@@ -24,7 +21,6 @@ public class Display {
             System.out.println("There are no duplicate categories. ");
             return;
         }
-
         System.out.println("CATEGORY_NAME: \n");
         for (int i = 0; i < duplicateCategoriesList.size(); i++) {
             System.out.println(duplicateCategoriesList.get(i));
@@ -72,19 +68,80 @@ public class Display {
         }
     }
 
-    public static void printUserCartItems(List<CartItems> cartItemsList) {
+    public static void printUserCartItems(List<CartItem> cartItemsList) {
         if (cartItemsList.isEmpty()) {
             System.out.println("Your cart is empty.");
             return;
         }
         float totalCartValue = 0;
         System.out.println("ID\tProduct Title\tPrice\t\tBrand\t  Quantity");
-
-        for (CartItems cartItem : cartItemsList) {
+        for (CartItem cartItem : cartItemsList) {
             System.out.println(cartItem.getProductId() + "\t" + cartItem.getProductTitle() + "\t" +
                     cartItem.getPrice() + "\t" + cartItem.getBrand() + "\t  " + cartItem.getQuantity());
             totalCartValue += (cartItem.getPrice() * cartItem.getQuantity());
         }
         System.out.println("Your total cart value is: " + totalCartValue);
+    }
+
+    public static void printUserAddress(List<UserAddress> userAddressList) {
+        System.out.println("ID\tAddress_Line_1\tAddress_line_2\tLandmark\tPincode\tCity\tState");
+        for (UserAddress userAddress : userAddressList) {
+            System.out.println(userAddress.getUserAddressId() + "\t" + userAddress.getAddressLine1()
+                    + "\t" + userAddress.getAddressLine2() + "\t" + userAddress.getLandmark() + "\t"
+                    + userAddress.getPincode() + "\t" + userAddress.getCityName() + "\t" + userAddress.getStateName());
+        }
+    }
+
+    public static void printCities(List<City> cityList) {
+        System.out.println("ID\t\tCity");
+        for (City city : cityList) {
+            System.out.println(city.getCityId() + "\t\t" + city.getCityName());
+        }
+    }
+
+    public static void printStates(List<State> stateList) {
+        System.out.println("ID\t\tCity");
+        for (State state : stateList) {
+            System.out.println(state.getStateId() + "\t\t" + state.getStateName());
+        }
+    }
+
+    public static void printBankNames(List<Bank> bankList) {
+        System.out.println("ID\t\tBank");
+        for (Bank bank : bankList) {
+            System.out.println(bank.getBankId() + "\t\t" + bank.getBankName());
+        }
+    }
+
+    public static void printCreditCardTypes(List<CreditCardType> creditCardTypeList) {
+        System.out.println("ID\t\tCredit Card Type");
+        for (CreditCardType creditCardType : creditCardTypeList) {
+            System.out.println(creditCardType.getCreditCardTypeId() + "\t\t" +
+                    creditCardType.getCreditCardTypeName());
+        }
+    }
+
+    public static void printPaymentCredentials(List<PaymentCredential> paymentCredentialList) {
+        System.out.println("ID\t\tPayment Credential");
+        for (PaymentCredential paymentCredential : paymentCredentialList) {
+            System.out.println(paymentCredential.getPaymentCredentialId() + "\t\t" +
+                    paymentCredential.getPaymentCredentialName());
+        }
+    }
+
+    public static void printPaymentMethods(List<PaymentMethod> paymentMethodsList) {
+        System.out.println("ID\t\tPayment Methods");
+        for (PaymentMethod paymentMethod : paymentMethodsList) {
+            System.out.println(paymentMethod.getPaymentMethodId() + "\t\t" +
+                    paymentMethod.getPaymentMethodName());
+        }
+    }
+
+    public static void printUserOrders(List<Order> orderList) {
+        System.out.println("ID\t\tTotal Amount\t\tOrdered Date");
+        for (Order order : orderList) {
+            System.out.println(order.getOrderId() + "\t\t" +
+                    order.getTotalAmount() + "\t\t" + order.getOrderDate());
+        }
     }
 }

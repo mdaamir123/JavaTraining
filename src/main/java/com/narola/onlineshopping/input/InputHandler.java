@@ -6,7 +6,7 @@ import com.narola.onlineshopping.validation.Validation;
 import java.io.Console;
 import java.util.Scanner;
 
-public class TakeInput {
+public class InputHandler {
 
     public static int getIntInput() {
         Scanner sc = new Scanner(System.in);
@@ -24,14 +24,9 @@ public class TakeInput {
     public static String getStrInput() {
         Scanner sc = new Scanner(System.in);
         String input;
-        try {
-            input = sc.nextLine();
-            if (Validation.isEmpty(input)) {
-                System.out.println("Input cannot be empty.");
-                input = getStrInput();
-            }
-        } catch (Exception e) {
-            System.out.println("Please enter valid input.");
+        input = sc.nextLine();
+        if (Validation.isEmpty(input)) {
+            System.out.println("Input cannot be empty.");
             input = getStrInput();
         }
         return input;

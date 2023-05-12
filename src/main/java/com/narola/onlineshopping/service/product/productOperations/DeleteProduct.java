@@ -4,7 +4,7 @@ import com.narola.onlineshopping.service.product.ProductManager;
 import com.narola.onlineshopping.dao.ProductDao;
 import com.narola.onlineshopping.display.Display;
 import com.narola.onlineshopping.exception.DAOLayerException;
-import com.narola.onlineshopping.input.TakeInput;
+import com.narola.onlineshopping.input.InputHandler;
 
 public class DeleteProduct {
     public static void deleteProduct() {
@@ -16,7 +16,7 @@ public class DeleteProduct {
                 Display.printProducts(ProductDao.getALlProducts());
                 System.out.println("Please enter the id of the product you want to delete: ");
 
-                int productId = TakeInput.getIntInput();
+                int productId = InputHandler.getIntInput();
 
                 if (!ProductDao.doProductExists(productId)) {
                     System.out.println("Product not present with id " + productId);

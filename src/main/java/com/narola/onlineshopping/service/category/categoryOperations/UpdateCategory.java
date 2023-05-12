@@ -3,7 +3,7 @@ package com.narola.onlineshopping.service.category.categoryOperations;
 import com.narola.onlineshopping.exception.DAOLayerException;
 import com.narola.onlineshopping.display.Display;
 import com.narola.onlineshopping.dao.CategoryDao;
-import com.narola.onlineshopping.input.TakeInput;
+import com.narola.onlineshopping.input.InputHandler;
 
 public class UpdateCategory {
 
@@ -19,7 +19,7 @@ public class UpdateCategory {
             Display.printCategories(CategoryDao.getAllCategories());
 
             System.out.println("Enter id of category you want to update: ");
-            int id = TakeInput.getIntInput();
+            int id = InputHandler.getIntInput();
 
             if (!CategoryDao.doCategoryExists(id)) {
                 System.out.println("Please enter correct id.");
@@ -27,7 +27,7 @@ public class UpdateCategory {
             }
 
             System.out.println("Enter new category name: ");
-            String newCategory = TakeInput.getStrInput();
+            String newCategory = InputHandler.getStrInput();
 
             CategoryDao.updateCategory(id, newCategory);
             System.out.println("Successfully updated.");

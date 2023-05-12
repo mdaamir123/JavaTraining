@@ -4,7 +4,7 @@ import com.narola.onlineshopping.dao.CategoryDao;
 import com.narola.onlineshopping.dao.ProductDao;
 import com.narola.onlineshopping.display.Display;
 import com.narola.onlineshopping.exception.DAOLayerException;
-import com.narola.onlineshopping.input.TakeInput;
+import com.narola.onlineshopping.input.InputHandler;
 import com.narola.onlineshopping.model.Product;
 import com.narola.onlineshopping.model.Specification;
 
@@ -23,14 +23,14 @@ public class AddProduct {
 
             Product product = new Product();
             System.out.println("Enter product title: ");
-            product.setProductTitle(TakeInput.getStrInput());
+            product.setProductTitle(InputHandler.getStrInput());
             System.out.println("Enter description: ");
-            product.setProductDescription(TakeInput.getStrInput());
+            product.setProductDescription(InputHandler.getStrInput());
             System.out.println("Enter price: ");
-            product.setProductPrice(TakeInput.getFloatInput());
+            product.setProductPrice(InputHandler.getFloatInput());
             System.out.println("Enter category_id from below: ");
             Display.printCategories(CategoryDao.getAllCategories());
-            int category_id = TakeInput.getIntInput();
+            int category_id = InputHandler.getIntInput();
             product.setProductCategoryId(category_id);
 
             if (!CategoryDao.doCategoryExists(category_id)) {
@@ -39,21 +39,21 @@ public class AddProduct {
             }
 
             System.out.println("Enter discount: ");
-            product.setProductDiscount(TakeInput.getFloatInput());
+            product.setProductDiscount(InputHandler.getFloatInput());
             System.out.println("Enter brand: ");
-            product.setProductBrand(TakeInput.getStrInput());
+            product.setProductBrand(InputHandler.getStrInput());
             System.out.println("Do you want to add specifications ?");
             System.out.println("1. Yes");
             System.out.println("2. No");
-            int spec = TakeInput.getIntInput();
+            int spec = InputHandler.getIntInput();
             List<Specification> specificationList = new ArrayList<>();
             if (spec == 1) {
                 do {
                     Specification specification = new Specification();
                     System.out.println("Add attribute name: ");
-                    specification.setSpecAttributeName(TakeInput.getStrInput());
+                    specification.setSpecAttributeName(InputHandler.getStrInput());
                     System.out.println("Add attribute value: ");
-                    specification.setSpecAttributeValue(TakeInput.getStrInput());
+                    specification.setSpecAttributeValue(InputHandler.getStrInput());
                     specificationList.add(specification);
                     System.out.println("Press q to quit: ");
                     char pressed = sc.next().charAt(0);

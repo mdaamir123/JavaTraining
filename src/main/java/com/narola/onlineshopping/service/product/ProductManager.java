@@ -6,10 +6,10 @@ import com.narola.onlineshopping.service.product.productOperations.ShowProducts;
 import com.narola.onlineshopping.service.product.productOperations.UpdateProduct;
 import com.narola.onlineshopping.OnlineShoppingApplication;
 import com.narola.onlineshopping.enums.UserRoles;
-import com.narola.onlineshopping.input.TakeInput;
+import com.narola.onlineshopping.input.InputHandler;
 import com.narola.onlineshopping.menu.CrudManagementMenu;
 import com.narola.onlineshopping.session.LoggedInUser;
-import com.narola.onlineshopping.system.ExitSystem;
+import com.narola.onlineshopping.system.ProgramTerminator;
 
 import static com.narola.onlineshopping.constant.AppConstant.*;
 
@@ -19,7 +19,7 @@ public class ProductManager {
         if (LoggedInUser.currentUser.getUserRole().getUserRoleId() == UserRoles.ADMIN.getValue()) {
             try {
                 CrudManagementMenu.crudOptions();
-                int choice = TakeInput.getIntInput();
+                int choice = InputHandler.getIntInput();
 
                 switch (choice) {
                     case VIEW_PRODUCTS_MENU:
@@ -38,7 +38,7 @@ public class ProductManager {
                         OnlineShoppingApplication.displayMenuBasedOnAccess();
                         break;
                     case EXIT:
-                        ExitSystem.exit();
+                        ProgramTerminator.exit();
                     default:
                         System.out.println("Please enter valid input.");
                         break;

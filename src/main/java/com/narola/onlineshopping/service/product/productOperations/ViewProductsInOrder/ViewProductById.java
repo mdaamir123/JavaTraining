@@ -3,13 +3,13 @@ package com.narola.onlineshopping.service.product.productOperations.ViewProducts
 import com.narola.onlineshopping.dao.ProductDao;
 import com.narola.onlineshopping.display.Display;
 import com.narola.onlineshopping.exception.DAOLayerException;
-import com.narola.onlineshopping.input.TakeInput;
+import com.narola.onlineshopping.input.InputHandler;
 
 public class ViewProductById {
     public static void getProductById() {
         try {
             System.out.println("Enter id of product.");
-            int productId = TakeInput.getIntInput();
+            int productId = InputHandler.getIntInput();
             if (!ProductDao.doProductExists(productId)) {
                 System.out.println("No such product exists !!!");
                 return;

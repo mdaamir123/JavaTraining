@@ -2,13 +2,13 @@ package com.narola.onlineshopping.service.category.categoryOperations;
 
 import com.narola.onlineshopping.dao.CategoryDao;
 import com.narola.onlineshopping.exception.DAOLayerException;
-import com.narola.onlineshopping.input.TakeInput;
+import com.narola.onlineshopping.input.InputHandler;
 
 public class AddCategory {
 
     public static void addCategory() {
         System.out.println("Please enter new category name: ");
-        String newCategory = TakeInput.getStrInput();
+        String newCategory = InputHandler.getStrInput();
         //TODO : Take input here. Not in DAO. and pass data to dao method
         try {
             CategoryDao.addCategory(newCategory);

@@ -2,7 +2,7 @@ package com.narola.onlineshopping.model;
 
 import java.time.LocalDateTime;
 
-public class CartItems {
+public class CartItem {
 
     private int cartId;
     private int productId;
@@ -14,6 +14,7 @@ public class CartItems {
     private int updatedBy;
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
+    private boolean isOrdered;
 
     public int getCartId() {
         return cartId;
@@ -93,5 +94,13 @@ public class CartItems {
 
     public void setUpdatedOn(LocalDateTime updatedOn) {
         this.updatedOn = updatedOn;
+    }
+
+    public boolean isOrdered() {
+        return isOrdered;
+    }
+
+    public void setOrdered(boolean ordered) {
+        isOrdered = ordered;
     }
 }

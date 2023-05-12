@@ -5,9 +5,9 @@ import com.narola.onlineshopping.service.category.categoryOperations.DeleteCateg
 import com.narola.onlineshopping.service.category.categoryOperations.ShowCategories;
 import com.narola.onlineshopping.service.category.categoryOperations.UpdateCategory;
 import com.narola.onlineshopping.OnlineShoppingApplication;
-import com.narola.onlineshopping.input.TakeInput;
+import com.narola.onlineshopping.input.InputHandler;
 import com.narola.onlineshopping.menu.CrudManagementMenu;
-import com.narola.onlineshopping.system.ExitSystem;
+import com.narola.onlineshopping.system.ProgramTerminator;
 
 import static com.narola.onlineshopping.constant.AppConstant.*;
 
@@ -16,7 +16,7 @@ public class CategoryManager {
     public static void handleCategoryManagement() {
         try {
             CrudManagementMenu.crudOptions();
-            int choice = TakeInput.getIntInput();
+            int choice = InputHandler.getIntInput();
 
             switch (choice) {
                 case VIEW_CATEGORIES_MENU:
@@ -35,7 +35,7 @@ public class CategoryManager {
                     OnlineShoppingApplication.displayMenuBasedOnAccess();
                     break;
                 case EXIT:
-                    ExitSystem.exit();
+                    ProgramTerminator.exit();
                 default:
                     System.out.println("Please enter valid input.");
                     break;

@@ -2,7 +2,7 @@ package com.narola.onlineshopping.service.cart.cartOperations;
 
 import com.narola.onlineshopping.dao.CartDao;
 import com.narola.onlineshopping.exception.DAOLayerException;
-import com.narola.onlineshopping.input.TakeInput;
+import com.narola.onlineshopping.input.InputHandler;
 import com.narola.onlineshopping.session.LoggedInUser;
 
 public class DeleteCartItem {
@@ -14,7 +14,7 @@ public class DeleteCartItem {
             }
             ViewCartItems.getCartItems();
             System.out.println("Enter product id you want to remove from cart: ");
-            int productId = TakeInput.getIntInput();
+            int productId = InputHandler.getIntInput();
 
             if (!CartDao.doItemExists(LoggedInUser.getCurrentUser().getUserId(), productId)) {
                 System.out.println("No such item exists in your cart.");

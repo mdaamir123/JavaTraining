@@ -1,6 +1,6 @@
 package com.narola.onlineshopping.system;
 
-public class ExitSystem {
+public class ProgramTerminator {
     public static void exit() {
         System.out.println("Thank you for using our system " +
                 ", we are looking forward to serving you again in the future.");

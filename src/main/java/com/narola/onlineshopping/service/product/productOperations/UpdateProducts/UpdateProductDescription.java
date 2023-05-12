@@ -2,14 +2,14 @@ package com.narola.onlineshopping.service.product.productOperations.UpdateProduc
 
 import com.narola.onlineshopping.exception.DAOLayerException;
 import com.narola.onlineshopping.dao.ProductDao;
-import com.narola.onlineshopping.input.TakeInput;
+import com.narola.onlineshopping.input.InputHandler;
 import com.narola.onlineshopping.validation.Validation;
 
 public class UpdateProductDescription {
     public void updateProductDescription(int id) {
         try {
             System.out.println("Enter new product description. Leave blank if don't want to modify.");
-            String newDescription = TakeInput.getStrInput();
+            String newDescription = InputHandler.getStrInput();
 
             if (Validation.isEmpty(newDescription)) {
                 return;

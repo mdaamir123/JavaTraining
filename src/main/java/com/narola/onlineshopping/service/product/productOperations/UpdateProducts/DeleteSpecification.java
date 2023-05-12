@@ -1,7 +1,7 @@
 package com.narola.onlineshopping.service.product.productOperations.UpdateProducts;
 
 import com.narola.onlineshopping.dao.ProductDao;
-import com.narola.onlineshopping.input.TakeInput;
+import com.narola.onlineshopping.input.InputHandler;
 import com.narola.onlineshopping.model.Specification;
 import com.narola.onlineshopping.session.LoggedInUser;
 import com.narola.onlineshopping.display.Display;
@@ -21,7 +21,7 @@ public class DeleteSpecification {
 
             Display.printProductSpecifications(ProductDao.getProductSpecifications(productId));
             System.out.println("Enter id of the specification you want to delete: ");
-            int specId = TakeInput.getIntInput();
+            int specId = InputHandler.getIntInput();
 
             if(!ProductDao.doSpecificationExists(specId, productId)) {
                 System.out.println("No specification with id " + specId + " exists.");

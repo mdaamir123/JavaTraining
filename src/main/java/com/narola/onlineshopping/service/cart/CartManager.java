@@ -1,12 +1,9 @@
 package com.narola.onlineshopping.service.cart;
 
-import com.narola.onlineshopping.service.cart.cartOperations.AddToCart;
-import com.narola.onlineshopping.service.cart.cartOperations.DeleteCartItem;
-import com.narola.onlineshopping.service.cart.cartOperations.UpdateCartItemQuantity;
-import com.narola.onlineshopping.service.cart.cartOperations.ViewCartItems;
+import com.narola.onlineshopping.service.cart.cartOperations.*;
 import com.narola.onlineshopping.service.product.productOperations.ShowProducts;
-import com.narola.onlineshopping.system.ExitSystem;
-import com.narola.onlineshopping.input.TakeInput;
+import com.narola.onlineshopping.system.ProgramTerminator;
+import com.narola.onlineshopping.input.InputHandler;
 
 import static com.narola.onlineshopping.constant.AppConstant.*;
 
@@ -17,9 +14,10 @@ public class CartManager {
         System.out.println(ADD_ITEM_TO_CART + ". Add item to cart");
         System.out.println(UPDATE_CART + ". Update cart items");
         System.out.println(DELETE_CART_ITEM + ". Delete cart item");
+        System.out.println(CHECK_OUT + ". Check out");
         System.out.println(BACK_TO_PRODUCT_MENU + ". Back");
         System.out.println(EXIT + ". Exit");
-        int choice = TakeInput.getIntInput();
+        int choice = InputHandler.getIntInput();
 
         switch (choice) {
             case VIEW_CART_ITEMS:
@@ -38,12 +36,16 @@ public class CartManager {
                 DeleteCartItem.deleteProductFromCart();
                 break;
 
+            case CHECK_OUT:
+                CheckOut.proceedToCheckout();
+                break;
+
             case BACK_TO_PRODUCT_MENU:
                 ShowProducts.viewProducts();
                 break;
 
             case EXIT:
-                ExitSystem.exit();
+                ProgramTerminator.exit();
 
             default:
                 System.out.println("Please enter valid choice");

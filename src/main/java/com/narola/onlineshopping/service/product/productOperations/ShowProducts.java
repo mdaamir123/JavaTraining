@@ -1,6 +1,7 @@
 package com.narola.onlineshopping.service.product.productOperations;
 
 import com.narola.onlineshopping.service.cart.CartManager;
+import com.narola.onlineshopping.service.order.OrderManager;
 import com.narola.onlineshopping.service.product.ProductManager;
 import com.narola.onlineshopping.service.product.productOperations.ViewProductsInOrder.SortByPrice;
 import com.narola.onlineshopping.service.product.productOperations.ViewProductsInOrder.SortByPriceAsc;
@@ -11,9 +12,9 @@ import com.narola.onlineshopping.dao.ProductDao;
 import com.narola.onlineshopping.display.Display;
 import com.narola.onlineshopping.enums.UserRoles;
 import com.narola.onlineshopping.exception.DAOLayerException;
-import com.narola.onlineshopping.input.TakeInput;
+import com.narola.onlineshopping.input.InputHandler;
 import com.narola.onlineshopping.session.LoggedInUser;
-import com.narola.onlineshopping.system.ExitSystem;
+import com.narola.onlineshopping.system.ProgramTerminator;
 
 import static com.narola.onlineshopping.constant.AppConstant.*;
 
@@ -36,11 +37,12 @@ public class ShowProducts {
                 System.out.println("6. Back");
             } else {
                 System.out.println("6. My Cart");
-                System.out.println("7. Logout");
+                System.out.println("7. My Orders");
+                System.out.println("8. Logout");
             }
             System.out.println("0. Exit");
 
-            int choice = TakeInput.getIntInput();
+            int choice = InputHandler.getIntInput();
             switch (choice) {
                 case VIEW_ALL_PRODUCTS:
                     Display.printProducts(ProductDao.getALlProducts());
@@ -67,20 +69,22 @@ public class ShowProducts {
                         ProductManager.handleProductManagement();
                     }
                     break;
+                case MY_ORDERS:
+                    if (LoggedInUser.currentUser.getUserRoleId() == UserRoles.CUSTOMER.getValue()) {
+                        OrderManager.handleOrderManagement();
+                    } else {
+                        System.out.println("Please enter valid choice.");
+                    }
+                    break;
                 case CUSTOMER_LOGOUT:
                     if (LoggedInUser.currentUser.getUserRoleId() == UserRoles.CUSTOMER.getValue()) {
                         OnlineShoppingApplication.main(null);
                     } else {
-                        ExitSystem.exit();
+                        System.out.println("Please enter valid choice.");
                     }
                     break;
                 case EXIT:
-                    if (LoggedInUser.currentUser.getUserRoleId() == UserRoles.CUSTOMER.getValue()) {
-                        ExitSystem.exit();
-                    } else {
-                        System.out.println("Please enter valid input.");
-                        break;
-                    }
+                    ProgramTerminator.exit();
                 default:
                     System.out.println("Please enter valid choice.");
                     break;

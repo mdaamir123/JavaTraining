@@ -1,11 +1,11 @@
 package com.narola.onlineshopping.service.product.productOperations.ViewProductsInOrder;
 
-import com.narola.onlineshopping.input.TakeInput;
+import com.narola.onlineshopping.input.InputHandler;
 import com.narola.onlineshopping.service.product.productOperations.ShowProducts;
 import com.narola.onlineshopping.comparator.SortProductsByPrice;
 import com.narola.onlineshopping.dao.CategoryDao;
 import com.narola.onlineshopping.model.Product;
-import com.narola.onlineshopping.system.ExitSystem;
+import com.narola.onlineshopping.system.ProgramTerminator;
 import com.narola.onlineshopping.exception.DAOLayerException;
 import com.narola.onlineshopping.dao.ProductDao;
 import com.narola.onlineshopping.display.Display;
@@ -13,7 +13,6 @@ import com.narola.onlineshopping.display.Display;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Scanner;
 
 import static com.narola.onlineshopping.constant.AppConstant.*;
 
@@ -65,7 +64,7 @@ public class ViewProductByCategory {
                     ShowProducts.viewProducts();
                     break;
                 case EXIT:
-                    ExitSystem.exit();
+                    ProgramTerminator.exit();
                 default:
                     System.out.println("Invalid choice selected.");
                     viewProductByCategory();
@@ -93,12 +92,12 @@ public class ViewProductByCategory {
         System.out.println(VIEW_PRODUCTS_BY_CATEGORY_AND_BY_LOWEST_PRICE + ": By lowest price");
         System.out.println(BACK_TO_VIEW_PRODUCTS_MENU + ": Back");
         System.out.println(EXIT + ": Exit");
-        return TakeInput.getIntInput();
+        return InputHandler.getIntInput();
     }
 
     private List<Product> getProducts() {
         System.out.println("Enter id of the category: ");
-        int id = TakeInput.getIntInput();
+        int id = InputHandler.getIntInput();
 
         try {
             if (!CategoryDao.doCategoryExists(id)) {
