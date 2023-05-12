@@ -6,6 +6,7 @@ public class OrderedItem {
     private int orderedItemId;
     private int orderId;
     private int cartId;
+    private float price;
     private int createdBy;
     private int updatedBy;
     private LocalDateTime createdOn;
@@ -33,6 +34,14 @@ public class OrderedItem {
 
     public void setCartId(int cartId) {
         this.cartId = cartId;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
     }
 
     public int getCreatedBy() {

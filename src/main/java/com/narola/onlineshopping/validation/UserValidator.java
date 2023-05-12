@@ -5,7 +5,7 @@ import com.narola.onlineshopping.exception.DAOLayerException;
 import com.narola.onlineshopping.menu.LoginMenu;
 import com.narola.onlineshopping.model.User;
 
-public class UserValidation {
+public class UserValidator {
     public static User validateUser(User user) {
         try {
             user = UserDao.isValidUser(user);

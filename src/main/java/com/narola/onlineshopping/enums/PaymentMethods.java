@@ -4,7 +4,7 @@ public enum PaymentMethods {
     UPI(1),
     DEBIT_CARD(2),
     CREDIT_CARD(3),
-    NET_BANKING(4),
+    NETBANKING(4),
     COD(5);
 
     private final int value;

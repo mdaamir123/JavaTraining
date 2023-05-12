@@ -28,19 +28,19 @@ public class ShowProducts {
             }
 
             System.out.println("Select the way of viewing products: ");
-            System.out.println("1. View all products.");
-            System.out.println("2. View all by highest price.");
-            System.out.println("3. View all by lowest price.");
-            System.out.println("4. View products by category.");
-            System.out.println("5. View Product by id.");
+            System.out.println(VIEW_ALL_PRODUCTS + ". View all products.");
+            System.out.println(VIEW_PRODUCTS_BY_HIGHEST_PRICE + ". View all by highest price.");
+            System.out.println(VIEW_PRODUCTS_BY_LOWEST_PRICE + ". View all by lowest price.");
+            System.out.println(VIEW_PRODUCTS_BY_CATEGORY + ". View products by category.");
+            System.out.println(VIEW_PRODUCT_BY_ID + ". View Product by id.");
             if (LoggedInUser.currentUser.getUserRoleId() == UserRoles.ADMIN.getValue()) {
-                System.out.println("6. Back");
+                System.out.println(MY_CART_OR_BACK + ". Back");
             } else {
-                System.out.println("6. My Cart");
-                System.out.println("7. My Orders");
-                System.out.println("8. Logout");
+                System.out.println(MY_CART_OR_BACK + ". My Cart");
+                System.out.println(MY_ORDERS + ". My Orders");
+                System.out.println(CUSTOMER_LOGOUT + ". Logout");
             }
-            System.out.println("0. Exit");
+            System.out.println(EXIT + ". Exit");
 
             int choice = InputHandler.getIntInput();
             switch (choice) {

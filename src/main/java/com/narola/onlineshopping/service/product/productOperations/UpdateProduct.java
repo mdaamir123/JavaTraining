@@ -12,13 +12,10 @@ import com.narola.onlineshopping.model.Product;
 import com.narola.onlineshopping.system.ProgramTerminator;
 import com.narola.onlineshopping.validation.Validation;
 
-import java.util.Scanner;
-
 import static com.narola.onlineshopping.constant.AppConstant.*;
 
 public class UpdateProduct {
     public static void updateProduct() {
-        Scanner sc = new Scanner(System.in);
         Product product;
         try {
             if (!ProductDao.doProductsExists()) {
@@ -39,27 +36,32 @@ public class UpdateProduct {
             product.setProductId(id);
 
             System.out.println("Enter product_title if want to update else leave it blank.");
-            String product_title = sc.nextLine();
+            String product_title = InputHandler.getStrInput(true);
             if (!Validation.isEmpty(product_title)) {
                 product.setProductTitle(product_title);
             }
 
             System.out.println("Enter description if want to update else leave it blank.");
-            String description = sc.nextLine();
+            String description = InputHandler.getStrInput(true);
             if (!Validation.isEmpty(description)) {
                 product.setProductDescription(description);
             }
 
             System.out.println("Enter price if want to update else leave it blank.");
-            String price = sc.nextLine();
-            if (!Validation.isEmpty(String.valueOf(price))) {
-                product.setProductPrice(Float.parseFloat(price));
+            String price = InputHandler.getStrInput(true);
+            while (!Validation.isEmpty(String.valueOf(price))) {
+                if (Validation.isInputFloat(price)) {
+                    product.setProductPrice(Float.parseFloat(price));
+                    break;
+                }
+                System.out.println("Please enter valid price.");
+                price = InputHandler.getStrInput(true);
             }
 
             Display.printCategories(CategoryDao.getAllCategories());
             System.out.println("Enter category_id if want to update else leave it blank.");
-            String category = sc.nextLine();
-            if (!Validation.isEmpty(String.valueOf(category))) {
+            String category = InputHandler.getStrInput(true);
+            if (!Validation.isEmpty(category)) {
                 if (!CategoryDao.doCategoryExists(Integer.parseInt(category))) {
                     System.out.println("Category doesn't exist.");
                     return;
@@ -68,13 +70,18 @@ public class UpdateProduct {
             }
 
             System.out.println("Enter discount if want to update else leave it blank.");
-            String discount = sc.nextLine();
-            if (!Validation.isEmpty(String.valueOf(discount))) {
-                product.setProductDiscount(Float.parseFloat(discount));
+            String discount = InputHandler.getStrInput(true);
+            while (!Validation.isEmpty(String.valueOf(discount))) {
+                if (Validation.isInputFloat(discount)) {
+                    product.setProductDiscount(Float.parseFloat(discount));
+                    break;
+                }
+                System.out.println("Please enter valid discount.");
+                discount = InputHandler.getStrInput(true);
             }
 
             System.out.println("Enter brand if want to update else leave it blank.");
-            String brand = sc.nextLine();
+            String brand = InputHandler.getStrInput(true);
             if (!Validation.isEmpty(brand)) {
                 product.setProductBrand(brand);
             }
@@ -90,9 +97,6 @@ public class UpdateProduct {
                     switch (choice) {
                         case 1:
                             displayCrudOptions(id);
-                            break;
-                        case 2:
-                            continueUpdate = false;
                             break;
                         default:
                             continueUpdate = false;
@@ -112,10 +116,10 @@ public class UpdateProduct {
 
     private static void displayCrudOptions(int productId) {
         System.out.println("Please select one option: ");
-        System.out.println(ADD_SPECIFICATION+". Add specification");
-        System.out.println(UPDATE_SPECIFICATION+". Update specification");
-        System.out.println(DELETE_SPECIFICATION+". Delete specification");
-        System.out.println(EXIT+". Exit");
+        System.out.println(ADD_SPECIFICATION + ". Add specification");
+        System.out.println(UPDATE_SPECIFICATION + ". Update specification");
+        System.out.println(DELETE_SPECIFICATION + ". Delete specification");
+        System.out.println(EXIT + ". Exit");
         int choice = InputHandler.getIntInput();
 
         switch (choice) {

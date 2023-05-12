@@ -20,8 +20,8 @@ public class LoginMenu {
         }
         user.setEmail(email);
         System.out.println("Please enter your password: ");
-        //user.setPassword(InputHandler.getStrInput());
-        user.setPassword(InputHandler.getPassword());
+        user.setPassword(InputHandler.getStrInput());
+        //user.setPassword(InputHandler.getPassword());
         UserService.loginUser(user);
     }
 }

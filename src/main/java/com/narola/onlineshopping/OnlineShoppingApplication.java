@@ -13,7 +13,7 @@ import static com.narola.onlineshopping.constant.AppConstant.*;
 
 public class OnlineShoppingApplication {
     static {
-        System.out.println("\nWelcome to Online Shopping !!!\n");
+        System.out.println("\n------Welcome to Online Shopping !!!------\n");
     }
 
     public static void main(String[] args) {

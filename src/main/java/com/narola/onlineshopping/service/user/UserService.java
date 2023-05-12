@@ -11,7 +11,7 @@ import com.narola.onlineshopping.model.User;
 import com.narola.onlineshopping.model.UserAddress;
 import com.narola.onlineshopping.service.email.MailService;
 import com.narola.onlineshopping.session.LoggedInUser;
-import com.narola.onlineshopping.validation.UserValidation;
+import com.narola.onlineshopping.validation.UserValidator;
 
 import javax.mail.MessagingException;
 
@@ -19,8 +19,10 @@ import static com.narola.onlineshopping.menu.LoginMenu.displayLoginMenu;
 
 public class UserService {
     public static void signupUser(User user) {
+        String subject = "Welcome to OnlineShopping";
+        String text = "Dear " + user.getFirstName() + " " + user.getLastName() + ",\n\nHere, is your verification code: " + user.getVerificationPin();
         try {
-            MailService.sendMail(user);
+            MailService.sendMail(user.getEmail(), subject, text);
             UserDao.addUser(user);
         } catch (MessagingException e) {
             e.printStackTrace();
@@ -36,7 +38,7 @@ public class UserService {
     }
 
     public static void loginUser(User user) {
-        user = UserValidation.validateUser(user);
+        user = UserValidator.validateUser(user);
 
         if (user != null) {
             if (user.isUserVerified() == true) {

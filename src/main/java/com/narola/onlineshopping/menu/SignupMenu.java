@@ -40,8 +40,8 @@ public class SignupMenu {
         }
         user.setEmail(email);
         System.out.println("Please enter password: ");
-        //user.setPassword(InputHandler.getStrInput());
-        user.setPassword(InputHandler.getPassword());
+        user.setPassword(InputHandler.getStrInput());
+        //user.setPassword(InputHandler.getPassword());
         user.setVerificationPin(rand.nextInt(900000) + 100000);
         signupUser(user);
     }

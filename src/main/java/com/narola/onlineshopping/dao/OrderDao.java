@@ -94,12 +94,13 @@ public class OrderDao {
         PreparedStatement stmt = null;
         try {
             con = DatabaseConfig.getInstance().getConnection();
-            String insertQuery = "insert into ordered_items (order_id, cart_id, created_by, updated_by) values (?,?,?,?)";
+            String insertQuery = "insert into ordered_items (order_id, cart_id, price, created_by, updated_by) values (?,?,?,?,?)";
             stmt = con.prepareStatement(insertQuery);
             stmt.setInt(1, orderId);
             stmt.setInt(2, cartId);
-            stmt.setInt(3, LoggedInUser.getCurrentUser().getUserId());
+            stmt.setFloat(3, ProductDao.getProductPrice(cartId));
             stmt.setInt(4, LoggedInUser.getCurrentUser().getUserId());
+            stmt.setInt(5, LoggedInUser.getCurrentUser().getUserId());
             stmt.executeUpdate();
         } catch (Exception e) {
             throw new DAOLayerException("Error occurred while storing ordered items.", e);

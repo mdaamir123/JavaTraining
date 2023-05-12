@@ -642,4 +642,25 @@ public class ProductDao {
             DatabaseHelperClass.closePreparedStatement(preparedStatement);
         }
     }
+
+    public static float getProductPrice(int cartId) throws DAOLayerException {
+        Connection con;
+        PreparedStatement stmt = null;
+        ResultSet resultSet = null;
+        try {
+            con = DatabaseConfig.getInstance().getConnection();
+            String selectQuery = "select p.price from product p join cart_items c on p.id = c.product_id where c.id = ?";
+            stmt = con.prepareStatement(selectQuery);
+            stmt.setInt(1, cartId);
+            resultSet = stmt.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getFloat(1);
+            }
+            return 0;
+        } catch (Exception e) {
+            throw new DAOLayerException("Exception occurred while fetching product price.", e);
+        } finally {
+            DatabaseHelperClass.closePreparedStatement(resultSet, stmt);
+        }
+    }
 }

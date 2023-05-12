@@ -1,6 +1,6 @@
 package com.narola.onlineshopping.service.email;
 
-import com.narola.onlineshopping.model.User;
+import com.narola.onlineshopping.config.MailConfig;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -9,18 +9,12 @@ import java.util.*;
 
 public class MailService {
 
-    public static void sendMail(User user) throws MessagingException{
+    public static void sendMail(String to, String subject, String text) throws MessagingException {
 
         final String username = System.getenv("email.username");
         final String password = System.getenv("email.password");
 
-        Properties props = new Properties();
-        props.put("mail.smtp.ssl.protocols", "TLSv1.2");
-        props.put("mail.smtp.ssl.trust", "smtp.1and1.com");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.1and1.com");
-        props.put("mail.smtp.port", "587");
+        Properties props = MailConfig.getInstance().getProperties();
 
         Session session = Session.getInstance(props, new Authenticator() {
             @Override
@@ -32,13 +26,12 @@ public class MailService {
         try {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(username));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(user.getEmail()));
-            message.setSubject("Welcome to OnlineShopping");
-            message.setText("Dear " + user.getFirstName() + " " + user.getLastName() + ",\n\nHere, is your verification code: " + user.getVerificationPin());
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+            message.setSubject(subject);
+            message.setText(text);
             Transport.send(message);
 
-        }
-        catch (MessagingException e) {
+        } catch (MessagingException e) {
             throw new MessagingException("Something went wrong. Please try again later.", e);
         }
 

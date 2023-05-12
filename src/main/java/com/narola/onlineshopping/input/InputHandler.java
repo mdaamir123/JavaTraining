@@ -4,30 +4,44 @@ import com.narola.onlineshopping.menu.SignupMenu;
 import com.narola.onlineshopping.validation.Validation;
 
 import java.io.Console;
+import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class InputHandler {
 
     public static int getIntInput() {
         Scanner sc = new Scanner(System.in);
-        int choice;
+        int input;
         try {
-            choice = sc.nextInt();
+            input = sc.nextInt();
             sc.nextLine();
-        } catch (Exception e) {
+        } catch (InputMismatchException e) {
             System.out.println("Please enter valid input.");
-            choice = getIntInput();
+            input = getIntInput();
+        } catch (NoSuchElementException e) {
+            System.out.println("Please enter valid input.");
+            input = getIntInput();
         }
-        return choice;
+        return input;
     }
 
     public static String getStrInput() {
+        return getStrInput(false);
+    }
+
+    public static String getStrInput(boolean isOptional) {
         Scanner sc = new Scanner(System.in);
         String input;
-        input = sc.nextLine();
-        if (Validation.isEmpty(input)) {
-            System.out.println("Input cannot be empty.");
-            input = getStrInput();
+        try {
+            input = sc.nextLine();
+            if (!isOptional && Validation.isEmpty(input)) {
+                System.out.println("Input cannot be empty.");
+                input = getStrInput(isOptional);
+            }
+        } catch (NoSuchElementException e) {
+            System.out.println("Exception occurred while taking input.");
+            input = getStrInput(isOptional);
         }
         return input;
     }
@@ -38,11 +52,10 @@ public class InputHandler {
         try {
             input = sc.nextFloat();
             sc.nextLine();
-            if (input < 0) {
-                System.out.println("Please enter valid value.");
-                input = getFloatInput();
-            }
-        } catch (Exception e) {
+        } catch (InputMismatchException e) {
+            System.out.println("Please enter valid input.");
+            input = getFloatInput();
+        } catch (NoSuchElementException e) {
             System.out.println("Please enter valid input.");
             input = getFloatInput();
         }
