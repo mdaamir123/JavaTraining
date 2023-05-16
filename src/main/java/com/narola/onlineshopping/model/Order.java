@@ -9,6 +9,7 @@ public class Order {
     private int paymentMethodId;
     private float totalAmount;
     private Integer bankId;
+    private Integer creditCardTypeId;
     private LocalDateTime orderDate;
     private int createdBy;
     private int updatedBy;
@@ -60,6 +61,14 @@ public class Order {
 
     public void setBankId(Integer bankId) {
         this.bankId = bankId;
+    }
+
+    public Integer getCreditCardTypeId() {
+        return creditCardTypeId;
+    }
+
+    public void setCreditCardTypeId(Integer creditCardTypeId) {
+        this.creditCardTypeId = creditCardTypeId;
     }
 
     public LocalDateTime getOrderDate() {

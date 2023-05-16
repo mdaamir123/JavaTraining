@@ -20,7 +20,7 @@ public class OrderDao {
         try {
             con = DatabaseConfig.getInstance().getConnection();
             con.setAutoCommit(false);
-            String insertQuery = "insert into `order` (user_id, address_id, payment_method_id, total_amount, bank_id, created_by, updated_by) values (?,?,?,?,?,?,?)";
+            String insertQuery = "insert into `order` (user_id, address_id, payment_method_id, total_amount, bank_id, created_by, updated_by) values (?,?,?,?,?,?,?,?)";
             stmt = con.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
             stmt.setInt(1, LoggedInUser.getCurrentUser().getUserId());
             stmt.setInt(2, order.getUserAddressId());
@@ -31,8 +31,13 @@ public class OrderDao {
             } else {
                 stmt.setNull(5, Types.INTEGER);
             }
-            stmt.setInt(6, LoggedInUser.getCurrentUser().getUserId());
+            if (order.getCreditCardTypeId() != null) {
+                stmt.setInt(6, order.getCreditCardTypeId());
+            } else {
+                stmt.setNull(6, Types.INTEGER);
+            }
             stmt.setInt(7, LoggedInUser.getCurrentUser().getUserId());
+            stmt.setInt(8, LoggedInUser.getCurrentUser().getUserId());
             stmt.executeUpdate();
             generatedKeys = stmt.getGeneratedKeys();
             int orderId = -1;

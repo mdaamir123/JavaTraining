@@ -32,7 +32,6 @@ public class OnlineShoppingApplication {
                 main(null);
                 break;
         }
-        displayMenuBasedOnAccess();
     }
 
     public static int displayMainMenuAndSelect() {

@@ -46,6 +46,7 @@ public class UserService {
                 System.out.println("Login successful !!!");
                 System.out.println("Welcome " + user.getFirstName() + " " + user.getLastName() + ". Your role is " + user.getUserRole().getUserRoleName() + ".");
                 LoggedInUser.setCurrentUser(user);
+                OnlineShoppingApplication.displayMenuBasedOnAccess();
             } else {
                 verifyUser(user);
             }
@@ -70,6 +71,7 @@ public class UserService {
             user.setUserVerified(true);
             System.out.println("Welcome " + user.getFirstName() + " " + user.getLastName() + ". Your role is " + user.getUserRole().getUserRoleName() + ".");
             LoggedInUser.setCurrentUser(user);
+            OnlineShoppingApplication.displayMenuBasedOnAccess();
         } else {
             System.out.println("Incorrect verification pin !!! Login again !!!");
             displayLoginMenu();

@@ -63,6 +63,9 @@ public class PaymentManager {
                 userPaymentCredential.setCredentialId(paymentCredential.getPaymentCredentialId());
 
                 System.out.println("Please enter your " + paymentCredential.getPaymentCredentialName());
+                if (paymentCredential.getPaymentCredentialId() == PaymentCredentials.CREDIT_CARD_TYPE.getValue()) {
+                    Display.printCreditCardTypes(PaymentDao.getCreditCardTypes());
+                }
                 String credential = InputHandler.getStrInput();
 
                 if (paymentCredential.getPaymentCredentialId() == PaymentCredentials.CREDIT_CARD_EXPIRATION_DATE.getValue() ||
@@ -80,7 +83,6 @@ public class PaymentManager {
                         credential = InputHandler.getStrInput();
                     }
                 } else if (paymentCredential.getPaymentCredentialId() == PaymentCredentials.CREDIT_CARD_TYPE.getValue()) {
-                    Display.printCreditCardTypes(PaymentDao.getCreditCardTypes());
                     boolean isValid = false;
                     while (!isValid) {
                         if (!InputValidator.isInputInteger(credential)) {
@@ -93,6 +95,7 @@ public class PaymentManager {
                             credential = InputHandler.getStrInput();
                             continue;
                         }
+                        order.setCreditCardTypeId(Integer.parseInt(credential));
                         break;
                     }
                 }
