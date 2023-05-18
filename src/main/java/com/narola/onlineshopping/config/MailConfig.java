@@ -1,10 +1,16 @@
 package com.narola.onlineshopping.config;
 
+import javax.mail.Authenticator;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
 import java.util.Properties;
 
 public class MailConfig {
     public static MailConfig mailConfig = null;
     private static Properties properties = null;
+
+    private String username = System.getenv("email.username");
+    private String password = System.getenv("email.password");
 
     private MailConfig() {
 
@@ -28,5 +34,18 @@ public class MailConfig {
             properties.put("mail.smtp.port", "587");
         }
         return properties;
+    }
+
+    public Session buildSession() {
+        return Session.getInstance(getProperties(), new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+    }
+
+    public String getUserName() {
+        return username;
     }
 }

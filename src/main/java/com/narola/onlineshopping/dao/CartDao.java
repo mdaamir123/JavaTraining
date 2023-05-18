@@ -4,7 +4,7 @@ import com.narola.onlineshopping.config.DatabaseHelperClass;
 import com.narola.onlineshopping.config.DatabaseConfig;
 import com.narola.onlineshopping.exception.DAOLayerException;
 import com.narola.onlineshopping.model.CartItem;
-import com.narola.onlineshopping.session.LoggedInUser;
+import com.narola.onlineshoppingV1.session.LoggedInUser;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

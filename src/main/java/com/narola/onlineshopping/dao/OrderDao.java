@@ -20,7 +20,7 @@ public class OrderDao {
         try {
             con = DatabaseConfig.getInstance().getConnection();
             con.setAutoCommit(false);
-            String insertQuery = "insert into `order` (user_id, address_id, payment_method_id, total_amount, bank_id, created_by, updated_by) values (?,?,?,?,?,?,?,?)";
+            String insertQuery = "insert into `order` (user_id, address_id, payment_method_id, total_amount, bank_id, credit_card_type_id, created_by, updated_by) values (?,?,?,?,?,?,?,?)";
             stmt = con.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
             stmt.setInt(1, LoggedInUser.getCurrentUser().getUserId());
             stmt.setInt(2, order.getUserAddressId());

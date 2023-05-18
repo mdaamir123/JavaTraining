@@ -5,6 +5,7 @@ import com.narola.onlineshopping.dao.LocationDao;
 import com.narola.onlineshopping.dao.UserDao;
 import com.narola.onlineshopping.display.Display;
 import com.narola.onlineshopping.exception.DAOLayerException;
+import com.narola.onlineshopping.exception.MailException;
 import com.narola.onlineshopping.input.InputHandler;
 import com.narola.onlineshopping.menu.SignupMenu;
 import com.narola.onlineshopping.model.Order;
@@ -13,8 +14,6 @@ import com.narola.onlineshopping.model.UserAddress;
 import com.narola.onlineshopping.service.email.MailService;
 import com.narola.onlineshopping.session.LoggedInUser;
 import com.narola.onlineshopping.validation.UserValidator;
-
-import javax.mail.MessagingException;
 
 import static com.narola.onlineshopping.menu.LoginMenu.displayLoginMenu;
 
@@ -25,7 +24,7 @@ public class UserService {
         try {
             MailService.sendMail(user.getEmail(), subject, text);
             UserDao.addUser(user);
-        } catch (MessagingException e) {
+        } catch (MailException e) {
             e.printStackTrace();
             SignupMenu.displaySignupMenu();
         } catch (DAOLayerException e) {

@@ -13,8 +13,8 @@ import com.narola.onlineshopping.display.Display;
 import com.narola.onlineshopping.enums.UserRoles;
 import com.narola.onlineshopping.exception.DAOLayerException;
 import com.narola.onlineshopping.input.InputHandler;
-import com.narola.onlineshopping.session.LoggedInUser;
 import com.narola.onlineshopping.system.ProgramTerminator;
+import com.narola.onlineshoppingV1.session.LoggedInUser;
 
 import static com.narola.onlineshopping.constant.AppConstant.*;
 

@@ -3,7 +3,7 @@ package com.narola.onlineshopping.validation;
 public class InputValidator {
 
     public static boolean isEmpty(String attribute) {
-        return attribute.isEmpty();
+        return attribute == null || attribute.isEmpty();
     }
 
     public static boolean isValidDateFormat(String date) {
